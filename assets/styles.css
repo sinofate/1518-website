@@ -944,6 +944,113 @@ body.column-report-active .sidebar {
   margin: 8px 0 0;
 }
 
+.registry-check-panel {
+  margin-top: 16px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #ead9c2;
+  border-radius: 6px;
+}
+
+.registry-check-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #efe5d7;
+}
+
+.registry-check-head h4 {
+  margin: 4px 0 0;
+  color: var(--deep-red);
+  font-size: 18px;
+}
+
+.registry-check-head > span {
+  padding: 4px 8px;
+  background: #fff7ed;
+  border: 1px solid #ead9c2;
+  color: #8a4b22;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.registry-check-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.registry-check-row {
+  display: grid;
+  grid-template-columns: minmax(120px, .9fr) 120px minmax(0, 1.7fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  background: #fafafa;
+  border: 1px solid #ece7df;
+}
+
+.registry-check-row strong {
+  color: #2f261d;
+}
+
+.registry-status {
+  display: inline-flex;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.registry-status.pending {
+  background: #edf2f7;
+  color: #44505f;
+}
+
+.registry-status.available {
+  background: #e8f5ee;
+  color: #166534;
+}
+
+.registry-status.review {
+  background: #fff7db;
+  color: #8a5a00;
+}
+
+.registry-status.conflict {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.registry-check-row p {
+  margin: 0;
+  color: #5f5a54;
+}
+
+.registry-check-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.registry-check-actions a {
+  padding: 8px 10px;
+  background: var(--red);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.registry-check-note {
+  margin: 10px 0 0;
+  color: #756d63;
+  font-size: 13px;
+}
+
 .column-report .report-pdf-page::after {
   content: "1518-栏目分析报告";
 }

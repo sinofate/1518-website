@@ -47,6 +47,16 @@
     girl: ["若", "芷", "清", "诗", "晴", "瑶", "宁", "悦", "汐", "安", "嘉", "予"],
     brand: ["星", "辰", "云", "禾", "元", "启", "森", "瑞", "达", "知", "澄", "一"]
   };
+  const DEFAULT_REGISTRY_API = {
+    companyEndpoint: "/api/registry/company-name-check",
+    trademarkEndpoint: "/api/registry/trademark-check",
+    timeoutMs: 6000,
+    official: {
+      companyNameDeclaration: "https://wsdj.samr.gov.cn/saicmcdjweb/",
+      companyCreditSearch: "https://www.gsxt.gov.cn/",
+      trademarkSearch: "https://so.cnipa.cn/"
+    }
+  };
 
   const TOOLS = [
     {
@@ -85,7 +95,8 @@
         ["category", "品类/赛道", "text", "AI 学习工具"],
         ["audience", "目标用户", "text", "中小企业老板"],
         ["tone", "品牌气质", "select", "专业可信", ["专业可信", "年轻活泼", "高端克制", "国风雅致", "科技未来"]],
-        ["keyword", "核心关键词", "text", "增长"]
+        ["keyword", "核心关键词", "text", "增长"],
+        ["trademarkClass", "商标类别", "select", "第35类 广告销售", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
       ],
       build: buildBrandNamingReport
     },
@@ -97,7 +108,8 @@
       fields: [
         ["brandName", "品牌名", "text", "星禾智造"],
         ["category", "品类", "text", "智能硬件"],
-        ["audience", "目标用户", "text", "企业客户"]
+        ["audience", "目标用户", "text", "企业客户"],
+        ["trademarkClass", "商标类别", "select", "第09类 科学仪器", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
       ],
       build: buildBrandTestReport
     },
@@ -323,6 +335,44 @@
     return `<article class="report-page column-report">${pages.join("")}</article>`;
   }
 
+  function officialRegistryLinks() {
+    const api = { ...DEFAULT_REGISTRY_API, ...(window.RegistryApiConfig || {}) };
+    return api.official;
+  }
+
+  function buildRegistryPanel(kind, items, context = {}) {
+    const links = officialRegistryLinks();
+    const payload = encodeURIComponent(JSON.stringify({ kind, items, context }));
+    const rows = items.map((name) => `
+      <div class="registry-check-row" data-check-name="${escapeHtml(name)}">
+        <strong>${escapeHtml(name)}</strong>
+        <span class="registry-status pending">等待预查</span>
+        <p>正在连接注册数据源；若未配置后端 API，将显示官方核验入口。</p>
+      </div>
+    `).join("");
+    const title = kind === "company" ? "工商注册可用性预查" : "商标注册可用性预查";
+    const primaryLink = kind === "company" ? links.companyNameDeclaration : links.trademarkSearch;
+    const secondaryLink = kind === "company" ? links.companyCreditSearch : links.trademarkSearch;
+    const sourceText = kind === "company" ? "国家市场监管总局企业名称申报系统 + 国家企业信用信息公示系统" : "国家知识产权局商标检索系统";
+    return `
+      <section class="registry-check-panel" data-registry-check="${kind}" data-registry-payload="${payload}">
+        <div class="registry-check-head">
+          <div>
+            <p class="company-eyebrow">${sourceText}</p>
+            <h4>${title}</h4>
+          </div>
+          <span>最终以官方受理和审查为准</span>
+        </div>
+        <div class="registry-check-list">${rows}</div>
+        <div class="registry-check-actions">
+          <a href="${primaryLink}" target="_blank" rel="noopener">打开官方申报/检索</a>
+          <a href="${secondaryLink}" target="_blank" rel="noopener">复核已注册主体</a>
+        </div>
+        <p class="registry-check-note">预查用于降低重名、近似和类别冲突风险，不构成工商核名、商标注册或法律可注册承诺。</p>
+      </section>
+    `;
+  }
+
   function buildNamingReport(tool, data) {
     const pool = data.gender === "女" ? NAME_CHARS.girl : NAME_CHARS.boy;
     const surname = (data.surname || "王").slice(0, 2);
@@ -354,7 +404,7 @@
     const pages = [
       cover("公司起名方案报告", data.industry, scores, `${data.region} · ${data.keyword} · ${data.suffix}`),
       page("候选公司名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.subject}</strong><span>${item.score}分 · ${item.n.number}数 ${item.n.title}</span><p>${item.n.text}</p></div>`).join("")}</div>`, "1518 公司起名 · 2/3"),
-      page("注册与传播建议", `<p>公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。</p>${table([["行业定位", escapeHtml(data.industry)], ["主体字号", "控制在 2-4 个汉字，降低记忆成本"], ["风险提示", "前端报告不替代工商核名和商标检索"], ["下一步", "可接入企业名称库、商标近似检索和行业禁限词库"]])}`, "1518 公司起名 · 3/3")
+      page("注册与传播建议", `<p>公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。</p>${buildRegistryPanel("company", names.map((item) => item.subject), { region: data.region, industry: data.industry, suffix: data.suffix })}${table([["行业定位", escapeHtml(data.industry)], ["主体字号", "控制在 2-4 个汉字，降低记忆成本"], ["风险提示", "预查不替代工商核名和商标检索"], ["下一步", "接入企业名称库、商标近似检索和行业禁限词库"]])}`, "1518 公司起名 · 3/3")
     ];
     return resultShell(tool, data, pages);
   }
@@ -368,7 +418,7 @@
     const scores = [["记忆度", names[0].score], ["品类联想", hashScore(data.category, 80, 95)], ["传播节奏", hashScore(data.tone, 78, 94)], ["商标风险", hashScore(data.keyword, 70, 88)]];
     return resultShell(tool, data, [
       cover("品牌起名方案报告", data.category, scores, `${data.audience} · ${data.tone}`),
-      page("品牌候选名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.title}</span><p>适合${escapeHtml(data.tone)}气质，名称短、便于口头传播。正式使用前需做商标近似和同品类检索。</p></div>`).join("")}</div>`, "1518 品牌起名 · 2/2")
+      page("品牌候选名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.title}</span><p>适合${escapeHtml(data.tone)}气质，名称短、便于口头传播。正式使用前需做商标近似和同品类检索。</p></div>`).join("")}</div>${buildRegistryPanel("trademark", names.map((item) => item.name), { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}`, "1518 品牌起名 · 2/2")
     ]);
   }
 
@@ -377,8 +427,84 @@
     const scores = [["传播力", hashScore(data.brandName, 78, 96)], ["品类联想", hashScore(data.category, 76, 93)], ["数理参考", n.score], ["受众匹配", hashScore(data.audience, 74, 92)]];
     return resultShell(tool, data, [
       cover("品牌名测试报告", data.brandName, scores, `${data.category} · ${data.audience}`),
-      page("品牌诊断", `<p>${escapeHtml(data.brandName)} 的数理为 ${n.number}，属于「${n.title}」：${n.text}</p>${table([["音节", "建议保持 2-4 个汉字，方便搜索、记忆和口播"], ["联想", `当前更偏向${escapeHtml(data.category)}，需避免跨品类误读`], ["风险", "需补充商标近似、同名品牌、负面谐音和多语种含义检查"], ["建议", n.advice]])}`, "1518 品牌名测试 · 2/2")
+      page("品牌诊断", `<p>${escapeHtml(data.brandName)} 的数理为 ${n.number}，属于「${n.title}」：${n.text}</p>${buildRegistryPanel("trademark", [data.brandName], { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}${table([["音节", "建议保持 2-4 个汉字，方便搜索、记忆和口播"], ["联想", `当前更偏向${escapeHtml(data.category)}，需避免跨品类误读`], ["风险", "需补充商标近似、同名品牌、负面谐音和多语种含义检查"], ["建议", n.advice]])}`, "1518 品牌名测试 · 2/2")
     ]);
+  }
+
+  function localRegistryRisk(name, kind) {
+    const length = Array.from(name).filter((char) => /[\u3400-\u9fff]/u.test(char)).length;
+    const genericWords = /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u;
+    const genericBrand = /(优选|精选|天下|中国|国际|官方|第一|旗舰)/u;
+    if (kind === "company" && genericWords.test(name)) return { status: "review", label: "需人工复核", note: "名称包含可能受限制或需证明材料的表述，建议先走官方名称申报系统。", conflicts: [] };
+    if (kind === "trademark" && genericBrand.test(name)) return { status: "review", label: "近似风险", note: "品牌词较通用或宣传性较强，需要按商标类别做近似检索。", conflicts: [] };
+    if (length < 2) return { status: "review", label: "识别度偏低", note: "名称过短，重名和近似概率较高。", conflicts: [] };
+    return { status: "unknown", label: "待官方核验", note: "本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", conflicts: [] };
+  }
+
+  async function fetchRegistry(endpoint, payload, timeoutMs) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  function normalizeRegistryResults(items, remote, kind) {
+    const rows = Array.isArray(remote?.results) ? remote.results : [];
+    return items.map((name) => {
+      const remoteRow = rows.find((item) => item.name === name);
+      return remoteRow || { name, ...localRegistryRisk(name, kind) };
+    });
+  }
+
+  function renderRegistryStatus(row, data) {
+    const statusMap = {
+      available: ["可继续申报", "available"],
+      clear: ["未见明显冲突", "available"],
+      conflict: ["发现冲突", "conflict"],
+      unavailable: ["不可用", "conflict"],
+      review: ["需人工复核", "review"],
+      unknown: ["待官方核验", "pending"]
+    };
+    const [label, className] = statusMap[row.status] || [row.label || "待官方核验", "pending"];
+    const conflicts = Array.isArray(row.conflicts) && row.conflicts.length ? `疑似冲突：${row.conflicts.map(escapeHtml).join("、")}` : row.note || "请以官方查询和最终审查为准。";
+    data.status.className = `registry-status ${className}`;
+    data.status.textContent = row.label || label;
+    data.text.textContent = conflicts;
+  }
+
+  async function runRegistrationChecks(scope = document) {
+    const panels = [...scope.querySelectorAll("[data-registry-check]")];
+    const api = { ...DEFAULT_REGISTRY_API, ...(window.RegistryApiConfig || {}) };
+    await Promise.all(panels.map(async (panel) => {
+      const kind = panel.dataset.registryCheck;
+      const payload = JSON.parse(decodeURIComponent(panel.dataset.registryPayload || "%7B%7D"));
+      const rows = [...panel.querySelectorAll(".registry-check-row")].map((row) => ({
+        row,
+        name: row.dataset.checkName,
+        status: row.querySelector(".registry-status"),
+        text: row.querySelector("p")
+      }));
+      const endpoint = kind === "company" ? api.companyEndpoint : api.trademarkEndpoint;
+      try {
+        const remote = await fetchRegistry(endpoint, payload, api.timeoutMs);
+        normalizeRegistryResults(payload.items || [], remote, kind).forEach((result) => {
+          const target = rows.find((item) => item.name === result.name);
+          if (target) renderRegistryStatus(result, target);
+        });
+      } catch (error) {
+        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind), note: "当前未连接后端注册数据接口，已提供官方核验入口。" }, item));
+      }
+    }));
   }
 
   function buildDreamReport(tool, data) {
@@ -579,6 +705,7 @@
         output.hidden = false;
         output.innerHTML = tool.build(tool, collect(form));
         document.body.classList.add("column-report-active");
+        runRegistrationChecks(output);
         output.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
@@ -592,6 +719,7 @@
 
   window.ColumnTools = {
     tools: TOOLS,
+    runRegistrationChecks,
     open(id, preset = {}) {
       const section = document.getElementById(id);
       if (!section) return false;
