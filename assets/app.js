@@ -559,19 +559,53 @@ function validateSurname(form) {
 
 function buildNames(form) {
   const surname = form.surname.value.trim();
-  const pool = form.gender.value === "boy" ? boyChars : girlChars;
   const length = Number(form.nameLength.value);
-  const seed = Number(form.year.value) + Number(form.month.value) * 7 + Number(form.day.value) * 13;
-  return Array.from({ length: 8 }, (_, index) => {
-    const first = pool[(seed + index * 3) % pool.length];
-    const second = length === 3 ? neutralChars[(seed + index * 5) % neutralChars.length] : "";
-    const name = `${surname}${first}${second}`;
+  const pool = form.gender.value === "boy" ? boyChars : girlChars;
+  const birthDate = `${form.year.value}-${String(form.month.value).padStart(2, "0")}-${String(form.day.value).padStart(2, "0")}`;
+  const hourMap = {
+    0: "子时", 1: "丑时", 2: "丑时", 3: "寅时", 4: "寅时", 5: "卯时", 6: "卯时", 7: "辰时", 8: "辰时", 9: "巳时", 10: "巳时", 11: "午时", 12: "午时",
+    13: "未时", 14: "未时", 15: "申时", 16: "申时", 17: "酉时", 18: "酉时", 19: "戌时", 20: "戌时", 21: "亥时", 22: "亥时", 23: "子时"
+  };
+  const birthHour = hourMap[form.hour.value] || "午时";
+  const bazi = window.NameEngine?.calcBazi?.({ birthDate, birthHour });
+  const elementChars = {
+    木: ["若", "芷", "禾", "景", "嘉", "森", "栩"],
+    火: ["晟", "晴", "知", "星", "明", "昕", "煦"],
+    土: ["安", "宇", "宸", "峻", "远", "予", "辰"],
+    金: ["铭", "书", "诗", "睿", "承", "钧", "锦"],
+    水: ["泽", "清", "汐", "云", "涵", "沐", "言"]
+  };
+  const usefulPool = [...new Set([...(bazi?.useful || []).flatMap((element) => elementChars[element] || []), ...pool, ...neutralChars])];
+  const candidates = [];
+  usefulPool.forEach((first, index) => {
+    if (length === 2) {
+      candidates.push(`${surname}${first}`);
+      return;
+    }
+    const tailPool = [...new Set([...(elementChars[bazi?.useful?.[1]] || []), ...neutralChars, ...pool])];
+    tailPool.slice(index % 4, index % 4 + 8).forEach((second) => {
+      if (first !== second) candidates.push(`${surname}${first}${second}`);
+    });
+  });
+  return [...new Set(candidates)].map((name) => {
+    const report = window.NameEngine?.build?.({
+      fullName: name,
+      reportGender: form.gender.value === "boy" ? "男" : "女",
+      birthDate,
+      birthHour,
+      birthPlace: ""
+    });
+    const fallback = scoreFromText(name);
+    const score = report?.total || fallback;
+    const useful = report?.bazi?.useful?.join("、") || "中和";
+    const elementFit = report?.elementFit?.score || score;
     return {
       name,
-      score: scoreFromText(name),
-      note: `音形义协调，寓意${first}${second || "雅"}，适合作为${length === 3 ? "三字名" : "二字名"}参考。`
+      score,
+      sortScore: score * 0.7 + elementFit * 0.3,
+      note: `八字喜用${useful}，五格${report?.scores?.fiveGrid || fallback}分，三才${report?.scores?.sancai || "参考"}分，用字补益${elementFit}分。`
     };
-  });
+  }).sort((a, b) => b.sortScore - a.sortScore).slice(0, 8);
 }
 
 function bindForms() {

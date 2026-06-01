@@ -238,6 +238,31 @@ function industryFit(number, industry) {
   return { label: "需要谨慎", tone: "bad", text: "数理与行业没有形成明显加分，若用于核心主体，建议再做候选名对比。" };
 }
 
+function structureFit(companyName, shortName, industry) {
+  const length = cleanName(shortName).length;
+  const lengthScore = length >= 2 && length <= 4 ? 92 : length === 5 ? 82 : 64;
+  const restricted = /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u.test(companyName);
+  const industryWords = {
+    ai: /智|云|数|元|星|启|达/u,
+    finance: /信|金|衡|瑞|恒|稳|策/u,
+    realestate: /城|安|筑|坤|泰|合|承/u,
+    media: /星|云|火|声|影|播|达/u,
+    consumer: /禾|味|安|悦|合|鲜|暖/u,
+    health: /知|书|森|清|安|仁|和/u,
+    crossborder: /远|达|通|海|辰|航|瑞/u,
+    chain: /合|联|达|元|盛|瑞|众/u,
+    consulting: /策|知|衡|明|和|信|达/u,
+    legacy: /安|泰|和|承|德|恒|瑞/u
+  };
+  const elementScore = industryWords[$("industry").value]?.test(shortName) ? 92 : 76;
+  return {
+    lengthScore,
+    elementScore,
+    riskPenalty: restricted ? 14 : 0,
+    riskText: restricted ? "含需资质或人工复核词" : "未见明显禁限词"
+  };
+}
+
 function diagnose() {
   const industry = INDUSTRIES[$("industry").value];
   const companyName = $("companyName").value.trim();
@@ -251,7 +276,8 @@ function diagnose() {
   const fullLevel = levelOf(full.number);
   const shortLevel = levelOf(short.number);
   const fit = industryFit(full.number, industry);
-  const totalScore = Math.max(8, Math.min(100, Math.round(fullLevel.score * .58 + shortLevel.score * .27 + (fit.tone === "good" ? 15 : fit.tone === "mid" ? 8 : 0))));
+  const structure = structureFit(companyName, shortName, industry);
+  const totalScore = Math.max(8, Math.min(100, Math.round(fullLevel.score * .42 + shortLevel.score * .24 + (fit.tone === "good" ? 14 : fit.tone === "mid" ? 8 : 0) + structure.lengthScore * .10 + structure.elementScore * .10 - structure.riskPenalty)));
   const candidateText = industry.best.map((n) => `${n}数`).join("、");
   const today = new Date().toLocaleDateString("zh-CN");
   const strokeRows = fullChars.map((char) => `<tr><td>${char}</td><td>${getStroke(char)}</td><td>${shortChars.includes(char) ? "商号/全称" : "全称"}</td></tr>`).join("");
@@ -274,9 +300,9 @@ function diagnose() {
           <div class="report-score-card"><span>全称总格 (35%)</span><strong>${full.number}</strong><em>${fullLevel.label}</em></div>
           <div class="report-score-card"><span>商号简称格 (25%)</span><strong>${short.number}</strong><em>${shortLevel.label}</em></div>
           <div class="report-score-card"><span>行业适配 (20%)</span><strong>${fit.label}</strong><em>${industry.element}行</em></div>
-          <div class="report-score-card"><span>传播识别 (10%)</span><strong>${shortName.length <= 4 ? "高" : "中"}</strong><em>商号长度</em></div>
+          <div class="report-score-card"><span>传播识别 (10%)</span><strong>${structure.lengthScore}</strong><em>商号长度</em></div>
           <div class="report-score-card"><span>扩张稳定 (5%)</span><strong>${fullLevel.score}</strong><em>${fullLevel.stars}</em></div>
-          <div class="report-score-card"><span>风险提示 (5%)</span><strong>${fit.tone === "bad" ? "高" : "可控"}</strong><em>${fit.label}</em></div>
+          <div class="report-score-card"><span>风险提示 (5%)</span><strong>${structure.riskPenalty ? "需复核" : "可控"}</strong><em>${structure.riskText}</em></div>
         </div>
         <footer class="report-page-footer">1518-公司名分析报告 - ${shortName} · 1/5</footer>
       </section>
@@ -331,6 +357,7 @@ function diagnose() {
         <div class="company-detail-grid">
           <div class="company-detail"><span>地域/前缀</span><p>${companyName.slice(0, 2)} 可作为地域或品牌前置识别。</p></div>
           <div class="company-detail"><span>商号主体</span><p>${shortName} 是客户最常记住的部分，应重点优化读音、含义和数理。</p></div>
+          <div class="company-detail"><span>行业字根</span><p>当前商号行业元素匹配 ${structure.elementScore} 分，用于判断名字是否贴合赛道气质。</p></div>
           <div class="company-detail"><span>组织后缀</span><p>有限公司、集团、科技等后缀影响总格，但传播中弱于商号。</p></div>
         </div>
         <footer class="report-page-footer">1518-公司名分析报告 - ${shortName} · 4/5</footer>

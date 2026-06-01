@@ -43,9 +43,32 @@
     AB: { core: "理性与感性并存，边界感强", work: "适合策略、审美、咨询、技术和跨界工作", love: "重视精神共鸣，也需要独处空间" }
   };
   const NAME_CHARS = {
-    boy: ["承", "远", "景", "皓", "峻", "铭", "泽", "宇", "宸", "睿", "晟", "知"],
-    girl: ["若", "芷", "清", "诗", "晴", "瑶", "宁", "悦", "汐", "安", "嘉", "予"],
-    brand: ["星", "辰", "云", "禾", "元", "启", "森", "瑞", "达", "知", "澄", "一"]
+    boy: ["承", "远", "景", "皓", "峻", "铭", "泽", "宇", "宸", "睿", "晟", "知", "清", "言", "嘉", "安"],
+    girl: ["若", "芷", "清", "诗", "晴", "瑶", "宁", "悦", "汐", "安", "嘉", "予", "书", "禾", "知", "言"],
+    brand: ["星", "辰", "云", "禾", "元", "启", "森", "瑞", "达", "知", "澄", "一", "光", "合", "问", "策"]
+  };
+  const CHAR_ELEMENT = {
+    木: ["若", "芷", "禾", "森", "林", "景", "嘉", "元", "启", "策", "荣", "栩"],
+    火: ["晟", "晴", "知", "星", "辰", "明", "光", "昕", "曜", "煦", "达"],
+    土: ["安", "宇", "宸", "峻", "远", "予", "一", "辰", "垣", "坤"],
+    金: ["铭", "书", "诗", "睿", "承", "钧", "锐", "锦", "铎"],
+    水: ["泽", "清", "汐", "云", "澄", "言", "涵", "沐", "渊"]
+  };
+  const INDUSTRY_PROFILE = {
+    科技互联网: { element: "火", terms: ["智", "云", "数", "元", "星", "启", "达"], avoid: /(金融|证券|银行|保险|医院|大学)/u },
+    金融投资: { element: "金", terms: ["信", "金", "衡", "瑞", "恒", "稳", "策"], avoid: /(银行|证券|交易所|国家|中国)/u },
+    餐饮消费: { element: "土", terms: ["禾", "味", "安", "悦", "合", "鲜", "暖"], avoid: /(医疗|药|金融|证券)/u },
+    教育康养: { element: "木", terms: ["知", "书", "森", "清", "安", "仁", "和"], avoid: /(医院|大学|国家|官方)/u },
+    外贸出海: { element: "金", terms: ["远", "达", "通", "海", "辰", "航", "瑞"], avoid: /(中国|国家|海关|银行)/u },
+    咨询服务: { element: "金", terms: ["策", "知", "衡", "明", "和", "信", "达"], avoid: /(律所|会计师事务所|证券)/u },
+    地产建筑: { element: "土", terms: ["城", "安", "筑", "坤", "泰", "合", "承"], avoid: /(银行|保险|国家|中国)/u }
+  };
+  const BRAND_TONE_PROFILE = {
+    专业可信: ["信", "衡", "知", "策", "明", "安"],
+    年轻活泼: ["悦", "星", "小", "萌", "轻", "元"],
+    高端克制: ["澄", "一", "和", "白", "简", "清"],
+    国风雅致: ["云", "禾", "予", "山", "清", "知"],
+    科技未来: ["星", "元", "启", "智", "云", "光"]
   };
   const DEFAULT_REGISTRY_API = {
     enabled: false,
@@ -286,6 +309,82 @@
     return "待优化";
   }
 
+  function clamp(number, min = 0, max = 100) {
+    return Math.max(min, Math.min(max, Math.round(number)));
+  }
+
+  function chineseChars(text) {
+    return Array.from(String(text || "")).filter((char) => /[\u3400-\u9fff]/u.test(char));
+  }
+
+  function elementOfChar(char) {
+    const hit = Object.entries(CHAR_ELEMENT).find(([, chars]) => chars.includes(char));
+    if (hit) return hit[0];
+    const stroke = strokeOfText(char) || 10;
+    return ["水", "木", "木", "火", "火", "土", "土", "金", "金", "水"][stroke % 10];
+  }
+
+  function uniqueItems(items) {
+    return [...new Set(items.filter(Boolean))];
+  }
+
+  function candidateNameScore(fullName, birthData = {}) {
+    const engine = window.NameEngine?.build?.({
+      fullName,
+      reportGender: birthData.gender || "男",
+      birthDate: birthData.birthDate,
+      birthHour: birthData.birthHour,
+      birthPlace: birthData.birthPlace || ""
+    });
+    const n = numerology(strokeOfText(fullName));
+    const chars = chineseChars(fullName);
+    const elements = chars.slice(1).map(elementOfChar);
+    const useful = engine?.bazi?.useful || [];
+    const avoid = engine?.bazi?.avoid || [];
+    const baziFit = elements.reduce((score, element) => score + (useful.includes(element) ? 8 : 0) - (avoid.includes(element) ? 6 : 0), 72);
+    const repeatPenalty = new Set(chars).size < chars.length ? 6 : 0;
+    const rarePenalty = chars.some((char) => strokeOfText(char) >= 20) ? 4 : 0;
+    const total = clamp((engine?.total || n.score) * 0.45 + n.score * 0.20 + clamp(baziFit, 45, 98) * 0.25 + (88 - repeatPenalty - rarePenalty) * 0.10, 35, 99);
+    return {
+      name: fullName,
+      score: total,
+      n,
+      engine,
+      elements,
+      useful,
+      avoid,
+      baziFit: clamp(baziFit, 45, 98),
+      note: `喜用${useful.join("、") || "中和"}；用字五行${elements.join("、") || "未识别"}；五格${engine?.scores?.fiveGrid || n.score}分，三才${engine?.scores?.sancai || "参考"}分。`
+    };
+  }
+
+  function companyNameScore(subject, base, data) {
+    const profile = INDUSTRY_PROFILE[data.industry] || INDUSTRY_PROFILE.科技互联网;
+    const n = numerology(strokeOfText(subject));
+    const shortN = numerology(strokeOfText(base));
+    const length = chineseChars(base).length;
+    const keywordFit = profile.terms.some((term) => base.includes(term) || String(data.keyword || "").includes(term)) ? 92 : 78;
+    const elementFit = chineseChars(base).some((char) => elementOfChar(char) === profile.element) ? 90 : 76;
+    const lengthScore = length >= 2 && length <= 4 ? 92 : length === 5 ? 82 : 66;
+    const riskPenalty = profile.avoid.test(subject) ? 18 : /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u.test(subject) ? 12 : 0;
+    const score = clamp(n.score * 0.36 + shortN.score * 0.24 + keywordFit * 0.16 + elementFit * 0.14 + lengthScore * 0.10 - riskPenalty, 20, 99);
+    return { subject, base, score, n, shortN, keywordFit, elementFit, lengthScore, riskPenalty, profile };
+  }
+
+  function brandNameScore(name, data) {
+    const n = numerology(strokeOfText(name));
+    const length = chineseChars(name).length;
+    const toneWords = BRAND_TONE_PROFILE[data.tone] || BRAND_TONE_PROFILE.专业可信;
+    const toneFit = toneWords.some((word) => name.includes(word)) ? 93 : 78;
+    const categoryText = `${data.category || ""}${data.keyword || ""}`;
+    const categoryFit = chineseChars(categoryText).some((char) => name.includes(char)) ? 90 : 76;
+    const lengthScore = length >= 2 && length <= 4 ? 94 : length === 5 ? 82 : 64;
+    const pronounceScore = new Set(chineseChars(name)).size === chineseChars(name).length ? 88 : 72;
+    const genericPenalty = /(优选|精选|天下|中国|国际|官方|第一|旗舰|中心)/u.test(name) ? 16 : 0;
+    const score = clamp(n.score * 0.30 + toneFit * 0.22 + categoryFit * 0.18 + lengthScore * 0.18 + pronounceScore * 0.12 - genericPenalty, 20, 99);
+    return { name, score, n, toneFit, categoryFit, lengthScore, pronounceScore, genericPenalty };
+  }
+
   function fieldHtml(field) {
     const [name, label, type, value, options] = field;
     if (type === "select") {
@@ -364,60 +463,70 @@
   }
 
   function buildNamingReport(tool, data) {
-    const pool = data.gender === "女" ? NAME_CHARS.girl : NAME_CHARS.boy;
     const surname = (data.surname || "王").slice(0, 2);
-    const seed = hashScore(`${surname}${data.birthDate}${data.birthHour}`, 1, 999);
-    const names = Array.from({ length: 8 }, (_, index) => {
-      const a = pool[(seed + index * 2) % pool.length];
-      const b = data.length === "二字名" ? "" : NAME_CHARS.brand[(seed + index * 3) % NAME_CHARS.brand.length];
-      const name = `${surname}${a}${b}`;
-      const n = numerology(strokeOfText(name));
-      return { name, score: Math.min(99, Math.round(n.score * 0.72 + hashScore(name, 10, 25))), n };
+    const pool = data.gender === "女" ? NAME_CHARS.girl : NAME_CHARS.boy;
+    const seedSource = window.NameEngine?.calcBazi?.({ birthDate: data.birthDate, birthHour: data.birthHour })?.useful || [];
+    const usefulPool = uniqueItems([...seedSource.flatMap((element) => CHAR_ELEMENT[element] || []), ...pool, ...NAME_CHARS.brand]);
+    const rawNames = [];
+    usefulPool.forEach((a, index) => {
+      if (data.length === "二字名") rawNames.push(`${surname}${a}`);
+      else {
+        const tailPool = uniqueItems([...(CHAR_ELEMENT[seedSource[1]] || []), ...NAME_CHARS.brand, ...pool]);
+        tailPool.slice(index % 3, index % 3 + 8).forEach((b) => {
+          if (a !== b) rawNames.push(`${surname}${a}${b}`);
+        });
+      }
     });
-    const scores = [["八字补益", hashScore(data.birthDate, 82, 96)], ["五格数理", names[0].score], ["音形义", hashScore(names[0].name, 80, 96)], ["生肖用字", hashScore(data.birthHour, 78, 92)]];
+    const names = uniqueItems(rawNames).map((name) => candidateNameScore(name, {
+      gender: data.gender === "女" ? "女" : "男",
+      birthDate: data.birthDate,
+      birthHour: data.birthHour
+    })).sort((a, b) => b.score - a.score).slice(0, 8);
+    const best = names[0];
+    const scores = [["八字补益", best.baziFit], ["五格数理", best.engine?.scores?.fiveGrid || best.n.score], ["三才配置", best.engine?.scores?.sancai || 76], ["音形义安全", best.engine?.scores?.sound || 86]];
     const pages = [
       cover("个人起名方案报告", `${surname}氏个人起名`, scores, `${data.gender} · ${data.birthDate} · ${data.birthHour}`),
-      page("候选名字与数理", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.number}画 ${item.n.title}</span><p>${item.n.text}</p></div>`).join("")}</div>`, "1518 个人起名 · 2/3"),
-      page("取名建议", `<p>建议优先选择读音清楚、书写成本低、寓意正向且与八字喜用方向不冲突的名字。</p>${table([["五格", "取候选名总笔画换算易经数理，避开大凶数"], ["音义", "避免生僻字、拗口连读和负面谐音"], ["生肖", "先看中性安全，再结合八字五行补益"], ["后续升级", "接入全量康熙笔画、拼音多音字、诗词库后可做深度筛选"]])}`, "1518 个人起名 · 3/3")
+      page("候选名字与数理", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.number}数 ${item.n.title}</span><p>${item.note}</p><p>${item.n.text}</p></div>`).join("")}</div>`, "1518 个人起名 · 2/3"),
+      page("取名建议", `<p>本次候选名按八字喜用、五格数理、三才配置、用字五行、重复字和高笔画风险综合排序。优先选择评分高且解释清楚的名字，再结合家庭偏好做最后筛选。</p>${table([["喜用神", best.useful.join("、") || "中和"], ["推荐用字五行", best.elements.join("、") || "未识别"], ["五格", "逐个候选名调用姓名测试引擎复算，避开明显凶数和三才冲克"], ["音义", "优先短、清、正向、低生僻度的用字组合"]])}`, "1518 个人起名 · 3/3")
     ];
     return resultShell(tool, data, pages);
   }
 
   function buildCompanyNamingReport(tool, data) {
-    const bases = ["星辰", "瑞禾", "云启", "元达", "知远", "森合", "澄明", "一诺"];
-    const names = bases.map((base, index) => {
+    const profile = INDUSTRY_PROFILE[data.industry] || INDUSTRY_PROFILE.科技互联网;
+    const bases = uniqueItems([`${data.keyword}${profile.terms[0]}`, `${profile.terms[1]}${data.keyword}`, `${profile.terms[2]}${profile.terms[3]}`, "星辰", "瑞禾", "云启", "元达", "知远", "森合", "澄明", "一诺"]);
+    const names = bases.map((base) => {
       const subject = `${data.region}${base}${data.industry.replace(/互联网|投资|消费|康养|服务|建筑/g, "")}${data.suffix}`;
-      const n = numerology(strokeOfText(subject));
-      return { subject, base, score: Math.min(99, n.score + (index % 4) * 2), n };
+      return companyNameScore(subject, base, data);
     }).sort((a, b) => b.score - a.score).slice(0, 6);
-    const scores = [["商号数理", names[0].score], ["行业适配", hashScore(data.industry, 82, 96)], ["传播清晰", hashScore(data.keyword, 78, 92)], ["注册友好", hashScore(data.region, 74, 90)]];
+    const scores = [["商号数理", names[0].shortN.score], ["行业适配", names[0].elementFit], ["传播清晰", names[0].lengthScore], ["综合可用", names[0].score]];
     const pages = [
       cover("公司起名方案报告", data.industry, scores, `${data.region} · ${data.keyword} · ${data.suffix}`),
-      page("候选公司名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.subject}</strong><span>${item.score}分 · ${item.n.number}数 ${item.n.title}</span><p>${item.n.text}</p></div>`).join("")}</div>`, "1518 公司起名 · 2/3"),
-      page("注册与传播建议", `<p>公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。</p>${buildRegistryPanel("company", names.map((item) => item.subject), { region: data.region, industry: data.industry, suffix: data.suffix })}${table([["行业定位", escapeHtml(data.industry)], ["主体字号", "控制在 2-4 个汉字，降低记忆成本"], ["风险提示", "预查不替代工商核名和商标检索"], ["下一步", "接入企业名称库、商标近似检索和行业禁限词库"]])}`, "1518 公司起名 · 3/3")
+      page("候选公司名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.subject}</strong><span>${item.score}分 · 全称${item.n.number}数 ${item.n.title} · 商号${item.shortN.number}数</span><p>${item.n.text}</p><p>行业元素${item.profile.element}，行业字根匹配${item.keywordFit}分，传播长度${item.lengthScore}分${item.riskPenalty ? "，含需复核词" : ""}。</p></div>`).join("")}</div>`, "1518 公司起名 · 2/3"),
+      page("注册与传播建议", `<p>公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。本页排序同时考虑全称数理、商号数理、行业元素、关键词适配、传播长度和禁限词风险。</p>${buildRegistryPanel("company", names.map((item) => item.subject), { region: data.region, industry: data.industry, suffix: data.suffix })}${table([["行业定位", escapeHtml(data.industry)], ["行业优先字根", profile.terms.join("、")], ["主体字号", "控制在 2-4 个汉字，降低记忆成本"], ["风险提示", "预查不替代工商核名和商标检索"]])}`, "1518 公司起名 · 3/3")
     ];
     return resultShell(tool, data, pages);
   }
 
   function buildBrandNamingReport(tool, data) {
-    const fragments = ["星禾", "云问", "知见", "元启", "澄光", "森答", "瑞行", "一策"];
-    const names = fragments.map((name) => {
-      const score = hashScore(`${name}${data.category}${data.tone}`, 78, 96);
-      return { name, score, n: numerology(strokeOfText(name)) };
-    }).sort((a, b) => b.score - a.score);
-    const scores = [["记忆度", names[0].score], ["品类联想", hashScore(data.category, 80, 95)], ["传播节奏", hashScore(data.tone, 78, 94)], ["商标风险", hashScore(data.keyword, 70, 88)]];
+    const toneWords = BRAND_TONE_PROFILE[data.tone] || BRAND_TONE_PROFILE.专业可信;
+    const categoryChars = chineseChars(`${data.category}${data.keyword}`).slice(0, 4);
+    const fragments = uniqueItems([...toneWords.map((word, index) => `${word}${categoryChars[index % Math.max(1, categoryChars.length)] || "星"}`), ...categoryChars.map((char, index) => `${char}${toneWords[index % toneWords.length]}`), "星禾", "云问", "知见", "元启", "澄光", "森答", "瑞行", "一策"]);
+    const names = fragments.map((name) => brandNameScore(name, data)).sort((a, b) => b.score - a.score).slice(0, 8);
+    const scores = [["记忆度", names[0].lengthScore], ["品类联想", names[0].categoryFit], ["传播节奏", names[0].toneFit], ["综合可用", names[0].score]];
     return resultShell(tool, data, [
       cover("品牌起名方案报告", data.category, scores, `${data.audience} · ${data.tone}`),
-      page("品牌候选名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.title}</span><p>适合${escapeHtml(data.tone)}气质，名称短、便于口头传播。正式使用前需做商标近似和同品类检索。</p></div>`).join("")}</div>${buildRegistryPanel("trademark", names.map((item) => item.name), { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}`, "1518 品牌起名 · 2/2")
+      page("品牌候选名", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.number}数 ${item.n.title}</span><p>气质匹配${item.toneFit}分，品类联想${item.categoryFit}分，名称长度${item.lengthScore}分。正式使用前需做商标近似和同品类检索。</p></div>`).join("")}</div>${buildRegistryPanel("trademark", names.map((item) => item.name), { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}`, "1518 品牌起名 · 2/2")
     ]);
   }
 
   function buildBrandTestReport(tool, data) {
-    const n = numerology(strokeOfText(data.brandName));
-    const scores = [["传播力", hashScore(data.brandName, 78, 96)], ["品类联想", hashScore(data.category, 76, 93)], ["数理参考", n.score], ["受众匹配", hashScore(data.audience, 74, 92)]];
+    const item = brandNameScore(data.brandName, { ...data, tone: "专业可信", keyword: data.category });
+    const n = item.n;
+    const scores = [["传播力", item.lengthScore], ["品类联想", item.categoryFit], ["数理参考", n.score], ["受众匹配", item.pronounceScore]];
     return resultShell(tool, data, [
       cover("品牌名测试报告", data.brandName, scores, `${data.category} · ${data.audience}`),
-      page("品牌诊断", `<p>${escapeHtml(data.brandName)} 的数理为 ${n.number}，属于「${n.title}」：${n.text}</p>${buildRegistryPanel("trademark", [data.brandName], { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}${table([["音节", "建议保持 2-4 个汉字，方便搜索、记忆和口播"], ["联想", `当前更偏向${escapeHtml(data.category)}，需避免跨品类误读`], ["风险", "需补充商标近似、同名品牌、负面谐音和多语种含义检查"], ["建议", n.advice]])}`, "1518 品牌名测试 · 2/2")
+      page("品牌诊断", `<p>${escapeHtml(data.brandName)} 的数理为 ${n.number}，属于「${n.title}」：${n.text}</p>${buildRegistryPanel("trademark", [data.brandName], { category: data.category, audience: data.audience, trademarkClass: data.trademarkClass })}${table([["综合评分", `${item.score}分`], ["音节长度", `${item.lengthScore}分，建议保持 2-4 个汉字，方便搜索、记忆和口播`], ["品类联想", `${item.categoryFit}分，当前更偏向${escapeHtml(data.category)}，需避免跨品类误读`], ["传播风险", item.genericPenalty ? "含较通用或宣传性词，需要重点商标复核" : "未见明显通用词风险"], ["建议", n.advice]])}`, "1518 品牌名测试 · 2/2")
     ]);
   }
 
