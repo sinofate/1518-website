@@ -14,6 +14,8 @@
     "公司起名": "Company Naming",
     "品牌起名": "Brand Naming",
     "姓名测试": "Name Test",
+    "公司测名": "Company Name Test",
+    "品牌测试": "Brand Test",
     "周公解梦": "Dream Dictionary",
     "公司名测试": "Company Name Test",
     "品牌名测试": "Brand Name Test",
