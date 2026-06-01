@@ -1,0 +1,19 @@
+{
+  "name": "1518 起名网",
+  "description": "1518 起名网的未来 MCP 发现文件。当前静态前端已经提供 llms.txt、llms-full.txt、robots.txt、sitemap.xml 和 ai-readiness.json；正式 MCP endpoint 尚未在静态前端启用。",
+  "status": "planned",
+  "canonical": "https://www.1518.com/",
+  "documentation": "https://www.1518.com/llms-full.txt",
+  "readiness": "https://www.1518.com/.well-known/ai-readiness.json",
+  "recommendedEndpoint": "https://www.1518.com/mcp",
+  "recommendedProtocol": "Model Context Protocol",
+  "recommendedTools": [
+    "list_1518_tools",
+    "get_1518_tool_schema",
+    "run_name_test",
+    "run_company_name_test",
+    "run_zodiac_lookup",
+    "run_dream_lookup",
+    "search_1518_content"
+  ]
+}

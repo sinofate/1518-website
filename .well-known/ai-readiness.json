@@ -1,0 +1,101 @@
+{
+  "site": {
+    "name": "1518 起名网",
+    "canonical": "https://www.1518.com/",
+    "language": "zh-CN",
+    "summary": "长期运营的中文起名测名和传统文化工具站，提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、风水、血型、手机号和车牌测算等参考工具。"
+  },
+  "agentFiles": {
+    "llmsTxt": "https://www.1518.com/llms.txt",
+    "llmsFullTxt": "https://www.1518.com/llms-full.txt",
+    "robotsTxt": "https://www.1518.com/robots.txt",
+    "sitemap": "https://www.1518.com/sitemap.xml"
+  },
+  "mcp": {
+    "status": "not_live_in_static_frontend",
+    "recommendedDiscoveryPath": "https://www.1518.com/.well-known/mcp.json",
+    "recommendedEndpoint": "https://www.1518.com/mcp",
+    "recommendedTools": [
+      "list_1518_tools",
+      "get_1518_tool_schema",
+      "run_name_test",
+      "run_personal_naming",
+      "run_company_name_test",
+      "run_company_naming",
+      "run_brand_naming",
+      "run_dream_lookup",
+      "run_zodiac_lookup",
+      "run_zodiac_match",
+      "run_astrology_lookup",
+      "run_phone_number_test",
+      "run_plate_number_test",
+      "search_1518_content"
+    ]
+  },
+  "routes": [
+    {
+      "id": "home",
+      "url": "https://www.1518.com/",
+      "title": "1518 起名网",
+      "intent": "站点首页，姓名测试和公司名测试核心入口。"
+    },
+    {
+      "id": "name-test",
+      "url": "https://www.1518.com/#name-test",
+      "title": "姓名测试",
+      "intent": "姓名测试、姓名打分、名字测试、五格数理、三才配置。"
+    },
+    {
+      "id": "baby",
+      "url": "https://www.1518.com/#baby",
+      "title": "个人起名",
+      "intent": "个人起名、宝宝起名、生辰八字起名、改名参考。"
+    },
+    {
+      "id": "company-test",
+      "url": "https://www.1518.com/#company-test",
+      "title": "公司名测试",
+      "intent": "公司名测试、企业测名、商号测试、行业适配。"
+    },
+    {
+      "id": "company",
+      "url": "https://www.1518.com/#company",
+      "title": "公司起名",
+      "intent": "公司起名、企业起名、商号起名、公司取名。"
+    },
+    {
+      "id": "brand",
+      "url": "https://www.1518.com/#brand",
+      "title": "品牌起名",
+      "intent": "品牌起名、商标起名、店铺起名、产品起名。"
+    },
+    {
+      "id": "dream",
+      "url": "https://www.1518.com/#dream",
+      "title": "周公解梦",
+      "intent": "周公解梦、梦境解析、梦见大全查询。"
+    },
+    {
+      "id": "zodiac",
+      "url": "https://www.1518.com/#zodiac",
+      "title": "生肖查询",
+      "intent": "生肖查询、属相查询、十二生肖年份表。"
+    },
+    {
+      "id": "phone",
+      "url": "https://www.1518.com/#phone",
+      "title": "手机号测算",
+      "intent": "手机号测算、手机号码吉凶、号码测试。"
+    },
+    {
+      "id": "plate",
+      "url": "https://www.1518.com/#plate",
+      "title": "车牌测算",
+      "intent": "车牌测算、车牌号码吉凶、车牌号测试。"
+    }
+  ],
+  "usagePolicy": {
+    "contentBoundary": "结果仅供传统文化与娱乐参考，不应作为法律、医疗、财务、招聘、投资或安全决策依据。",
+    "agentInstruction": "优先读取 llms.txt 和 llms-full.txt。访问页面时使用 hash 路由。回答用户时保持中文语境，并说明结果是参考而非确定性判断。"
+  }
+}

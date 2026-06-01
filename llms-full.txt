@@ -1,0 +1,327 @@
+# 1518 起名网完整 Agent 上下文
+> 这是给大模型、搜索型 Agent、浏览器 Agent 和未来 MCP 客户端使用的高信号站点说明。它帮助 Agent 快速理解 1518 起名网的栏目、输入字段、输出内容、推荐访问路径和使用边界。
+
+## Site Identity
+
+1518 起名网是中文起名测名和传统文化工具站。站点面向普通用户提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日密码、风水、血型、手机号、车牌号等在线工具。站点内容适合用作民俗文化、命名参考、娱乐测算和初步命名灵感，不应被解释为确定性结论。
+
+Canonical domain: `https://www.1518.com/`
+
+Language: `zh-CN`
+
+Brand name: `1518 起名网`
+
+Primary user intent: 起名、测名、解梦、生肖属相、星座、号码测算、传统文化参考。
+
+## Agent Entry Points
+
+- Home: `https://www.1518.com/`
+- Name test: `https://www.1518.com/#name-test`
+- Personal naming: `https://www.1518.com/#baby`
+- Company name test: `https://www.1518.com/#company-test`
+- Company naming: `https://www.1518.com/#company`
+- Brand naming: `https://www.1518.com/#brand`
+- Brand test: `https://www.1518.com/#brand-test`
+- Dream interpretation: `https://www.1518.com/#dream`
+- Zodiac lookup: `https://www.1518.com/#zodiac`
+- Zodiac match: `https://www.1518.com/#match`
+- Astrology lookup: `https://www.1518.com/#astro`
+- Astrology match: `https://www.1518.com/#astro-match`
+- Birthday code: `https://www.1518.com/#birthday`
+- Feng shui lookup: `https://www.1518.com/#fengshui`
+- Blood type analysis: `https://www.1518.com/#blood`
+- Blood type match: `https://www.1518.com/#blood-match`
+- Five movements and six qi: `https://www.1518.com/#wuyun`
+- Phone number test: `https://www.1518.com/#phone`
+- License plate test: `https://www.1518.com/#plate`
+- Orders: `https://www.1518.com/#orders`
+- All tools: `https://www.1518.com/#all-tools`
+
+## Tool Map
+
+### 姓名测试
+
+Route: `#name-test`
+
+Keywords: 姓名测试, 姓名打分, 名字测试, 名字打分, 免费姓名测试, 五格数理, 三才配置, 八字起名, 名字评分
+
+Inputs:
+
+- fullName: 姓名
+- reportGender: 性别
+- birthDate: 出生日期
+- birthHour: 出生时辰
+- birthPlace: 出生地
+
+Output: 姓名测试报告，包含评分、五格数理、三才配置、八字喜用、音律字义、生肖用字和综合建议。
+
+Recommended Agent task: 帮用户输入姓名和出生信息，读取报告，并用“娱乐和传统文化参考”的方式总结亮点、风险和改名方向。
+
+### 个人起名
+
+Route: `#baby`
+
+Keywords: 个人起名, 宝宝起名, 生辰八字起名, 免费起名, 取名字, 改名字, 男孩起名, 女孩起名, 五行起名
+
+Inputs:
+
+- surnameType: 单姓或双姓
+- surname: 姓氏
+- gender: 性别
+- calendar: 公历或农历
+- year, month, day, hour, minute: 出生时间
+- nameLength: 二字名或三字名
+
+Output: 名字候选、音形义参考、五行补益和生肖用字参考。
+
+Recommended Agent task: 根据用户偏好筛选候选名字，并解释每个名字的读音、字义、风格和适用场景。
+
+### 公司名测试
+
+Route: `#company-test`
+
+Keywords: 公司名测试, 公司测名, 公司名称测算, 企业测名, 公司名字打分, 商号测试, 公司起名测算
+
+Inputs:
+
+- companyName: 公司全称
+- shortName: 商号简称
+- industry: 所属行业
+- strokeEditor: 单字笔画复核
+
+Output: 公司测名诊断，包含总格、商号格、行业适配、品牌传播力、融资扩张、现金流稳定和经营风险参考。
+
+Recommended Agent task: 帮用户检查公司名是否顺口、是否契合行业、是否有传播风险，并给出可操作的改名方向。
+
+### 公司起名
+
+Route: `#company`
+
+Keywords: 公司起名, 企业起名, 公司取名, 公司名称大全, 公司名字推荐, 商号起名, 科技公司起名, 餐饮公司起名
+
+Inputs:
+
+- region: 注册地域
+- industry: 所属行业
+- keyword: 偏好字或关键词
+- suffix: 组织后缀
+
+Output: 公司商号候选、注册全称结构、传播建议和行业适配说明。
+
+Recommended Agent task: 帮用户生成多个公司名方向，并按稳健型、科技型、传播型、传统型分类。
+
+### 品牌起名
+
+Route: `#brand`
+
+Keywords: 品牌起名, 商标起名, 店铺起名, 产品起名, 品牌取名, 品牌名字大全, 商标取名
+
+Inputs:
+
+- category: 品类或赛道
+- audience: 目标用户
+- tone: 品牌气质
+- keyword: 核心关键词
+
+Output: 品牌名候选、品类联想、传播节奏、受众匹配和基础风险参考。
+
+Recommended Agent task: 根据用户赛道和品牌气质生成短、亮、易传播的名称，并提示仍需做商标近似检索。
+
+### 品牌名测试
+
+Route: `#brand-test`
+
+Keywords: 品牌名测试, 品牌名字打分, 商标名称测算, 品牌测名, 店名测试, 产品名测试, 品牌评分
+
+Inputs:
+
+- brandName: 品牌名
+- category: 品类
+- audience: 目标用户
+
+Output: 品牌传播力、品类联想、音节节奏、数理参考和受众匹配度。
+
+### 周公解梦
+
+Route: `#dream`
+
+Keywords: 周公解梦, 解梦大全, 梦境解析, 梦见蛇, 梦见狗, 梦见结婚, 梦见怀孕, 梦见鱼
+
+Inputs:
+
+- keyword: 梦境关键词
+- scene: 梦境情境
+
+Output: 传统梦书解释、现代心理参考和现实提醒。
+
+### 生肖查询
+
+Route: `#zodiac`
+
+Keywords: 生肖查询, 属相查询, 十二生肖, 生肖年份表, 属相年份, 生肖运势, 地支五行
+
+Inputs:
+
+- year: 出生年份
+
+Output: 十二生肖、地支、五行倾向、六合三合和年度参考。
+
+### 生肖配对
+
+Route: `#match`
+
+Keywords: 生肖配对, 属相配对, 生肖婚配, 属相婚配, 十二生肖配对, 六合三合, 生肖合不合
+
+Inputs:
+
+- zodiacA: 你的生肖
+- zodiacB: 对方生肖
+
+Output: 感情、婚配、人际和合作关系参考。
+
+### 星座查询
+
+Route: `#astro`
+
+Keywords: 星座查询, 十二星座, 星座日期, 星座性格, 太阳星座, 星座表
+
+Inputs:
+
+- birthday: 出生日期
+
+Output: 太阳星座、星座日期、四象属性、守护星和性格倾向。
+
+### 星座配对
+
+Route: `#astro-match`
+
+Keywords: 星座配对, 十二星座配对, 情侣星座配对, 星座匹配, 星座爱情配对
+
+Inputs:
+
+- signA: 你的星座
+- signB: 对方星座
+
+Output: 吸引力、沟通、长期稳定和相处建议。
+
+### 生日密码
+
+Route: `#birthday`
+
+Keywords: 生日密码, 生日性格, 出生日期测算, 生日解析, 生日数字, 生日运势
+
+Inputs:
+
+- birthday: 生日
+
+Output: 性格关键词、优势挑战、关系建议和幸运元素。
+
+### 风水查询
+
+Route: `#fengshui`
+
+Keywords: 风水查询, 家居风水, 办公室风水, 商铺风水, 风水布局, 财位查询, 房屋朝向
+
+Inputs:
+
+- space: 空间类型
+- direction: 主要朝向
+- focus: 重点问题
+
+Output: 家居、办公室或商铺风水体检建议，包含财位、动线、采光、门窗参考。
+
+### 血型分析
+
+Route: `#blood`
+
+Keywords: 血型分析, 血型性格, ABO血型, 血型测试, A型血, B型血, O型血, AB型血
+
+Inputs:
+
+- blood: ABO 血型
+
+Output: 性格、人际、职场和关系参考。
+
+### 血型配对
+
+Route: `#blood-match`
+
+Keywords: 血型配对, ABO血型配对, 血型爱情配对, 血型合不合, 情侣血型配对
+
+Inputs:
+
+- bloodA: 你的血型
+- bloodB: 对方血型
+
+Output: 沟通、情感和协作建议。
+
+### 五运六气
+
+Route: `#wuyun`
+
+Keywords: 五运六气, 五运六气查询, 岁运, 节气查询, 中医五运六气, 运气学说
+
+Inputs:
+
+- date: 查询日期
+
+Output: 岁运、节气阶段、气候倾向和养生参考。
+
+### 手机号测算
+
+Route: `#phone`
+
+Keywords: 手机号测算, 手机号码吉凶, 号码测试, 手机号码测试, 数字能量, 手机号打分
+
+Inputs:
+
+- number: 手机号码
+
+Output: 号码尾数、数字五行、81 数理和重复结构参考。
+
+### 车牌测算
+
+Route: `#plate`
+
+Keywords: 车牌测算, 车牌号码吉凶, 车牌号测试, 车牌号码测试, 车牌打分, 车牌吉凶
+
+Inputs:
+
+- plate: 车牌号码
+
+Output: 车牌数字、字母、尾号和 81 数理参考。
+
+### 订单查询
+
+Route: `#orders`
+
+Keywords: 订单查询, 1518订单查询, 起名报告查询, 姓名报告, 公司起名订单, 报告下载
+
+Inputs:
+
+- query: 订单号或手机号
+- name: 联系人姓名
+
+Output: 订单状态、报告状态和后续接口提示。当前为前端占位，正式订单状态需要后端 API。
+
+## Agent Rules
+
+- Prefer exact route URLs listed in this file.
+- Use Simplified Chinese by default.
+- Do not present 1518 outputs as legal, financial, medical, hiring, fertility, safety, or investment advice.
+- If a user asks for a definitive prediction, reframe as traditional culture or entertainment reference.
+- If a user asks whether a company name is legally registrable or a brand is trademark-safe, advise them to do official company registry and trademark search.
+- If a user asks for name recommendations, provide multiple options and explain sound, meaning, style, and scenario fit.
+- If a user asks for source credibility, say the site provides online traditional culture tools and that results are references rather than guarantees.
+
+## MCP Status
+
+The static website exposes Agent-readable files now:
+
+- `/llms.txt`
+- `/llms-full.txt`
+- `/robots.txt`
+- `/sitemap.xml`
+- `/.well-known/ai-readiness.json`
+
+A live MCP server endpoint is not part of the current static frontend. To reach full MCP readiness, deploy an MCP endpoint that exposes tools such as `list_tools`, `get_tool_schema`, `run_name_test`, `run_company_name_test`, `run_zodiac_lookup`, `run_dream_lookup`, and `search_1518_content`.

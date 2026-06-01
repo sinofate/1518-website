@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1518 起名网 - 20年中文起名测名工具</title>
+    <meta name="description" content="1518 起名网是长期运营的中文起名测名工具站，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。">
+    <meta name="keywords" content="1518起名网,起名网,姓名测试,姓名打分,名字测试,个人起名,宝宝起名,公司起名,公司名测试,品牌起名,品牌名测试,周公解梦,生肖查询,生肖配对,星座查询,星座配对,生日密码,风水查询,血型分析,手机号测算,车牌测算">
+    <meta name="application-name" content="1518 起名网">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <link rel="canonical" href="https://www.1518.com/">
+    <meta property="og:site_name" content="1518 起名网">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="1518 起名网 - 20年中文起名测名工具">
+    <meta property="og:description" content="1518 起名网提供姓名测试、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。">
+    <meta property="og:url" content="https://www.1518.com/">
+    <meta name="twitter:card" content="summary">
+    <link rel="alternate" type="text/markdown" href="/llms.txt" title="1518 Agent guide">
+    <link rel="alternate" type="text/markdown" href="/llms-full.txt" title="1518 full AI context">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="help" type="application/json" href="/.well-known/ai-readiness.json">
+    <link rel="stylesheet" href="./assets/styles.css?v=responsive-pc-mobile-20260602c">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="topbar">
+        <a class="brand" href="./index.html" aria-label="1518 起名网首页">
+          <span class="brand-mark">1518</span>
+          <span class="brand-name">起名网</span>
+        </a>
+        <a class="mobile-link" href="#home">手机网页</a>
+      </div>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="#home">首页</a>
+        <a href="#baby">个人起名</a>
+        <a href="#company">公司起名</a>
+        <a href="#brand">品牌起名</a>
+        <a href="#name-test">姓名测试</a>
+        <a href="#dream">周公解梦</a>
+        <a href="#company-test">公司名测试</a>
+        <a href="#brand-test">品牌名测试</a>
+        <a href="#zodiac">生肖查询</a>
+        <a href="#match">生肖配对</a>
+      </nav>
+      <div class="sub-nav" aria-label="副导航">
+        <a href="#astro">星座查询</a>
+        <a href="#astro-match">星座配对</a>
+        <a href="#birthday">生日密码</a>
+        <a href="#fengshui">风水查询</a>
+        <a href="#blood">血型分析</a>
+        <a href="#blood-match">血型配对</a>
+        <a href="#wuyun">五运六气</a>
+        <a href="#phone">手机号测算</a>
+        <a href="#plate">车牌测算</a>
+        <a href="#orders">订单查询</a>
+      </div>
+    </header>
+
+    <main class="page-shell" id="home">
+      <section class="content">
+        <section class="report-entry" id="name-test">
+          <h2>姓名测试</h2>
+          <form id="nameTestForm" class="report-form">
+            <label>
+              <span>姓名</span>
+              <input name="fullName" maxlength="8" placeholder="例如：王书翰" value="王书翰">
+            </label>
+            <label>
+              <span>性别</span>
+              <select name="reportGender">
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </label>
+            <label>
+              <span>出生日期</span>
+              <input name="birthDate" type="date" value="1990-06-15">
+            </label>
+            <label>
+              <span>出生时辰</span>
+              <select name="birthHour">
+                <option value="子时">子时</option>
+                <option value="丑时">丑时</option>
+                <option value="寅时">寅时</option>
+                <option value="卯时">卯时</option>
+                <option value="辰时">辰时</option>
+                <option value="巳时">巳时</option>
+                <option value="午时" selected>午时</option>
+                <option value="未时">未时</option>
+                <option value="申时">申时</option>
+                <option value="酉时">酉时</option>
+                <option value="戌时">戌时</option>
+                <option value="亥时">亥时</option>
+              </select>
+            </label>
+            <label>
+              <span>出生地</span>
+              <input name="birthPlace" maxlength="16" placeholder="例如：上海" value="上海">
+            </label>
+            <button type="submit">生成分析报告</button>
+          </form>
+          <div id="nameReportBox" class="name-report" hidden></div>
+          <div class="tool-panel page-tail-module" id="baby">
+            <h2>个人起名</h2>
+            <p class="module-intro">放在姓名测试页尾，适合从测试结果继续生成个人名字候选。</p>
+            <form id="nameForm" class="name-form">
+              <label>
+                <span>起名姓氏</span>
+                <select name="surnameType">
+                  <option value="single">单姓</option>
+                  <option value="double">双姓</option>
+                </select>
+                <input name="surname" maxlength="4" placeholder="输入姓氏" value="王">
+              </label>
+              <fieldset>
+                <legend>性别</legend>
+                <label><input type="radio" name="gender" value="boy" checked> 男</label>
+                <label><input type="radio" name="gender" value="girl"> 女</label>
+              </fieldset>
+              <label>
+                <span>出生时间</span>
+                <select name="calendar">
+                  <option value="solar">公历</option>
+                  <option value="lunar">农历</option>
+                </select>
+                <select name="year" id="yearSelect"></select>
+                <select name="month" id="monthSelect"></select>
+                <select name="day" id="daySelect"></select>
+                <select name="hour" id="hourSelect"></select>
+                <select name="minute" id="minuteSelect"></select>
+              </label>
+              <fieldset>
+                <legend>取名字数</legend>
+                <label><input type="radio" name="nameLength" value="2"> 二字名</label>
+                <label><input type="radio" name="nameLength" value="3" checked> 三字名</label>
+              </fieldset>
+              <button type="submit">开始起名</button>
+            </form>
+            <div id="resultBox" class="result-box" hidden></div>
+          </div>
+        </section>
+
+        <section class="company-test-section" id="company-test">
+          <div class="company-test-head">
+            <div>
+              <p class="company-eyebrow">易经数理 · 商业命名诊断</p>
+              <h2>公司名测试</h2>
+              <p>按公司全称、商号简称、所属行业和 81 数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。</p>
+            </div>
+            <div class="company-rules" aria-label="测算规则">
+              <span><b>总格</b>营业执照全称笔画和</span>
+              <span><b>商号格</b>日常传播简称笔画和</span>
+              <span><b>行业格</b>数理气质与赛道匹配</span>
+            </div>
+          </div>
+
+          <form id="tester" class="company-form">
+            <label>
+              <span>公司全称</span>
+              <input id="companyName" type="text" value="上海星辰达智能科技有限公司" autocomplete="off">
+            </label>
+            <label>
+              <span>商号简称</span>
+              <input id="shortName" type="text" value="星辰达" autocomplete="off">
+            </label>
+            <label>
+              <span>所属行业</span>
+              <select id="industry">
+                <option value="ai">AI / 科技互联网</option>
+                <option value="finance">金融投资 / 财税资管</option>
+                <option value="realestate">地产建筑 / 工程实业</option>
+                <option value="media">电商直播 / 传媒新媒体</option>
+                <option value="consumer">餐饮实体 / 民生消费</option>
+                <option value="health">教育培训 / 康养健康</option>
+                <option value="crossborder">外贸出海 / 跨境商贸</option>
+                <option value="chain">连锁加盟 / 品牌总部</option>
+                <option value="consulting">律所咨询 / 高端商务</option>
+                <option value="legacy">家族企业 / 传承老店</option>
+              </select>
+            </label>
+            <button type="submit">立即生成诊断</button>
+          </form>
+
+          <div class="company-correction">
+            <div>
+              <p class="company-eyebrow">笔画校正</p>
+              <h3>逐字复核后，报告更像专业交付</h3>
+            </div>
+            <div id="strokeEditor" class="stroke-editor"></div>
+          </div>
+
+          <section id="report" class="company-report" aria-live="polite"></section>
+          <div class="page-tail-module" id="companyNamingTail"></div>
+        </section>
+
+        <section class="column-tools-section" id="all-tools">
+          <div class="column-tools-head">
+            <p class="company-eyebrow">1518 全栏目工具</p>
+            <h2>其他栏目功能页</h2>
+            <p>每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。</p>
+          </div>
+          <div id="columnToolPages"></div>
+        </section>
+
+        <section class="service-section">
+          <h2>热门服务</h2>
+          <div class="service-grid" id="serviceGrid"></div>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section class="quick-card">
+          <h2>快速测算</h2>
+          <form class="mini-form" data-tool="姓名测试">
+            <input name="value" placeholder="请输入姓名">
+            <button type="submit">姓名测试</button>
+          </form>
+          <form class="mini-form" data-tool="车牌测算">
+            <input name="value" placeholder="请输入车牌号">
+            <button type="submit">车牌测算</button>
+          </form>
+          <form class="mini-form" data-tool="手机号测算">
+            <input name="value" placeholder="请输入手机号码">
+            <button type="submit">手机号测算</button>
+          </form>
+          <form class="mini-form" data-tool="公司测名">
+            <input name="value" placeholder="请输入公司名全称">
+            <button type="submit">公司测名</button>
+          </form>
+        </section>
+        <section class="quick-card">
+          <h2>热门解梦</h2>
+          <div class="dream-tags" id="dreamTags"></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <p>本站内容基于传统文化与民俗资料整理，仅供娱乐参考。</p>
+      <p>Copyright 2026 1518.com All Rights Reserved</p>
+    </footer>
+
+    <script src="./assets/vendor/lunar.js?v=20260602"></script>
+    <script src="./assets/company-name-test.js?v=company-pdf-20260602"></script>
+    <script src="./assets/name-engine.js?v=20260602b"></script>
+    <script src="./assets/columns-tools.js?v=algorithm-qa-20260602"></script>
+    <script src="./assets/app.js?v=algorithm-qa-20260602"></script>
+  </body>
+</html>

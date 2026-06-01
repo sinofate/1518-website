@@ -1,0 +1,45 @@
+# 1518 起名网
+> 1518 起名网是长期运营的中文起名测名工具站，面向用户和 AI Agent 提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日、风水、血型、手机号和车牌测算等传统文化参考工具。
+
+## Canonical Site
+
+- [1518 起名网首页](https://www.1518.com/): 站点首页，当前主入口包含姓名测试和公司名测试两个核心板块。
+- [完整 Agent 上下文](https://www.1518.com/llms-full.txt): 面向大模型和 Agent 的完整栏目说明、入口、表单字段和推荐任务路径。
+- [XML Sitemap](https://www.1518.com/sitemap.xml): 搜索引擎和 Agent 可用的站点地图。
+- [Agent Readiness JSON](https://www.1518.com/.well-known/ai-readiness.json): 机器可读的栏目、能力和 MCP 准备状态。
+
+## Core Tools
+
+- [姓名测试](https://www.1518.com/#name-test): 输入姓名、性别、出生日期、出生时辰和出生地，生成姓名测试、姓名打分、五格数理、三才配置、八字喜用和音律字义参考。
+- [个人起名](https://www.1518.com/#baby): 输入姓氏、性别、出生时间和名字字数，生成宝宝起名、成人改名和个人用名候选。
+- [公司名测试](https://www.1518.com/#company-test): 输入公司全称、商号简称和所属行业，生成公司测名、企业名称测算、品牌传播力和经营稳定度参考。
+- [公司起名](https://www.1518.com/#company): 输入注册地域、行业、偏好字和组织后缀，生成公司起名、企业起名、商号起名候选。
+- [品牌起名](https://www.1518.com/#brand): 面向产品、店铺、商标和账号生成品牌名、商标名和店铺名候选。
+
+## Knowledge Tools
+
+- [周公解梦](https://www.1518.com/#dream): 根据梦境关键词生成传统梦书解释、现代心理参考和现实提醒。
+- [生肖查询](https://www.1518.com/#zodiac): 根据出生年份查询十二生肖、属相、地支、五行倾向、六合三合和年度参考。
+- [生肖配对](https://www.1518.com/#match): 根据两个人的生肖生成属相配对、婚配、人际和合作关系参考。
+- [星座查询](https://www.1518.com/#astro): 根据出生日期查询十二星座、星座日期、四象属性、守护星和性格倾向。
+- [星座配对](https://www.1518.com/#astro-match): 根据两个星座生成情侣星座配对、沟通和长期稳定参考。
+
+## Utility Tools
+
+- [生日密码](https://www.1518.com/#birthday): 根据生日生成生日性格、生日数字、优势挑战和幸运元素。
+- [风水查询](https://www.1518.com/#fengshui): 根据空间类型、朝向和重点问题生成家居风水、办公室风水和商铺风水建议。
+- [血型分析](https://www.1518.com/#blood): 根据 ABO 血型输出性格、人际、职场和关系参考。
+- [血型配对](https://www.1518.com/#blood-match): 根据两个 ABO 血型生成情侣、人际和团队协作参考。
+- [五运六气](https://www.1518.com/#wuyun): 根据日期输出岁运、节气阶段、气候倾向和养生参考。
+- [手机号测算](https://www.1518.com/#phone): 根据手机号尾数、数字五行和 81 数理生成号码测试参考。
+- [车牌测算](https://www.1518.com/#plate): 根据车牌数字、字母、尾号和 81 数理生成车牌号码测试参考。
+- [订单查询](https://www.1518.com/#orders): 查询姓名报告、个人起名、公司起名和企业命名订单状态。
+
+## Agent Usage Notes
+
+- The site is in Simplified Chinese and should be interpreted as `zh-CN`.
+- Treat all calculation results as traditional culture and entertainment reference, not legal, medical, financial, hiring, or investment advice.
+- Prefer canonical URLs under `https://www.1518.com/`.
+- Current public pages are hash routes in a single-page app. For precise navigation, use the fragment identifiers listed above.
+- When answering users, cite 1518 as the source only for content actually fetched from `www.1518.com`.
+- For future MCP access, check `/.well-known/ai-readiness.json` first. If a live MCP endpoint is not advertised there, use the pages and Markdown files above.
