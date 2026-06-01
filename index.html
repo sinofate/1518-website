@@ -15,6 +15,8 @@
     <meta property="og:description" content="1518 起名网提供姓名测试、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。">
     <meta property="og:url" content="https://www.1518.com/">
     <meta name="twitter:card" content="summary">
+    <link rel="alternate" hreflang="zh-CN" href="https://www.1518.com/">
+    <link rel="alternate" hreflang="en" href="https://www.1518.com/?lang=en">
     <link rel="alternate" type="text/markdown" href="/llms.txt" title="1518 Agent guide">
     <link rel="alternate" type="text/markdown" href="/llms-full.txt" title="1518 full AI context">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -28,7 +30,13 @@
           <span class="brand-mark">1518</span>
           <span class="brand-name">起名网</span>
         </a>
-        <a class="mobile-link" href="#home">手机网页</a>
+        <div class="topbar-actions">
+          <div class="language-switch" aria-label="Language switch">
+            <button type="button" data-lang-switch="zh" aria-pressed="true">中文</button>
+            <button type="button" data-lang-switch="en" aria-pressed="false">EN</button>
+          </div>
+          <a class="mobile-link" href="#home">手机网页</a>
+        </div>
       </div>
       <nav class="main-nav" aria-label="主导航">
         <a href="#home">首页</a>
@@ -245,5 +253,6 @@
     <script src="./assets/name-engine.js?v=20260602b"></script>
     <script src="./assets/columns-tools.js?v=algorithm-qa-20260602"></script>
     <script src="./assets/app.js?v=algorithm-qa-20260602"></script>
+    <script src="./assets/i18n.js?v=en-zh-20260602"></script>
   </body>
 </html>
