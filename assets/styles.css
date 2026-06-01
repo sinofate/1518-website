@@ -104,11 +104,14 @@ a {
   font-size: 54px;
   font-weight: 900;
   letter-spacing: 3px;
-  -webkit-text-stroke: .35px var(--red);
+  -webkit-text-stroke: .9px var(--red);
   paint-order: stroke fill;
   text-shadow:
-    .25px 0 0 var(--red),
-    0 .25px 0 var(--red);
+    .55px 0 0 var(--red),
+    0 .55px 0 var(--red),
+    -.55px 0 0 var(--red),
+    0 -.55px 0 var(--red),
+    .35px .35px 0 var(--red);
 }
 
 .brand-domain span {
@@ -1744,10 +1747,13 @@ h2 {
     font-size: 38px;
     font-weight: 900;
     letter-spacing: 2px;
-    -webkit-text-stroke-width: .25px;
+    -webkit-text-stroke-width: .7px;
     text-shadow:
-      .2px 0 0 var(--red),
-      0 .2px 0 var(--red);
+      .45px 0 0 var(--red),
+      0 .45px 0 var(--red),
+      -.45px 0 0 var(--red),
+      0 -.45px 0 var(--red),
+      .25px .25px 0 var(--red);
   }
 
   .brand-domain span {
