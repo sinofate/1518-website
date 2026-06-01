@@ -676,7 +676,7 @@
     root.innerHTML = TOOLS.filter((tool) => tool.id !== "baby").map((tool) => `
       <section class="column-tool-card" id="${tool.id}" data-tool-id="${tool.id}">
         <div class="column-tool-head">
-          <div><p class="company-eyebrow">1518 栏目工具</p><h2>${tool.title}</h2><p>${tool.intro}</p></div>
+          <div><p class="company-eyebrow">1518 在线工具</p><h2>${tool.title}</h2><p>${tool.intro}</p></div>
         </div>
         <form class="column-tool-form">${tool.fields.map(fieldHtml).join("")}<button type="submit">生成报告</button></form>
         <div class="column-tool-output" hidden></div>

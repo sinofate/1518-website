@@ -86,7 +86,7 @@
     "复核已注册主体": "Check Existing Registrations",
     "国家市场监管总局企业名称申报系统 + 国家企业信用信息公示系统": "SAMR Name Filing System + National Enterprise Credit Information System",
     "国家知识产权局商标检索系统": "CNIPA Trademark Search System",
-    "1518 栏目工具": "1518 Tool",
+    "1518 在线工具": "1518 Online Tool",
     "生成报告": "Generate Report",
     "注册地域": "Registration Region",
     "偏好字/关键词": "Preferred Word / Keyword",
