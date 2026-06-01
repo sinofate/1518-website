@@ -8,6 +8,7 @@
 
   const exact = {
     "起名网": "Naming",
+    "中文": "ZH",
     "手机网页": "Mobile",
     "首页": "Home",
     "个人起名": "Personal Naming",
@@ -102,17 +103,31 @@
     "专注精准姓名测算": "Focused on Accurate Chinese Name Analysis",
     "深耕在线测评20年，千万用户验证的权威姓名测试网站": "20 years in online assessment, trusted by millions of users for authoritative name testing",
     "20年中文起名测名工具站": "20-Year Chinese Naming Tool Site",
+    "20年": "20 Years",
+    "孔力": "Kong Li",
+    "1518.com 权威测名工具": "1518.com Authoritative Name Testing Tools",
     "1518 起名网": "1518 Naming",
     "关于我们": "About Us",
     "请选择性别": "Select gender",
     "请选择出生时辰": "Select birth hour",
     "1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔力担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。": "1518.com has long served Chinese naming, name testing and traditional culture users. This version has I Ching expert Kong Li as product advisor and builds explainable reference systems for personal names, company names, brand names, zodiac tools and number tests.",
+    "1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由孔力（又名孔令森）担任产品顾问，围绕姓名、公司名、品牌名、生肖星座、号码测算和注册预查建立可解释的参考体系。": "1518.com has long served Chinese naming, name testing and traditional culture users. This version is advised by Kong Li, also known as Kong Lingsen, and builds explainable systems for personal names, company names, brand names, zodiac tools, number tests and registration prechecks.",
     "长期运营": "Long Running",
     "产品顾问": "Product Advisor",
+    "易学顾问": "I Ching Advisor",
+    "机器可读": "Machine Readable",
     "Agent 友好": "Agent Friendly",
     "本地预审项": "Local Precheck Items",
     "生成报告": "Generate Report",
     "注册地域": "Registration Region",
+    "行业": "industry",
+    "姓氏类型": "surname type",
+    "历法": "calendar",
+    "年份": "year",
+    "月份": "month",
+    "日期": "day",
+    "时辰": "hour",
+    "分钟": "minute",
     "偏好字/关键词": "Preferred Word / Keyword",
     "组织后缀": "Entity Suffix",
     "品类/赛道": "Category / Sector",
@@ -140,6 +155,7 @@
     "手机号码": "Phone Number",
     "车牌号码": "Plate Number",
     "联系人姓名": "Contact Name",
+    "注册预查": "Registration Precheck",
     "子时": "Zi Hour",
     "丑时": "Chou Hour",
     "寅时": "Yin Hour",
@@ -151,7 +167,25 @@
     "申时": "Shen Hour",
     "酉时": "You Hour",
     "戌时": "Xu Hour",
-    "亥时": "Hai Hour"
+    "亥时": "Hai Hour",
+    "国家企业信用信息公示系统": "National Enterprise Credit Information Publicity System",
+    "中国商标网查询": "China Trademark Online Search",
+    "国家知识产权局": "CNIPA",
+    "企查查商标 API": "Qichacha Trademark API",
+    "天眼查开放平台": "Tianyancha Open Platform",
+    "知擎者商标近似": "Zhiqingzhe Trademark Similarity",
+    "梦见蛇": "Snake dream",
+    "梦见狗": "Dog dream",
+    "梦见旅行": "Travel dream",
+    "梦见被追赶": "Being chased",
+    "梦见鱼": "Fish dream",
+    "梦见猫": "Cat dream",
+    "梦见血": "Blood dream",
+    "梦见钱财": "Money dream",
+    "梦见地震": "Earthquake dream",
+    "梦见结婚": "Wedding dream",
+    "梦见老虎": "Tiger dream",
+    "梦见怀孕": "Pregnancy dream"
   };
 
   const attr = {
@@ -183,6 +217,69 @@
     ["本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", "Local rules found no obvious restricted wording, but official or licensed data is still required for duplicate and similarity checks."],
     ["公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。", "For company names, confirm the region, industry wording and entity suffix first, then check the core trade name against trademarks, existing entities and negative associations."],
     ["正式使用前需做商标近似和同品类检索。", "Before official use, run similar trademark and same-category searches."],
+    ["孔力（又名孔令森）", "Kong Li, also known as Kong Lingsen"],
+    ["易经泰斗潘汝钧（潘汝汮）嫡传弟子，孔子第76代传人，易医合参实战派易学权威。1518.com 以其姓名学、命理、五行和企业命名方法为顾问基础，将传统易学经验转化为可解释的在线测名与起名工具。", "Kong Li is a direct disciple of I Ching master Pan Rujun, also written Pan Rujun, and a 76th-generation descendant of Confucius. 1518.com uses his naming, numerology, Five Elements and business naming methods as advisory foundations, turning traditional practice into explainable online name testing and naming tools."],
+    ["孔子第76代传人", "76th-generation descendant of Confucius"],
+    ["易医合参", "I Ching and medicine combined"],
+    ["姓名学", "Name studies"],
+    ["企业命名", "Business naming"],
+    ["师承渊源", "Lineage"],
+    ["师从潘汝钧（潘汝汮）：中国太易玄空学第十三代唯一传人、“太易玄空风水泰斗”、中国易经协会副会长、广西堪舆学院院长。", "Studied under Pan Rujun, the 13th-generation sole inheritor of Taiyi Xuankong studies, a recognized Xuankong Feng Shui master, vice president of the China I Ching Association, and dean of Guangxi Kanyu College."],
+    ["完整承袭潘汝钧太易玄空学、命理、奇门、大六壬、姓名学核心体系，得其真传。", "Inherited the core systems of Taiyi Xuankong, destiny analysis, Qimen, Da Liu Ren and name studies from Pan Rujun."],
+    ["师承体系强调象、数、理、气并参，用于姓名、企业命名、风水布局与战略预测场景。", "The lineage emphasizes image, number, principle and qi, and is applied to personal names, business naming, Feng Shui layout and strategic prediction."],
+    ["身份与资历", "Identity and Credentials"],
+    ["孔子第76代嫡孙，中共党员，易医双修，兼具医学专业训练与家传易学背景。", "A 76th-generation direct descendant of Confucius and a CPC member, with training in both medicine and family I Ching practice."],
+    ["国际易学联合会理事、中国易经协会专家委员、玄元书院副院长。", "Council member of the International I Ching Federation, expert committee member of the China I Ching Association, and vice dean of Xuanyuan Academy."],
+    ["深耕易学30余年，遍访民间名师，精研《周易》《易隐》《奇门遁甲》《玄空风水》等典籍。", "Has studied I Ching practice for more than 30 years, visiting folk masters and studying classics such as Zhouyi, Yiyin, Qimen Dunjia and Xuankong Feng Shui."],
+    ["学术与实战成就", "Academic and Practical Work"],
+    ["创立“孔力易学数理预测体系”，将中医阴阳五行与易经象数融合，强调精准度与实用性。", "Created the Kong Li I Ching Numerology Prediction System, combining Yin-Yang and Five Elements concepts from Chinese medicine with I Ching image-number theory."],
+    ["擅长玄空风水布局、企业战略预测、八字命理、奇门运筹、大六壬决策、姓名学。", "Specializes in Xuankong Feng Shui layout, business strategy prediction, BaZi, Qimen planning, Da Liu Ren decision support and name studies."],
+    ["为国内外500强企业、上市公司、政要家族提供顾问服务，案例遍布海内外。", "Has provided advisory services to Fortune 500 companies, listed companies and prominent families in China and overseas."],
+    ["传承并推广太易玄空学，培养易学人才数百人，推动易学文化科学化、实用化传播。", "Continues and promotes Taiyi Xuankong studies, training hundreds of practitioners and encouraging practical dissemination of I Ching culture."],
+    ["行业地位", "Industry Position"],
+    ["当代易医合参代表人物，太易玄空学重要传承者。", "A contemporary representative of combined I Ching and medical thinking and an important inheritor of Taiyi Xuankong studies."],
+    ["兼具学术深度、实战落地和正统师承的易学专家。", "An I Ching expert combining academic depth, practical work and orthodox lineage."],
+    ["被誉为“南派易学实战领军人物”。", "Recognized as a leading practical figure in southern-school I Ching studies."],
+    ["公司商标注册预查", "Company and Trademark Registration Precheck"],
+    ["真实数据源接入路线", "Real Data Source Integration Roadmap"],
+    ["当前静态站已完成本地规则预审、官方核验入口和 Agent 工具协议。下一步可先接“可查到已有重复名/重复品牌”的替代数据源，再升级到官方或授权数据源。", "The static site now supports local rule prechecks, official verification links and Agent tool schemas. The next step is to connect alternative data sources that can find existing duplicate company or brand names, then upgrade to official or licensed data sources."],
+    ["第一阶段：可落地替代源", "Phase 1: Practical Alternative Sources"],
+    ["接入企查查、天眼查、启信宝等企业搜索接口，用公司名关键词查询存量企业、经营状态、行业和地区；商标侧可接企查查商标接口或知擎者近似商标接口，先覆盖已有重复名、近似品牌和同类商标风险。", "Connect enterprise search APIs such as Qichacha, Tianyancha and Qixinbao to query existing companies, operating status, industry and region by company-name keywords. For trademarks, connect Qichacha trademark APIs or Zhiqingzhe similarity APIs to cover duplicate names, similar brands and same-class trademark risks."],
+    ["第二阶段：官方检索辅助", "Phase 2: Official Search Assistance"],
+    ["保留国家企业信用信息公示系统、中国商标网、国家知识产权公共服务平台入口。用户可跳转官方系统做最终复核，站内报告展示“待官方核验”而不是“保证可注册”。", "Keep links to the National Enterprise Credit Information Publicity System, China Trademark Online Search and CNIPA public service resources. Users can jump to official systems for final verification, while site reports show official check needed rather than guaranteed registrable."],
+    ["第三阶段：自建缓存库", "Phase 3: Local Cache Index"],
+    ["商标数据可基于公开数据下载或授权数据建立本地索引，按名称、拼音、字形、行业类别、申请人和状态做近似排序；企业名可按地区、字号、行业表述和组织形式拆解后做相似主体检索。", "Trademark data can be indexed from public downloads or licensed data, then ranked by name, pinyin, character shape, class, applicant and status. Company names can be split by region, trade name, industry wording and entity suffix for similar-entity search."],
+    ["算法说明", "Algorithm Notes"],
+    ["1518 测名与起名评分框架", "1518 Name Testing and Naming Scoring Framework"],
+    ["1518.com 的结果定位为传统文化、命名灵感和初步风险排查参考。系统会把姓名学、易经数理、五行、音形义、行业传播和注册预查拆成可解释维度，不输出不可验证的绝对结论。", "1518.com results are positioned as traditional culture reference, naming inspiration and preliminary risk screening. The system breaks name studies, I Ching numerology, Five Elements, sound-shape-meaning, industry messaging and registration prechecks into explainable dimensions, without making unverifiable absolute claims."],
+    ["五格数理、三才配置、八字喜用、生肖用字、音韵字义、常用度综合评分。", "Scores Five Grid numerology, Three-Talent configuration, BaZi useful elements, zodiac character fit, sound and meaning, and common usage."],
+    ["按姓氏、性别、出生时间和喜用神生成候选名，并逐个复算五格、三才、音形义和用字风险。", "Generates candidate names from surname, gender, birth time and useful elements, then recalculates Five Grid, Three-Talent, sound-shape-meaning and character risks."],
+    ["拆分公司全称、商号简称、行业属性和组织形式，评估商号数理、行业适配、传播记忆、扩张稳定和禁限词风险。", "Splits full company name, trade name, industry attributes and entity form, then assesses trade-name numerology, industry fit, memorability, expansion stability and restricted-word risks."],
+    ["检查显著性、通用宣传词、品类联想、商标类别、近似风险和传播节奏。", "Checks distinctiveness, generic promotional words, category association, trademark class, similarity risk and communication rhythm."],
+    ["先用本地规则识别行政区划、组织形式、敏感行业、禁限词和近似度；接入数据源后再补充真实企业/商标命中记录。", "First uses local rules to identify region wording, entity suffix, sensitive industries, restricted terms and similarity. After data-source integration, it will add real company and trademark hits."],
+    ["承四柱、合八字，结合音形义、生肖与数理给出名字参考。", "Combines Four Pillars, BaZi, sound-shape-meaning, zodiac fit and numerology for name references."],
+    ["结合经营者信息、行业方向和地域后缀生成公司名方案。", "Generates company name ideas from operator context, industry direction and regional suffix."],
+    ["面向产品、店铺与商标场景，生成易记、易传播的品牌名。", "Creates memorable and communicable brand names for products, shops and trademarks."],
+    ["按梦境关键词给出传统文化解释和心理参考。", "Provides traditional and psychological references from dream keywords."],
+    ["根据车牌数字组合生成数理参考分与说明。", "Generates numerology reference scores and notes from license plate numbers."],
+    ["分析手机号数字组合的寓意和参考评分。", "Analyzes phone-number digit combinations and reference scores."],
+    ["对公司全称进行结构、音韵、行业匹配度分析。", "Analyzes full company name structure, sound and industry fit."],
+    ["展示星座之间的性格互补、沟通和情感指数。", "Shows personality complementarity, communication and relationship indicators between signs."],
+    ["按行业、地域、主体偏好和易经数理，生成公司商号候选与注册全称结构。", "Generates company trade-name candidates and full registered-name structures from industry, region, preferences and I Ching numerology."],
+    ["面向产品、店铺、商标和新媒体账号，生成短、亮、易传播的品牌名。", "Generates short, distinctive and easy-to-share brand names for products, shops, trademarks and social media accounts."],
+    ["检查品牌名的传播力、品类联想、音节节奏、数理和基础风险。", "Checks a brand name's communication strength, category association, syllable rhythm, numerology and basic risk."],
+    ["按梦境关键词生成传统梦书解释、现代心理参考和现实提醒。", "Generates traditional dream-book interpretations, modern psychological references and practical reminders from dream keywords."],
+    ["按出生年份查询生肖、地支、五行倾向、六合三合和年度参考。", "Looks up Chinese zodiac, earthly branch, Five Elements tendency, compatible relations and annual reference by birth year."],
+    ["按十二生肖六合、三合、六冲、六害关系生成配对报告。", "Generates compatibility reports from Chinese zodiac harmony, trine, clash and harm relationships."],
+    ["按生日查询太阳星座、四象属性、守护星和性格倾向。", "Looks up sun sign, element, ruling planet and personality tendency from birthday."],
+    ["按星座四象、节奏与关系需求生成配对指数。", "Generates compatibility indicators from zodiac element, rhythm and relationship needs."],
+    ["按生日生成性格关键词、优势挑战、关系建议和幸运元素。", "Generates personality keywords, strengths, challenges, relationship advice and lucky elements from birthday."],
+    ["以空间类型、朝向和使用场景生成家居/办公风水体检报告。", "Generates home or office Feng Shui check reports from space type, direction and use case."],
+    ["按 ABO 血型输出性格、人际、职场和关系参考。", "Outputs personality, interpersonal, workplace and relationship references from ABO blood type."],
+    ["按 ABO 血型互补关系生成沟通、情感和协作建议。", "Generates communication, emotional and collaboration advice from ABO blood-type complementarity."],
+    ["按年份和日期输出岁运、节气阶段、气候与养生参考。", "Outputs annual movement, seasonal phase, climate and wellness references from year and date."],
+    ["按号码尾数、数字五行、易经数理和重复结构生成号码报告。", "Generates phone-number reports from tail digits, digit elements, I Ching numerology and repetition patterns."],
+    ["按车牌数字、字母、尾号和易经数理生成车牌参考报告。", "Generates license plate reports from digits, letters, tail number and I Ching numerology."],
     ["综合评分", "Overall Score"],
     ["报告生成日期", "Report Date"],
     ["姓名综合分析报告", "Comprehensive Name Analysis Report"],
@@ -226,6 +323,7 @@
 
   const routeMeta = {
     home: ["1518 Naming - Chinese Name and Culture Tools Since 2006", "1518 起名网 - 20年中文起名测名工具"],
+    about: ["About 1518.com - Authority, Advisor and Data Roadmap", "关于我们 - 1518.com 权威姓名测试与起名测名工具"],
     "name-test": ["Name Test and Chinese Name Score - 1518 Naming", "姓名测试_姓名打分_名字测试打分 - 1518 起名网"],
     baby: ["Personal Naming and Baby Names - 1518 Naming", "个人起名_宝宝起名_生辰八字起名 - 1518 起名网"],
     "company-test": ["Company Name Test and Business Name Score - 1518 Naming", "公司名测试_公司测名打分_企业名称测算 - 1518 起名网"],
@@ -292,17 +390,71 @@
     "坐南朝北": "South to North",
     "坐东朝西": "East to West",
     "坐西朝东": "West to East",
+    "坐东北朝西南": "Northeast to Southwest",
+    "坐西南朝东北": "Southwest to Northeast",
     "财位与动线": "Wealth Area & Flow",
     "睡眠健康": "Sleep & Health",
     "办公效率": "Office Efficiency",
     "门窗冲煞": "Doors & Windows",
-    "采光通风": "Light & Ventilation"
+    "采光通风": "Light & Ventilation",
+    "有限公司": "Co., Ltd.",
+    "有限责任公司": "Limited Liability Company",
+    "股份有限公司": "Joint Stock Co., Ltd.",
+    "集团有限公司": "Group Co., Ltd.",
+    "未知": "Unknown",
+    "鼠": "Rat",
+    "牛": "Ox",
+    "虎": "Tiger",
+    "兔": "Rabbit",
+    "龙": "Dragon",
+    "蛇": "Snake",
+    "马": "Horse",
+    "羊": "Goat",
+    "猴": "Monkey",
+    "鸡": "Rooster",
+    "狗": "Dog",
+    "猪": "Pig",
+    "摩羯座": "Capricorn",
+    "水瓶座": "Aquarius",
+    "双鱼座": "Pisces",
+    "白羊座": "Aries",
+    "金牛座": "Taurus",
+    "双子座": "Gemini",
+    "巨蟹座": "Cancer",
+    "狮子座": "Leo",
+    "处女座": "Virgo",
+    "天秤座": "Libra",
+    "天蝎座": "Scorpio",
+    "射手座": "Sagittarius"
   };
 
   function translateText(value) {
     if (!value || currentLang === "zh") return value;
     const trimmed = value.trim();
     if (!trimmed) return value;
+    if (trimmed === "专注精准测名") return value.replace(trimmed, "Focused Name Testing");
+    if (/^\d{4}年$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("年", ""));
+    if (/^\d+月$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("月", ""));
+    if (/^\d+日$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("日", ""));
+    if (/^\d+时$/.test(trimmed)) return value.replace(trimmed, `${trimmed.replace("时", "")}:00`);
+    if (/^\d+分$/.test(trimmed)) return value.replace(trimmed, `${trimmed.replace("分", "")} min`);
+    if (trimmed === "未知时" || trimmed === "未知分") return value.replace(trimmed, "Unknown");
+    if (trimmed.startsWith("请输入")) {
+      const label = trimmed.slice(3);
+      return value.replace(trimmed, `Enter ${translateText(label).toLowerCase()}`);
+    }
+    if (trimmed.startsWith("请选择")) {
+      const label = trimmed.slice(3);
+      return value.replace(trimmed, `Select ${translateText(label).toLowerCase()}`);
+    }
+    const exactLong = {
+      "完整承袭潘汝钧太易玄空学、命理、奇门、大六壬、姓名学核心体系，得其真传。": "Inherited the core systems of Pan Rujun's Taiyi Xuankong studies, destiny analysis, Qimen, Da Liu Ren and name studies.",
+      "师承体系强调象、数、理、气并参，用于姓名、企业命名、风水布局与战略预测场景。": "The lineage emphasizes image, number, principle and qi, and is applied to personal names, business naming, Feng Shui layout and strategic prediction.",
+      "擅长玄空风水布局、企业战略预测、八字命理、奇门运筹、大六壬决策、姓名学。": "Specializes in Xuankong Feng Shui layout, business strategy prediction, BaZi, Qimen planning, Da Liu Ren decision support and name studies.",
+      "当代易医合参代表人物，太易玄空学重要传承者。": "A contemporary representative of combined I Ching and medical thinking and an important inheritor of Taiyi Xuankong studies.",
+      "1518.com 的结果定位为传统文化、命名灵感和初步风险排查参考。系统会把姓名学、易经数理、五行、音形义、行业传播和注册预查拆成可解释维度，不输出不可验证的绝对结论。": "1518.com results are positioned as traditional culture reference, naming inspiration and preliminary risk screening. The system breaks name studies, I Ching numerology, Five Elements, sound-shape-meaning, industry messaging and registration prechecks into explainable dimensions, without making unverifiable absolute claims."
+    };
+    if (exactLong[trimmed]) return value.replace(trimmed, exactLong[trimmed]);
     const mapped = exact[trimmed] || optionLabels[trimmed];
     if (mapped) return value.replace(trimmed, mapped);
     let next = value;
@@ -328,6 +480,13 @@
   }
 
   function translateNode(root) {
+    root.querySelectorAll?.(".brand-tagline").forEach((node) => {
+      const zh = ["专", "注", "精", "准", "测", "名"];
+      const en = ["F", "O", "C", "U", "S"];
+      const chars = currentLang === "zh" ? zh : en;
+      node.innerHTML = chars.map((char) => `<span>${char}</span>`).join("");
+    });
+
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
@@ -354,7 +513,7 @@
   }
 
   function updateMeta() {
-    const route = window.location.hash.replace(/^#/, "") || "home";
+    const route = window.location.pathname.endsWith("about.html") ? "about" : (window.location.hash.replace(/^#/, "") || "home");
     const meta = routeMeta[route] || routeMeta.home;
     const description = document.querySelector('meta[name="description"]');
     if (currentLang === "zh") {
