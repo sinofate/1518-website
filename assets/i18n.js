@@ -151,6 +151,7 @@
     ["按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。", "Generate a business naming diagnosis from the full company name, trade name, industry and I Ching numerology, focusing on brand communication, industry fit, expansion, cash-flow stability and operating risk."],
     ["预查用于降低重名、近似和类别冲突风险，不构成工商核名、商标注册或法律可注册承诺。", "The precheck helps reduce duplicate, similar-name and class-conflict risk. It is not a legal promise of company name approval or trademark registration."],
     ["当前未连接后端注册数据接口，已提供官方核验入口。", "The backend registry data API is not connected yet. Official verification links are provided."],
+    ["当前静态站版本未启用后端注册数据接口，已提供官方核验入口。", "The static site version has not enabled the backend registry data API. Official verification links are provided."],
     ["本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", "Local rules found no obvious restricted wording, but official or licensed data is still required for duplicate and similarity checks."],
     ["公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。", "For company names, confirm the region, industry wording and entity suffix first, then check the core trade name against trademarks, existing entities and negative associations."],
     ["正式使用前需做商标近似和同品类检索。", "Before official use, run similar trademark and same-category searches."],

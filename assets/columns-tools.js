@@ -48,6 +48,7 @@
     brand: ["星", "辰", "云", "禾", "元", "启", "森", "瑞", "达", "知", "澄", "一"]
   };
   const DEFAULT_REGISTRY_API = {
+    enabled: false,
     companyEndpoint: "/api/registry/company-name-check",
     trademarkEndpoint: "/api/registry/trademark-check",
     timeoutMs: 6000,
@@ -484,6 +485,10 @@
         text: row.querySelector("p")
       }));
       const endpoint = kind === "company" ? api.companyEndpoint : api.trademarkEndpoint;
+      if (!api.enabled) {
+        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind), note: "当前静态站版本未启用后端注册数据接口，已提供官方核验入口。" }, item));
+        return;
+      }
       try {
         const remote = await fetchRegistry(endpoint, payload, api.timeoutMs);
         normalizeRegistryResults(payload.items || [], remote, kind).forEach((result) => {

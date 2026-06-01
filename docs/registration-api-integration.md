@@ -4,7 +4,7 @@
 
 ## 接入目标
 
-公司起名、品牌起名和品牌名测试页面已经加入注册核验层。前端会在生成报告后自动请求后端接口，返回每个候选名称的工商重名/近似风险和商标近似风险。
+公司起名、品牌起名和品牌名测试页面已经加入注册核验层。静态站默认不请求后端接口，只展示本地风险提示与官方核验入口；部署真实后端后，可开启远程接口，返回每个候选名称的工商重名/近似风险和商标近似风险。
 
 由于工商名称核准和商标注册审查都有官方流程，前端不能承诺“确保注册成功”。当前页面使用“预查”措辞，最终结果应以官方申报、官方检索和审查结论为准。
 
@@ -105,11 +105,12 @@ Response:
 
 ## 前端配置
 
-如部署路径不同，可在 `columns-tools.js` 之前注入：
+如部署路径不同，或已接入真实后端，可在 `columns-tools.js` 之前注入：
 
 ```html
 <script>
   window.RegistryApiConfig = {
+    enabled: true,
     companyEndpoint: "/api/registry/company-name-check",
     trademarkEndpoint: "/api/registry/trademark-check",
     timeoutMs: 6000
