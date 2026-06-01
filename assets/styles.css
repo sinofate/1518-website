@@ -1917,6 +1917,10 @@ h2 {
 }
 
 @media (min-width: 781px) {
+  .sub-nav .nav-duplicate-desktop {
+    display: none;
+  }
+
   .main-nav a,
   .sub-nav a {
     transition: background-color .15s ease, color .15s ease, transform .15s ease;
