@@ -163,14 +163,15 @@ body.lang-en .brand-tagline {
 .main-nav {
   background: linear-gradient(180deg, #c81723 0%, #a90b14 100%);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
+  padding-inline: max(12px, calc((100% - 1120px) / 2));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
 }
 
 .main-nav a {
   color: #fff;
-  padding: 13px 20px;
+  padding: 13px 15px;
   font-weight: 800;
   letter-spacing: .01em;
   transition: background .16s ease, box-shadow .16s ease;
@@ -2042,14 +2043,21 @@ h2 {
   }
 
   .main-nav {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    width: 100vw;
-    max-width: 100vw;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
     overflow: hidden;
   }
 
+  .main-nav .desktop-nav-extra {
+    display: none;
+  }
+
   .main-nav a {
+    flex: 0 0 20%;
+    width: 20%;
     min-width: 0;
     min-height: 44px;
     display: grid;
