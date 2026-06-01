@@ -565,12 +565,28 @@
     });
   }
 
+  function updateDateInputs() {
+    document.querySelectorAll('input[name="birthDate"], input[type="date"]').forEach((input) => {
+      if (!input.dataset.originalType) input.dataset.originalType = input.getAttribute("type") || "text";
+      if (currentLang === "en") {
+        input.setAttribute("type", "text");
+        input.setAttribute("placeholder", "YYYY-MM-DD");
+        input.setAttribute("inputmode", "numeric");
+      } else {
+        input.setAttribute("type", input.dataset.originalType);
+        input.removeAttribute("placeholder");
+        input.removeAttribute("inputmode");
+      }
+    });
+  }
+
   function applyLanguage(lang) {
     currentLang = SUPPORTED.has(lang) ? lang : "zh";
     applying = true;
     updateMeta();
     translateNode(document.body);
     updateNavigationMode();
+    updateDateInputs();
     updateButtons();
     applying = false;
     localStorage.setItem(STORE_KEY, currentLang);
