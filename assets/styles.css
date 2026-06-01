@@ -124,7 +124,7 @@ a {
 .brand-tagline {
   display: flex;
   justify-content: space-between;
-  width: var(--brand-logo-width);
+  width: calc(var(--brand-logo-width) * .85);
   margin-top: 6px;
   font-size: 13px;
   font-weight: 700;
