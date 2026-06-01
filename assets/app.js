@@ -357,6 +357,28 @@ function buildNameReport(data) {
   return { fullName, surname, given, chars, strokes, scores, total, sky, person, earth, outer, totalGrid, reportId };
 }
 
+function relationGroups(zodiac) {
+  const groups = {
+    六合: [["鼠", "牛"], ["虎", "猪"], ["兔", "狗"], ["龙", "鸡"], ["蛇", "猴"], ["马", "羊"]],
+    三合: [["猴", "鼠", "龙"], ["蛇", "鸡", "牛"], ["虎", "马", "狗"], ["猪", "兔", "羊"]],
+    六冲: [["鼠", "马"], ["牛", "羊"], ["虎", "猴"], ["兔", "鸡"], ["龙", "狗"], ["蛇", "猪"]],
+    相害: [["鼠", "羊"], ["牛", "马"], ["虎", "蛇"], ["兔", "龙"], ["猴", "猪"], ["鸡", "狗"]]
+  };
+  return Object.fromEntries(Object.entries(groups).map(([label, rows]) => {
+    const row = rows.find((item) => item.includes(zodiac));
+    return [label, row ? row.join("、") : "需按完整八字复核"];
+  }));
+}
+
+function readablePhoneticRows(report) {
+  const tones = report.sound?.tones || report.chars.map((char, index) => ({ char, tone: getToneLabel(index), bucket: index % 4 }));
+  return tones.map((item, index) => {
+    const prev = tones[index - 1];
+    const rhythm = prev && prev.bucket === item.bucket ? "与前字声调接近，需口读复核" : "节奏有变化";
+    return `<tr><td>${escapeHtml(item.char)}</td><td>${item.tone}</td><td>${rhythm}</td><td>${index === 0 ? "姓氏起音" : "名字主体"}</td></tr>`;
+  }).join("");
+}
+
 function scoreCard(label, score, weight) {
   return `
     <div class="report-score-card">
@@ -394,16 +416,11 @@ function renderNameReport(data) {
     { label: "日柱", value: "丁酉", wx: "火/金", hide: ["辛"], nayin: "山下火", shishen: "日主" },
     { label: "时柱", value: "乙未", wx: "木/土", hide: ["己", "丁", "乙"], nayin: "沙中金", shishen: "参考" }
   ];
-  const baziText = report.bazi ? report.bazi.text : "当前演示版按姓名与生日生成喜用倾向。";
+  const baziText = report.bazi ? report.bazi.text : "未填写完整出生日期和时辰，本页不生成四柱八字，只保留姓名数理、三才和用字五行的保守参考。";
   const zodiacName = report.bazi?.shengxiao || "生肖";
+  const zodiacRelations = relationGroups(zodiacName);
+  const solarSign = data.birthDate ? signFromDate(data.birthDate) : null;
   const poetryNames = [`${report.surname}思齐`, `${report.surname}清扬`, `${report.surname}霁光`, `${report.surname}知远`];
-  const aspectRows = [
-    ["☉ 太阳 合 ♃ 木星", "乐观开朗，贵人运佳，事业有扩展之象。"],
-    ["☉ 太阳 冲 ♄ 土星", "事业与家庭之间需要平衡，早年磨练会形成持久成就。"],
-    ["☉ 太阳 三合 ☽ 月亮", "内心与外在较协调，情感直觉较强。"],
-    ["♂ 火星 刑 ♄ 土星", "行动力与纪律之间有拉扯，适合把冲劲转为策略。"],
-    ["♃ 木星 六合 ♀ 金星", "社交运佳，人缘好，财运方面容易获得助力。"]
-  ];
 
   return `
     <article class="report-page">
@@ -429,6 +446,7 @@ function renderNameReport(data) {
           ${scoreCard("诗词出处", report.scores.poetry, "5%")}
           ${scoreCard("常用度", report.scores.common, "5%")}
         </div>
+        <p class="muted-line">测算置信度：${report.confidence || 70}分。${report.bazi ? "已使用出生日期和时辰排出四柱。" : "未填写完整出生日期和时辰，八字项只做保守参考，不伪造四柱。"}</p>
       </section>
 
       <section class="report-section report-pdf-page">
@@ -490,9 +508,9 @@ function renderNameReport(data) {
       <section class="report-section report-pdf-page">
         <h3>音韵和谐 <span>${report.scores.sound}分 ${getGrade(report.scores.sound)}</span></h3>
         <h4 class="report-subtitle">声调分析</h4><div class="tone-list">${(report.sound?.tones || report.chars.map((char, index) => ({ char, tone: getToneLabel(index) }))).map((item) => `<span><b>${escapeHtml(item.char)}</b><small>${item.tone}</small></span>`).join("")}</div>
-        <h4 class="report-subtitle">声母韵母详解</h4><table class="report-table"><thead><tr><th>字</th><th>声母</th><th>韵母</th><th>声调</th><th>发音部位</th><th>开合口</th></tr></thead><tbody>${report.chars.map((char, index) => `<tr><td>${escapeHtml(char)}</td><td>${["w", "sh", "h", "m"][index % 4]}</td><td>${["ang", "u", "an", "ing"][index % 4]}</td><td>${getToneLabel(index)}</td><td>${["唇齿音", "翘舌音", "舌根音", "双唇音"][index % 4]}</td><td>${index % 2 ? "合口" : "开口"}</td></tr>`).join("")}</tbody></table>
-        <h4 class="report-subtitle">口型流动分析</h4><p>${safeName} 发音层次清楚，姓与名之间有自然停顿，整体朗朗上口，适合口头传播和正式场景使用。</p>
-        <h4 class="report-subtitle">谐音检查</h4><p>未发现明显不良谐音。正式版可继续接入多音字和方言谐音库。</p>
+        <h4 class="report-subtitle">读音节奏复核</h4><table class="report-table"><thead><tr><th>字</th><th>声调参考</th><th>节奏判断</th><th>位置</th></tr></thead><tbody>${readablePhoneticRows(report)}</tbody></table>
+        <h4 class="report-subtitle">口型流动分析</h4><p>${report.sound?.text || `${safeName} 发音层次清楚，姓与名之间有自然停顿。`} 页面当前不伪造声母韵母；正式版接入拼音和多音字库后，可输出精确声母、韵母、方言谐音和避讳提示。</p>
+        <h4 class="report-subtitle">谐音检查</h4><p>当前仅做普通话节奏和明显重复风险检查，不宣称“无不良谐音”。涉及品牌、艺名或高频社交场景时，建议继续做普通话、粤语、方言和英文音近复核。</p>
         <h4 class="report-subtitle">改进建议</h4><p>理想名字应尽量做到平仄有变化、声母不连续拗口、尾音收束清楚。若后续发现声调过于单一，可替换一个仄声字增强节奏。</p>
         <footer class="report-page-footer">1518-姓名分析报告 - ${safeName} · 7/12</footer>
       </section>
@@ -509,8 +527,8 @@ function renderNameReport(data) {
         <h3>生肖用字 <span>${report.scores.zodiac}分 ${getGrade(report.scores.zodiac)}</span></h3>
         <h4 class="report-subtitle">生肖信息</h4><div class="zodiac-card"><strong>${zodiacName}</strong><span>${data.birthDate ? data.birthDate.slice(0, 4) : "出生年"} · 传统生肖参考</span><p>${zodiacName}年生人宜结合偏旁、字义和五行平衡综合判断，不能只看生肖单项。</p></div>
         <h4 class="report-subtitle">偏旁用字分析</h4><table class="report-table"><thead><tr><th>字</th><th>五行</th><th>生肖宜忌</th><th>说明</th></tr></thead><tbody>${givenChars.map((char) => `<tr><td>${escapeHtml(char)}</td><td>${report.strokes.find((item) => item.char === char)?.element || "待定"}</td><td>中性/参考</td><td>该字未见明显生肖冲突，宜结合八字喜用神继续判断。</td></tr>`).join("")}</tbody></table>
-        <h4 class="report-subtitle">六合六冲</h4><div class="relation-grid"><span>六合：未（羊）</span><span>三合：寅午戌（虎、马、狗）</span><span>六冲：子（鼠）</span><span>相害：丑（牛）</span></div>
-        <p>综合评价：「${givenText}」的生肖用字以中性与补益为主，后续可接入生肖偏旁数据库做更精细判断。</p>
+        <h4 class="report-subtitle">六合六冲</h4><div class="relation-grid"><span>六合：${zodiacRelations.六合}</span><span>三合：${zodiacRelations.三合}</span><span>六冲：${zodiacRelations.六冲}</span><span>相害：${zodiacRelations.相害}</span></div>
+        <p>综合评价：「${givenText}」的生肖用字评分为 ${report.scores.zodiac} 分。${report.quality?.notes?.join("；") || "后续可接入生肖偏旁数据库做更精细判断。"}</p>
         <footer class="report-page-footer">1518-姓名分析报告 - ${safeName} · 9/12</footer>
       </section>
 
@@ -525,17 +543,17 @@ function renderNameReport(data) {
 
       <section class="report-section report-pdf-page">
         <h3>✦西洋星座参考 <span>出生地: ${safePlace}</span></h3>
-        <div class="astro-layout"><div class="astro-wheel"><span>♈</span><span>♉</span><span>♊</span><span>♋</span><span>♌</span><span>♍</span><span>♎</span><span>♏</span><span>♐</span><span>♑</span><span>♒</span><span>♓</span></div><div><h4>太阳星座</h4><p><b>${signFromDate(data.birthDate)[0]}</b></p><p>当前前端只依据出生日期计算太阳星座。上升星座、月亮星座、宫位和行星相位必须依赖精确出生时间、经纬度和天文星历，未接入星历前不生成伪排盘。</p></div></div>
-        <h4 class="report-subtitle">可验证字段</h4><table class="report-table"><tbody><tr><td>☉ 太阳星座</td><td>${signFromDate(data.birthDate)[0]}</td><td>${signFromDate(data.birthDate)[3]} 至 ${signFromDate(data.birthDate)[4]}</td></tr><tr><td>元素</td><td>${signFromDate(data.birthDate)[1]}</td><td>按常见西洋占星日期表</td></tr><tr><td>守护星</td><td>${signFromDate(data.birthDate)[2]}</td><td>用于性格描述参考</td></tr><tr><td>未输出</td><td>上升、月亮、宫位、相位</td><td>等待正式星盘算法接入</td></tr></tbody></table>
+        <div class="astro-layout"><div class="astro-wheel"><span>♈</span><span>♉</span><span>♊</span><span>♋</span><span>♌</span><span>♍</span><span>♎</span><span>♏</span><span>♐</span><span>♑</span><span>♒</span><span>♓</span></div><div><h4>太阳星座</h4><p><b>${solarSign ? solarSign[0] : "未填写出生日期"}</b></p><p>当前前端只依据出生日期计算太阳星座。上升星座、月亮星座、宫位和行星相位必须依赖精确出生时间、经纬度和天文星历，未接入星历前不生成伪排盘。</p></div></div>
+        <h4 class="report-subtitle">可验证字段</h4><table class="report-table"><tbody><tr><td>☉ 太阳星座</td><td>${solarSign ? solarSign[0] : "缺少出生日期"}</td><td>${solarSign ? `${solarSign[3]} 至 ${solarSign[4]}` : "无法计算"}</td></tr><tr><td>元素</td><td>${solarSign ? solarSign[1] : "无法计算"}</td><td>按常见西洋占星日期表</td></tr><tr><td>守护星</td><td>${solarSign ? solarSign[2] : "无法计算"}</td><td>用于性格描述参考</td></tr><tr><td>未输出</td><td>上升、月亮、宫位、相位</td><td>等待正式星盘算法接入</td></tr></tbody></table>
         <h4 class="report-subtitle">排盘边界</h4><ul class="aspect-list"><li><b>不生成固定上升星座</b> — 避免把示例内容误认为真实排盘。</li><li><b>不生成固定相位</b> — 相位需要真实星历和出生坐标。</li><li><b>后续升级</b> — 接入 Swiss Ephemeris 或同等级星历库后再输出完整星盘。</li></ul>
         <footer class="report-page-footer">1518-姓名分析报告 - ${safeName} · 11/12</footer>
       </section>
 
       <section class="report-section report-pdf-page">
         <h3>综合建议</h3>
-        <p><b>姓名主轴：</b>${safeName} 的核心判断应以五格数理、八字喜用、三才配置、音义和常用度为主，星座只作为轻量参考。</p><p><b>太阳星座：</b>${signFromDate(data.birthDate)[0]}属于${signFromDate(data.birthDate)[1]}，可用于描述基础表达风格，但不能替代完整星盘。</p><p><b>排盘升级：</b>若后续要上线“星座排盘”，必须接入真实星历、时区、出生地经纬度和宫位制设置，再与第三方排盘结果做样本回归测试。</p><p><b>使用边界：</b>本报告属于传统文化与娱乐参考，不能作为人生决策的唯一依据。</p>
+        <p><b>姓名主轴：</b>${safeName} 的核心判断应以五格数理、八字喜用、三才配置、音义和常用度为主，星座只作为轻量参考。</p><p><b>太阳星座：</b>${solarSign ? `${solarSign[0]}属于${solarSign[1]}，可用于描述基础表达风格` : "未填写出生日期，星座项不参与有效判断"}，但不能替代完整星盘。</p><p><b>排盘升级：</b>若后续要上线“星座排盘”，必须接入真实星历、时区、出生地经纬度和宫位制设置，再与第三方排盘结果做样本回归测试。</p><p><b>使用边界：</b>本报告属于传统文化与娱乐参考，不能作为人生决策的唯一依据。</p>
         <h4 class="report-subtitle">幸运指引</h4><div class="lucky-grid"><span>幸运颜色<b>银白 · 湖蓝</b></span><span>幸运数字<b>${report.total % 9 + 1} · ${(report.person % 8) + 2} · 11</b></span><span>幸运方位<b>北方 · 西方</b></span><span>幸运日<b>周一 · 周五</b></span><span>幸运宝石<b>月光石 · 珍珠</b></span><span>最佳行业<b>教育 · 管理 · 咨询</b></span></div>
-        <p>本报告由 1518.com 姓名分析系统自动生成。分析结果仅供参考，不构成任何专业建议。</p><p class="report-id">报告编号：${report.reportId}</p><footer class="report-page-footer">版权所有 © 2026 1518.com · 12/12</footer>
+        <p>本报告由 1518.com 姓名分析系统自动生成。当前测算置信度 ${report.confidence || 70} 分；若存在估算笔画、缺少出生时辰或未接入外部字库，结果会自动降权。分析结果仅供参考，不构成任何专业建议。</p><p class="report-id">报告编号：${report.reportId}</p><footer class="report-page-footer">版权所有 © 2026 1518.com · 12/12</footer>
       </section>
     </article>
   `;

@@ -352,7 +352,8 @@
     const baziFit = elements.reduce((score, element) => score + (useful.includes(element) ? 8 : 0) - (avoid.includes(element) ? 6 : 0), 72);
     const repeatPenalty = new Set(chars).size < chars.length ? 6 : 0;
     const rarePenalty = chars.some((char) => strokeOfText(char) >= 20) ? 4 : 0;
-    const total = clamp((engine?.total || n.score) * 0.45 + n.score * 0.20 + clamp(baziFit, 45, 98) * 0.25 + (88 - repeatPenalty - rarePenalty) * 0.10, 35, 99);
+    const riskScore = 90 - repeatPenalty - rarePenalty - (engine?.quality?.negative?.length ? 18 : 0) - (engine?.quality?.estimated?.length ? engine.quality.estimated.length * 4 : 0);
+    const total = clamp((engine?.total || n.score) * 0.42 + n.score * 0.18 + clamp(baziFit, 45, 98) * 0.24 + clamp(riskScore, 35, 96) * 0.16, 35, 99);
     return {
       name: fullName,
       score: total,
@@ -362,7 +363,7 @@
       useful,
       avoid,
       baziFit: clamp(baziFit, 45, 98),
-      note: `喜用${useful.join("、") || "中和"}；用字五行${elements.join("、") || "未识别"}；五格${engine?.scores?.fiveGrid || n.score}分，三才${engine?.scores?.sancai || "参考"}分。`
+      note: `喜用${useful.join("、") || "中和"}；用字五行${elements.join("、") || "未识别"}；五格${engine?.scores?.fiveGrid || n.score}分，三才${engine?.scores?.sancai || "参考"}分，置信度${engine?.confidence || 70}分。`
     };
   }
 
@@ -374,8 +375,12 @@
     const keywordFit = profile.terms.some((term) => base.includes(term) || String(data.keyword || "").includes(term)) ? 92 : 78;
     const elementFit = chineseChars(base).some((char) => elementOfChar(char) === profile.element) ? 90 : 76;
     const lengthScore = length >= 2 && length <= 4 ? 92 : length === 5 ? 82 : 66;
-    const riskPenalty = profile.avoid.test(subject) ? 18 : /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u.test(subject) ? 12 : 0;
-    const score = clamp(n.score * 0.36 + shortN.score * 0.24 + keywordFit * 0.16 + elementFit * 0.14 + lengthScore * 0.10 - riskPenalty, 20, 99);
+    const suffixPenalty = REGISTRY_RULES.companySuffix.test(subject) ? 0 : 8;
+    const restrictedPenalty = /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u.test(subject) ? 14 : 0;
+    const industryPenalty = profile.avoid.test(subject) ? 18 : 0;
+    const shortPenalty = length < 2 ? 12 : 0;
+    const riskPenalty = suffixPenalty + restrictedPenalty + industryPenalty + shortPenalty;
+    const score = clamp(n.score * 0.30 + shortN.score * 0.25 + keywordFit * 0.16 + elementFit * 0.14 + lengthScore * 0.10 + ((n.score + shortN.score) / 2) * 0.05 - riskPenalty, 20, 99);
     return { subject, base, score, n, shortN, keywordFit, elementFit, lengthScore, riskPenalty, profile };
   }
 
@@ -387,10 +392,13 @@
     const categoryText = `${data.category || ""}${data.keyword || ""}`;
     const categoryFit = chineseChars(categoryText).some((char) => name.includes(char)) ? 90 : 76;
     const lengthScore = length >= 2 && length <= 4 ? 94 : length === 5 ? 82 : 64;
-    const pronounceScore = new Set(chineseChars(name)).size === chineseChars(name).length ? 88 : 72;
-    const genericPenalty = /(优选|精选|天下|中国|国际|官方|第一|旗舰|中心)/u.test(name) ? 16 : 0;
-    const score = clamp(n.score * 0.30 + toneFit * 0.22 + categoryFit * 0.18 + lengthScore * 0.18 + pronounceScore * 0.12 - genericPenalty, 20, 99);
-    return { name, score, n, toneFit, categoryFit, lengthScore, pronounceScore, genericPenalty };
+    const uniqueRatio = length ? new Set(chineseChars(name)).size / length : 0;
+    const pronounceScore = uniqueRatio >= 1 ? 88 : uniqueRatio >= .75 ? 80 : 68;
+    const genericPenalty = REGISTRY_RULES.trademarkGeneric.test(name) ? 18 : 0;
+    const weakPenalty = REGISTRY_RULES.trademarkWeak.test(name) ? 6 : 0;
+    const distinctiveness = clamp(lengthScore * 0.45 + pronounceScore * 0.35 + (100 - genericPenalty - weakPenalty) * 0.20, 35, 96);
+    const score = clamp(n.score * 0.24 + toneFit * 0.20 + categoryFit * 0.18 + lengthScore * 0.16 + pronounceScore * 0.10 + distinctiveness * 0.12 - genericPenalty - weakPenalty, 20, 99);
+    return { name, score, n, toneFit, categoryFit, lengthScore, pronounceScore, genericPenalty, weakPenalty, distinctiveness };
   }
 
   function similarity(a, b) {
@@ -844,25 +852,32 @@
     const tail = digits.slice(-4).join("") || "0000";
     const n = numerology(sum + Number(tail.slice(-2) || 0));
     const repeats = Object.entries(digits.reduce((map, d) => ({ ...map, [d]: (map[d] || 0) + 1 }), {})).filter(([, count]) => count >= 3).map(([d]) => d);
-    return { digits, sum, tail, n, repeats };
+    const uniqueCount = new Set(digits).size;
+    const balanceScore = digits.length ? clamp(58 + uniqueCount * 4 - repeats.length * 8, 35, 94) : 35;
+    const ascending = digits.length >= 4 && digits.slice(-4).every((digit, index, arr) => index === 0 || digit === arr[index - 1] + 1);
+    const descending = digits.length >= 4 && digits.slice(-4).every((digit, index, arr) => index === 0 || digit === arr[index - 1] - 1);
+    const sequencePenalty = ascending || descending ? 6 : 0;
+    const validityScore = digits.length >= 7 ? 90 : digits.length >= 4 ? 72 : 45;
+    return { digits, sum, tail, n, repeats, balanceScore, sequencePenalty, validityScore };
   }
 
   function buildNumberReport(tool, data) {
     const r = digitReport(data.number);
-    const score = Math.min(99, Math.round(r.n.score * 0.72 + hashScore(data.number, 10, 25)));
+    const score = clamp(r.n.score * 0.52 + r.balanceScore * 0.22 + r.validityScore * 0.16 + hashScore(data.number, 6, 14) - r.sequencePenalty, 20, 99);
     return resultShell(tool, data, [
-      cover("手机号测算报告", data.number, [["综合数理", score], ["尾号气质", hashScore(r.tail, 74, 94)], ["数字均衡", r.repeats.length ? 72 : 88], ["使用稳定", hashScore(data.number, 70, 92)]], `${r.tail} · ${r.n.number}数`),
-      page("号码结构", `<p>号码数字和为 ${r.sum}，尾四位为 ${r.tail}，换算易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", r.n.advice], ["边界", "号码测算为传统数理参考，不能决定真实财运、信用或事业结果"]])}`, "1518 手机号测算 · 2/2")
+      cover("手机号测算报告", data.number, [["综合数理", score], ["尾号气质", hashScore(r.tail, 74, 94)], ["数字均衡", r.balanceScore], ["输入完整度", r.validityScore]], `${r.tail} · ${r.n.number}数`),
+      page("号码结构", `<p>号码数字和为 ${r.sum}，尾四位为 ${r.tail}，换算易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["顺逆连号", r.sequencePenalty ? "尾号存在明显顺连/倒连，容易被记住，也需防止过度解读" : "未见明显顺连/倒连"], ["建议", r.n.advice], ["边界", "号码测算为传统数理参考，不能决定真实财运、信用或事业结果"]])}`, "1518 手机号测算 · 2/2")
     ]);
   }
 
   function buildPlateReport(tool, data) {
     const r = digitReport(data.plate);
     const letters = Array.from(data.plate).filter((char) => /[a-z]/i.test(char)).join("");
-    const score = Math.min(99, Math.round(r.n.score * 0.7 + hashScore(data.plate, 12, 24)));
+    const letterScore = letters ? hashScore(letters, 70, 90) : 64;
+    const score = clamp(r.n.score * 0.50 + r.balanceScore * 0.20 + letterScore * 0.14 + r.validityScore * 0.10 + hashScore(data.plate, 4, 12) - r.sequencePenalty, 20, 99);
     return resultShell(tool, data, [
-      cover("车牌测算报告", data.plate, [["综合数理", score], ["尾号气场", hashScore(r.tail, 74, 95)], ["字母结构", hashScore(letters, 70, 90)], ["出行稳定", r.repeats.length ? 74 : 86]], `${r.tail} · ${r.n.number}数`),
-      page("车牌结构", `<p>车牌数字和为 ${r.sum}，字母段为 ${escapeHtml(letters || "无")}，易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["尾号", r.tail], ["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", "车牌重点仍是合法合规、清晰易记和行车安全"], ["边界", "测算不代表交通风险预测"]])}`, "1518 车牌测算 · 2/2")
+      cover("车牌测算报告", data.plate, [["综合数理", score], ["尾号气场", hashScore(r.tail, 74, 95)], ["字母结构", letterScore], ["数字均衡", r.balanceScore]], `${r.tail} · ${r.n.number}数`),
+      page("车牌结构", `<p>车牌数字和为 ${r.sum}，字母段为 ${escapeHtml(letters || "无")}，易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["尾号", r.tail], ["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["顺逆连号", r.sequencePenalty ? "尾号存在明显顺连/倒连，适合记忆但不代表现实风险变化" : "未见明显顺连/倒连"], ["建议", "车牌重点仍是合法合规、清晰易记和行车安全"], ["边界", "测算不代表交通风险预测"]])}`, "1518 车牌测算 · 2/2")
     ]);
   }
 
