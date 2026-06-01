@@ -1993,6 +1993,18 @@ h2 {
     white-space: nowrap;
   }
 
+  body.lang-en .main-nav {
+    grid-template-columns: 1fr;
+  }
+
+  body.lang-en .main-nav a {
+    min-height: 38px;
+    padding: 0 8px;
+    font-size: 12px;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
   .sub-nav {
     margin: 0;
     padding: 0 8px;
