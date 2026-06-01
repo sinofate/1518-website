@@ -40,7 +40,7 @@
         "knowsAbout": ["易经", "传统文化命名", "易经数理", "姓名学", "企业命名"]
       }
     }</script>
-    <link rel="stylesheet" href="./assets/styles.css?v=en-nav-20260602">
+    <link rel="stylesheet" href="./assets/styles.css?v=en-nav-four-fix-20260602">
   </head>
   <body>
     <header class="site-header">
@@ -61,12 +61,19 @@
       </div>
       <nav class="main-nav" aria-label="主导航">
         <a href="#name-test">姓名测试</a>
-        <a href="#company-test">公司测名</a>
+        <a href="#company-test" data-en-secondary-nav="true">公司测名</a>
         <a href="#brand-test">品牌测试</a>
         <a href="#baby">个人起名</a>
         <a href="#company">公司起名</a>
       </nav>
+      <nav class="main-nav main-nav-en" aria-label="Primary navigation" data-en-only="true">
+        <a href="#name-test">Name</a>
+        <a href="#brand-test">Brand</a>
+        <a href="#baby">Personal</a>
+        <a href="#company">Company</a>
+      </nav>
       <div class="sub-nav" aria-label="副导航">
+        <a href="#company-test" data-en-only="true">公司测名</a>
         <a href="#brand">品牌起名</a>
         <a href="#dream">周公解梦</a>
         <a href="#zodiac">生肖查询</a>
@@ -283,6 +290,6 @@
     <script src="./assets/name-engine.js?v=20260602b"></script>
     <script src="./assets/columns-tools.js?v=phone-logo-20260602"></script>
     <script src="./assets/app.js?v=phone-logo-20260602"></script>
-    <script src="./assets/i18n.js?v=en-slogan-20260602"></script>
+    <script src="./assets/i18n.js?v=en-nav-four-fix-20260602"></script>
   </body>
 </html>

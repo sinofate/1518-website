@@ -488,6 +488,15 @@
       node.textContent = "I Ching · Decide Your Path";
     });
 
+    root.querySelectorAll?.(".main-nav a").forEach((node) => {
+      if (currentLang === "zh") return;
+      const href = node.getAttribute("href") || "";
+      if (href.endsWith("#name-test") || href === "#name-test") node.textContent = "Name";
+      if (href.endsWith("#brand-test") || href === "#brand-test") node.textContent = "Brand";
+      if (href.endsWith("#baby") || href === "#baby") node.textContent = "Personal";
+      if (href.endsWith("#company") || href === "#company") node.textContent = "Company";
+    });
+
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
@@ -536,11 +545,23 @@
     });
   }
 
+  function updateNavigationMode() {
+    document.querySelectorAll(".main-nav").forEach((nav) => {
+      const isEnglishNav = nav.classList.contains("main-nav-en");
+      if (currentLang === "en") {
+        nav.style.display = isEnglishNav ? "flex" : "none";
+      } else {
+        nav.style.display = isEnglishNav ? "none" : "";
+      }
+    });
+  }
+
   function applyLanguage(lang) {
     currentLang = SUPPORTED.has(lang) ? lang : "zh";
     applying = true;
     updateMeta();
     translateNode(document.body);
+    updateNavigationMode();
     updateButtons();
     applying = false;
     localStorage.setItem(STORE_KEY, currentLang);
