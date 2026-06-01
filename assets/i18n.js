@@ -481,10 +481,11 @@
 
   function translateNode(root) {
     root.querySelectorAll?.(".brand-tagline").forEach((node) => {
-      const zh = ["专", "注", "精", "准", "测", "名"];
-      const en = ["F", "O", "C", "U", "S"];
-      const chars = currentLang === "zh" ? zh : en;
-      node.innerHTML = chars.map((char) => `<span>${char}</span>`).join("");
+      if (currentLang === "zh") {
+        node.innerHTML = ["专", "注", "精", "准", "测", "名"].map((char) => `<span>${char}</span>`).join("");
+        return;
+      }
+      node.textContent = "I Ching · Decide Your Path";
     });
 
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {

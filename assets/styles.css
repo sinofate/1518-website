@@ -137,6 +137,14 @@ a {
   color: var(--ink);
 }
 
+body.lang-en .brand-tagline {
+  display: block;
+  width: var(--brand-logo-width);
+  font-size: 12px;
+  letter-spacing: .03em;
+  white-space: nowrap;
+}
+
 .mobile-link {
   color: #555;
 }
@@ -1932,6 +1940,12 @@ h2 {
   .brand-tagline {
     margin-top: 4px;
     font-size: 10px;
+  }
+
+  body.lang-en .brand-tagline {
+    width: var(--brand-logo-width);
+    font-size: 9px;
+    letter-spacing: .01em;
   }
 
   .mobile-link {
