@@ -40,6 +40,13 @@
     "女": "Female",
     "单姓": "Single Surname",
     "双姓": "Compound Surname",
+    "请选择姓氏类型": "Select surname type",
+    "请选择历法": "Select calendar",
+    "请选择年份": "Select year",
+    "请选择月份": "Select month",
+    "请选择日期": "Select day",
+    "请选择时辰": "Select hour",
+    "请选择分钟": "Select minute",
     "起名姓氏": "Surname",
     "出生时间": "Birth Time",
     "公历": "Solar Calendar",
@@ -157,7 +164,7 @@
     "请输入公司名全称": "Enter the full company name",
     "请输入公司名": "Enter a company name",
     "请输入商号简称（可选）": "Enter trade name (optional)",
-    "输入姓氏": "Enter surname"
+    "请输入姓氏": "Enter surname"
   };
 
   const phrases = [

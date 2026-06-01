@@ -138,18 +138,17 @@ const routeSeo = {
   }
 };
 
-function fillSelect(id, values, suffix = "") {
+function fillSelect(id, values, suffix = "", placeholder = "请选择") {
   const select = document.getElementById(id);
-  select.innerHTML = values.map((value) => `<option value="${value}">${value}${suffix}</option>`).join("");
+  select.innerHTML = `<option value="" selected>${placeholder}</option>${values.map((value) => `<option value="${value}">${value}${suffix}</option>`).join("")}`;
 }
 
 function initDateFields() {
-  fillSelect("yearSelect", Array.from({ length: 97 }, (_, index) => 1932 + index), "年");
-  fillSelect("monthSelect", Array.from({ length: 12 }, (_, index) => index + 1), "月");
-  fillSelect("daySelect", Array.from({ length: 31 }, (_, index) => index + 1), "日");
-  fillSelect("hourSelect", ["未知", ...Array.from({ length: 24 }, (_, index) => index)], "时");
-  fillSelect("minuteSelect", ["未知", ...Array.from({ length: 60 }, (_, index) => index)], "分");
-  document.getElementById("yearSelect").value = "2026";
+  fillSelect("yearSelect", Array.from({ length: 97 }, (_, index) => 1932 + index), "年", "请选择年份");
+  fillSelect("monthSelect", Array.from({ length: 12 }, (_, index) => index + 1), "月", "请选择月份");
+  fillSelect("daySelect", Array.from({ length: 31 }, (_, index) => index + 1), "日", "请选择日期");
+  fillSelect("hourSelect", ["未知", ...Array.from({ length: 24 }, (_, index) => index)], "时", "请选择时辰");
+  fillSelect("minuteSelect", ["未知", ...Array.from({ length: 60 }, (_, index) => index)], "分", "请选择分钟");
 }
 
 function renderServices() {
@@ -545,6 +544,9 @@ function renderNameReport(data) {
 function validateSurname(form) {
   const surname = form.surname.value.trim();
   const type = form.surnameType.value;
+  if (!type) {
+    return "请选择姓氏类型。";
+  }
   if (!surname || !/^[\u4e00-\u9fa5]{1,4}$/.test(surname)) {
     return "请输入中文姓氏。";
   }
@@ -556,6 +558,9 @@ function validateSurname(form) {
   }
   if (!form.gender.value) {
     return "请选择性别。";
+  }
+  if (!form.calendar.value || !form.year.value || !form.month.value || !form.day.value || !form.hour.value || !form.minute.value) {
+    return "请选择完整出生时间。";
   }
   if (!form.nameLength.value) {
     return "请选择取名字数。";

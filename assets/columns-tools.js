@@ -97,11 +97,11 @@
       title: "个人起名",
       intro: "结合姓氏、性别、出生时间、五行补益、音形义和生肖用字，生成个人名字候选报告。",
       fields: [
-        ["surname", "姓氏", "text", "王"],
-        ["gender", "性别", "select", "男", ["男", "女"]],
-        ["birthDate", "出生日期", "date", "2026-06-02"],
-        ["birthHour", "出生时辰", "select", "午时", ["子时", "丑时", "寅时", "卯时", "辰时", "巳时", "午时", "未时", "申时", "酉时", "戌时", "亥时"]],
-        ["length", "名字字数", "select", "三字名", ["二字名", "三字名"]]
+        ["surname", "姓氏", "text", ""],
+        ["gender", "性别", "select", "", ["男", "女"]],
+        ["birthDate", "出生日期", "date", ""],
+        ["birthHour", "出生时辰", "select", "", ["子时", "丑时", "寅时", "卯时", "辰时", "巳时", "午时", "未时", "申时", "酉时", "戌时", "亥时"]],
+        ["length", "名字字数", "select", "", ["二字名", "三字名"]]
       ],
       build: buildNamingReport
     },
@@ -111,10 +111,10 @@
       title: "公司起名",
       intro: "按行业、地域、主体偏好和易经数理，生成公司商号候选与注册全称结构。",
       fields: [
-        ["region", "注册地域", "text", "上海"],
-        ["industry", "所属行业", "select", "科技互联网", ["科技互联网", "金融投资", "餐饮消费", "教育康养", "外贸出海", "咨询服务", "地产建筑"]],
-        ["keyword", "偏好字/关键词", "text", "智能"],
-        ["suffix", "组织后缀", "select", "有限公司", ["有限公司", "有限责任公司", "股份有限公司", "集团有限公司"]]
+        ["region", "注册地域", "text", ""],
+        ["industry", "所属行业", "select", "", ["科技互联网", "金融投资", "餐饮消费", "教育康养", "外贸出海", "咨询服务", "地产建筑"]],
+        ["keyword", "偏好字/关键词", "text", ""],
+        ["suffix", "组织后缀", "select", "", ["有限公司", "有限责任公司", "股份有限公司", "集团有限公司"]]
       ],
       build: buildCompanyNamingReport
     },
@@ -124,11 +124,11 @@
       title: "品牌起名",
       intro: "面向产品、店铺、商标和新媒体账号，生成短、亮、易传播的品牌名。",
       fields: [
-        ["category", "品类/赛道", "text", "AI 学习工具"],
-        ["audience", "目标用户", "text", "中小企业老板"],
-        ["tone", "品牌气质", "select", "专业可信", ["专业可信", "年轻活泼", "高端克制", "国风雅致", "科技未来"]],
-        ["keyword", "核心关键词", "text", "增长"],
-        ["trademarkClass", "商标类别", "select", "第35类 广告销售", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
+        ["category", "品类/赛道", "text", ""],
+        ["audience", "目标用户", "text", ""],
+        ["tone", "品牌气质", "select", "", ["专业可信", "年轻活泼", "高端克制", "国风雅致", "科技未来"]],
+        ["keyword", "核心关键词", "text", ""],
+        ["trademarkClass", "商标类别", "select", "", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
       ],
       build: buildBrandNamingReport
     },
@@ -138,10 +138,10 @@
       title: "品牌名测试",
       intro: "检查品牌名的传播力、品类联想、音节节奏、数理和基础风险。",
       fields: [
-        ["brandName", "品牌名", "text", "星禾智造"],
-        ["category", "品类", "text", "智能硬件"],
-        ["audience", "目标用户", "text", "企业客户"],
-        ["trademarkClass", "商标类别", "select", "第09类 科学仪器", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
+        ["brandName", "品牌名", "text", ""],
+        ["category", "品类", "text", ""],
+        ["audience", "目标用户", "text", ""],
+        ["trademarkClass", "商标类别", "select", "", ["第09类 科学仪器", "第35类 广告销售", "第41类 教育娱乐", "第42类 科技服务", "第43类 餐饮住宿"]]
       ],
       build: buildBrandTestReport
     },
@@ -151,8 +151,8 @@
       title: "周公解梦",
       intro: "按梦境关键词生成传统梦书解释、现代心理参考和现实提醒。",
       fields: [
-        ["keyword", "梦境关键词", "text", "梦见蛇"],
-        ["scene", "梦境情境", "select", "生活类", ["自然类", "动物类", "人物类", "生活类", "建筑类", "身体类", "情爱类", "孕妇类"]]
+        ["keyword", "梦境关键词", "text", ""],
+        ["scene", "梦境情境", "select", "", ["自然类", "动物类", "人物类", "生活类", "建筑类", "身体类", "情爱类", "孕妇类"]]
       ],
       build: buildDreamReport
     },
@@ -162,7 +162,7 @@
       title: "生肖查询",
       intro: "按出生年份查询生肖、地支、五行倾向、六合三合和年度参考。",
       fields: [
-        ["year", "出生年份", "number", "1990"]
+        ["year", "出生年份", "number", ""]
       ],
       build: buildZodiacReport
     },
@@ -172,8 +172,8 @@
       title: "生肖配对",
       intro: "按十二生肖六合、三合、六冲、六害关系生成配对报告。",
       fields: [
-        ["zodiacA", "你的生肖", "select", "马", ZODIACS],
-        ["zodiacB", "TA 的生肖", "select", "羊", ZODIACS]
+        ["zodiacA", "你的生肖", "select", "", ZODIACS],
+        ["zodiacB", "TA 的生肖", "select", "", ZODIACS]
       ],
       build: buildZodiacMatchReport
     },
@@ -183,7 +183,7 @@
       title: "星座查询",
       intro: "按生日查询太阳星座、四象属性、守护星和性格倾向。",
       fields: [
-        ["birthday", "出生日期", "date", "1990-06-15"]
+        ["birthday", "出生日期", "date", ""]
       ],
       build: buildAstroReport
     },
@@ -193,8 +193,8 @@
       title: "星座配对",
       intro: "按星座四象、节奏与关系需求生成配对指数。",
       fields: [
-        ["signA", "你的星座", "select", "巨蟹座", SIGNS.map((item) => item[0])],
-        ["signB", "TA 的星座", "select", "天秤座", SIGNS.map((item) => item[0])]
+        ["signA", "你的星座", "select", "", SIGNS.map((item) => item[0])],
+        ["signB", "TA 的星座", "select", "", SIGNS.map((item) => item[0])]
       ],
       build: buildAstroMatchReport
     },
@@ -204,7 +204,7 @@
       title: "生日密码",
       intro: "按生日生成性格关键词、优势挑战、关系建议和幸运元素。",
       fields: [
-        ["birthday", "生日", "date", "1990-06-15"]
+        ["birthday", "生日", "date", ""]
       ],
       build: buildBirthdayReport
     },
@@ -214,9 +214,9 @@
       title: "风水查询",
       intro: "以空间类型、朝向和使用场景生成家居/办公风水体检报告。",
       fields: [
-        ["space", "空间类型", "select", "住宅", ["住宅", "办公室", "商铺", "书房", "卧室"]],
-        ["direction", "主要朝向", "select", "坐北朝南", ["坐北朝南", "坐南朝北", "坐东朝西", "坐西朝东", "坐东北朝西南", "坐西南朝东北"]],
-        ["focus", "重点问题", "select", "财位与动线", ["财位与动线", "睡眠健康", "办公效率", "门窗冲煞", "采光通风"]]
+        ["space", "空间类型", "select", "", ["住宅", "办公室", "商铺", "书房", "卧室"]],
+        ["direction", "主要朝向", "select", "", ["坐北朝南", "坐南朝北", "坐东朝西", "坐西朝东", "坐东北朝西南", "坐西南朝东北"]],
+        ["focus", "重点问题", "select", "", ["财位与动线", "睡眠健康", "办公效率", "门窗冲煞", "采光通风"]]
       ],
       build: buildFengshuiReport
     },
@@ -226,7 +226,7 @@
       title: "血型分析",
       intro: "按 ABO 血型输出性格、人际、职场和关系参考。",
       fields: [
-        ["blood", "血型", "select", "A", ["A", "B", "O", "AB"]]
+        ["blood", "血型", "select", "", ["A", "B", "O", "AB"]]
       ],
       build: buildBloodReport
     },
@@ -236,8 +236,8 @@
       title: "血型配对",
       intro: "按 ABO 血型互补关系生成沟通、情感和协作建议。",
       fields: [
-        ["bloodA", "你的血型", "select", "A", ["A", "B", "O", "AB"]],
-        ["bloodB", "TA 的血型", "select", "O", ["A", "B", "O", "AB"]]
+        ["bloodA", "你的血型", "select", "", ["A", "B", "O", "AB"]],
+        ["bloodB", "TA 的血型", "select", "", ["A", "B", "O", "AB"]]
       ],
       build: buildBloodMatchReport
     },
@@ -247,7 +247,7 @@
       title: "五运六气",
       intro: "按年份和日期输出岁运、节气阶段、气候与养生参考。",
       fields: [
-        ["date", "查询日期", "date", "2026-06-02"]
+        ["date", "查询日期", "date", ""]
       ],
       build: buildWuyunReport
     },
@@ -257,7 +257,7 @@
       title: "手机号测算",
       intro: "按号码尾数、数字五行、易经数理和重复结构生成号码报告。",
       fields: [
-        ["number", "手机号码", "tel", "13800138000"]
+        ["number", "手机号码", "tel", ""]
       ],
       build: buildNumberReport
     },
@@ -267,7 +267,7 @@
       title: "车牌测算",
       intro: "按车牌数字、字母、尾号和易经数理生成车牌参考报告。",
       fields: [
-        ["plate", "车牌号码", "text", "沪A8X518"]
+        ["plate", "车牌号码", "text", ""]
       ],
       build: buildPlateReport
     }
@@ -410,13 +410,20 @@
   function fieldHtml(field) {
     const [name, label, type, value, options] = field;
     if (type === "select") {
-      return `<label><span>${label}</span><select name="${name}">${options.map((option) => `<option value="${escapeHtml(option)}"${option === value ? " selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select></label>`;
+      return `<label><span>${label}</span><select name="${name}"><option value=""${value ? "" : " selected"}>请选择${label}</option>${options.map((option) => `<option value="${escapeHtml(option)}"${option === value ? " selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select></label>`;
     }
-    return `<label><span>${label}</span><input name="${name}" type="${type}" value="${escapeHtml(value)}" autocomplete="off"></label>`;
+    return `<label><span>${label}</span><input name="${name}" type="${type}" value="${escapeHtml(value)}" placeholder="请输入${label}" autocomplete="off"></label>`;
   }
 
   function collect(form) {
     return Object.fromEntries(new FormData(form).entries());
+  }
+
+  function validateRequired(tool, data) {
+    const missing = tool.fields
+      .filter((field) => !String(data[field[0]] || "").trim())
+      .map((field) => field[1]);
+    return missing.length ? `请先填写或选择：${missing.join("、")}。` : "";
   }
 
   function scoreCards(items) {
@@ -878,8 +885,15 @@
       const output = section.querySelector(".column-tool-output");
       form.addEventListener("submit", (event) => {
         event.preventDefault();
+        const data = collect(form);
+        const error = validateRequired(tool, data);
         output.hidden = false;
-        output.innerHTML = tool.build(tool, collect(form));
+        if (error) {
+          output.innerHTML = `<div class="report-error">${error}</div>`;
+          output.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
+        output.innerHTML = tool.build(tool, data);
         document.body.classList.add("column-report-active");
         runRegistrationChecks(output);
         output.scrollIntoView({ behavior: "smooth", block: "start" });

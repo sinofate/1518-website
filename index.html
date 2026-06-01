@@ -195,19 +195,21 @@
             <label>
               <span>起名姓氏</span>
               <select name="surnameType">
+                <option value="" selected>请选择姓氏类型</option>
                 <option value="single">单姓</option>
                 <option value="double">双姓</option>
               </select>
-              <input name="surname" maxlength="4" placeholder="输入姓氏" value="王">
+              <input name="surname" maxlength="4" placeholder="请输入姓氏">
             </label>
             <fieldset>
               <legend>性别</legend>
-              <label><input type="radio" name="gender" value="boy" checked> 男</label>
+              <label><input type="radio" name="gender" value="boy"> 男</label>
               <label><input type="radio" name="gender" value="girl"> 女</label>
             </fieldset>
             <label>
               <span>出生时间</span>
               <select name="calendar">
+                <option value="" selected>请选择历法</option>
                 <option value="solar">公历</option>
                 <option value="lunar">农历</option>
               </select>
@@ -220,7 +222,7 @@
             <fieldset>
               <legend>取名字数</legend>
               <label><input type="radio" name="nameLength" value="2"> 二字名</label>
-              <label><input type="radio" name="nameLength" value="3" checked> 三字名</label>
+              <label><input type="radio" name="nameLength" value="3"> 三字名</label>
             </fieldset>
             <button type="submit">开始起名</button>
           </form>
@@ -278,8 +280,8 @@
     <script src="./assets/vendor/lunar.js?v=20260602"></script>
     <script src="./assets/company-name-test.js?v=company-empty-20260602"></script>
     <script src="./assets/name-engine.js?v=20260602b"></script>
-    <script src="./assets/columns-tools.js?v=authority-registry-agent-20260602"></script>
-    <script src="./assets/app.js?v=authority-registry-agent-20260602"></script>
-    <script src="./assets/i18n.js?v=authority-registry-agent-20260602"></script>
+    <script src="./assets/columns-tools.js?v=empty-defaults-20260602"></script>
+    <script src="./assets/app.js?v=empty-defaults-20260602"></script>
+    <script src="./assets/i18n.js?v=empty-defaults-20260602"></script>
   </body>
 </html>
