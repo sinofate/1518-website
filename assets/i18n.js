@@ -91,6 +91,9 @@
     "深耕在线测评20年，千万用户验证的权威姓名测试网站": "20 years in online assessment, trusted by millions of users for authoritative name testing",
     "20年中文起名测名工具站": "20-Year Chinese Naming Tool Site",
     "1518 起名网": "1518 Naming",
+    "关于我们": "About Us",
+    "请选择性别": "Select gender",
+    "请选择出生时辰": "Select birth hour",
     "1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔立担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。": "1518.com has long served Chinese naming, name testing and traditional culture users. This version has I Ching expert Kong Li as product advisor and builds explainable reference systems for personal names, company names, brand names, zodiac tools and number tests.",
     "长期运营": "Long Running",
     "产品顾问": "Product Advisor",
@@ -142,11 +145,12 @@
   const attr = {
     "1518 起名网首页": "1518 Home",
     "请输入姓名": "Enter a name",
+    "请选择性别": "Select gender",
+    "请选择出生时辰": "Select birth hour",
+    "请输入出生地（可选）": "Enter birthplace (optional)",
     "请输入车牌号": "Enter a plate number",
     "请输入手机号码": "Enter a phone number",
     "请输入公司名全称": "Enter the full company name",
-    "例如：王书翰": "Example: Wang Shuhan",
-    "例如：上海": "Example: Shanghai",
     "输入姓氏": "Enter surname"
   };
 
@@ -155,7 +159,7 @@
     ["1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔立担任产品顾问，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。", "1518 Naming is a 20-year Chinese naming and cultural reference site with I Ching expert Kong Li as product advisor, offering name tests, company name tests, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests."],
     ["1518 起名网提供姓名测试、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。", "1518 provides online tools for name testing, personal naming, company naming, company name testing, dream interpretation, zodiac and number tests."],
     ["每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。", "Each tool follows the same report-style workflow as Name Test and Company Name Test, with consistent inputs, calculations and report output. Larger datasets and deeper algorithms can be connected later."],
-    ["放在姓名测试页尾，适合从测试结果继续生成个人名字候选。", "Placed at the end of the Name Test page, useful for generating personal name candidates after reviewing a test result."],
+    ["适合从姓名测试结果继续生成个人名字候选。", "Useful for generating personal name candidates after reviewing a name test result."],
     ["易经数理 · 商业命名诊断", "I Ching Numerology · Business Naming Diagnosis"],
     ["按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。", "Generate a business naming diagnosis from the full company name, trade name, industry and I Ching numerology, focusing on brand communication, industry fit, expansion, cash-flow stability and operating risk."],
     ["预查用于降低重名、近似和类别冲突风险，不构成工商核名、商标注册或法律可注册承诺。", "The precheck helps reduce duplicate, similar-name and class-conflict risk. It is not a legal promise of company name approval or trademark registration."],

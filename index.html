@@ -60,6 +60,7 @@
       </div>
       <nav class="main-nav" aria-label="主导航">
         <a href="#home">首页</a>
+        <a href="#about">关于我们</a>
         <a href="#baby">个人起名</a>
         <a href="#company">公司起名</a>
         <a href="#brand">品牌起名</a>
@@ -85,46 +86,36 @@
 
     <main class="page-shell" id="home">
       <section class="content">
-        <section class="trust-section" aria-label="1518 权威说明">
-          <div>
-            <p class="company-eyebrow">20年中文起名测名工具站</p>
-            <h2>1518 起名网</h2>
-            <p>1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔立担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。</p>
-          </div>
-          <div class="trust-metrics" aria-label="站点可信度">
-            <span><b>20年</b>长期运营</span>
-            <span><b>孔立</b>产品顾问</span>
-            <span><b>AI Ready</b>Agent 友好</span>
-          </div>
-        </section>
         <section class="report-entry" id="name-test">
           <h2>姓名测试</h2>
           <form id="nameTestForm" class="report-form">
             <label>
               <span>姓名</span>
-              <input name="fullName" maxlength="8" placeholder="例如：王书翰" value="王书翰">
+              <input name="fullName" maxlength="8" placeholder="请输入姓名">
             </label>
             <label>
               <span>性别</span>
               <select name="reportGender">
+                <option value="" selected>请选择性别</option>
                 <option value="男">男</option>
                 <option value="女">女</option>
               </select>
             </label>
             <label>
               <span>出生日期</span>
-              <input name="birthDate" type="date" value="1990-06-15">
+              <input name="birthDate" type="date">
             </label>
             <label>
               <span>出生时辰</span>
               <select name="birthHour">
+                <option value="" selected>请选择出生时辰</option>
                 <option value="子时">子时</option>
                 <option value="丑时">丑时</option>
                 <option value="寅时">寅时</option>
                 <option value="卯时">卯时</option>
                 <option value="辰时">辰时</option>
                 <option value="巳时">巳时</option>
-                <option value="午时" selected>午时</option>
+                <option value="午时">午时</option>
                 <option value="未时">未时</option>
                 <option value="申时">申时</option>
                 <option value="酉时">酉时</option>
@@ -134,49 +125,11 @@
             </label>
             <label>
               <span>出生地</span>
-              <input name="birthPlace" maxlength="16" placeholder="例如：上海" value="上海">
+              <input name="birthPlace" maxlength="16" placeholder="请输入出生地（可选）">
             </label>
             <button type="submit">生成分析报告</button>
           </form>
           <div id="nameReportBox" class="name-report" hidden></div>
-          <div class="tool-panel page-tail-module" id="baby">
-            <h2>个人起名</h2>
-            <p class="module-intro">放在姓名测试页尾，适合从测试结果继续生成个人名字候选。</p>
-            <form id="nameForm" class="name-form">
-              <label>
-                <span>起名姓氏</span>
-                <select name="surnameType">
-                  <option value="single">单姓</option>
-                  <option value="double">双姓</option>
-                </select>
-                <input name="surname" maxlength="4" placeholder="输入姓氏" value="王">
-              </label>
-              <fieldset>
-                <legend>性别</legend>
-                <label><input type="radio" name="gender" value="boy" checked> 男</label>
-                <label><input type="radio" name="gender" value="girl"> 女</label>
-              </fieldset>
-              <label>
-                <span>出生时间</span>
-                <select name="calendar">
-                  <option value="solar">公历</option>
-                  <option value="lunar">农历</option>
-                </select>
-                <select name="year" id="yearSelect"></select>
-                <select name="month" id="monthSelect"></select>
-                <select name="day" id="daySelect"></select>
-                <select name="hour" id="hourSelect"></select>
-                <select name="minute" id="minuteSelect"></select>
-              </label>
-              <fieldset>
-                <legend>取名字数</legend>
-                <label><input type="radio" name="nameLength" value="2"> 二字名</label>
-                <label><input type="radio" name="nameLength" value="3" checked> 三字名</label>
-              </fieldset>
-              <button type="submit">开始起名</button>
-            </form>
-            <div id="resultBox" class="result-box" hidden></div>
-          </div>
         </section>
 
         <section class="company-test-section" id="company-test">
@@ -232,6 +185,45 @@
           <div class="page-tail-module" id="companyNamingTail"></div>
         </section>
 
+        <section class="tool-panel page-tail-module" id="baby">
+          <h2>个人起名</h2>
+          <p class="module-intro">适合从姓名测试结果继续生成个人名字候选。</p>
+          <form id="nameForm" class="name-form">
+            <label>
+              <span>起名姓氏</span>
+              <select name="surnameType">
+                <option value="single">单姓</option>
+                <option value="double">双姓</option>
+              </select>
+              <input name="surname" maxlength="4" placeholder="输入姓氏" value="王">
+            </label>
+            <fieldset>
+              <legend>性别</legend>
+              <label><input type="radio" name="gender" value="boy" checked> 男</label>
+              <label><input type="radio" name="gender" value="girl"> 女</label>
+            </fieldset>
+            <label>
+              <span>出生时间</span>
+              <select name="calendar">
+                <option value="solar">公历</option>
+                <option value="lunar">农历</option>
+              </select>
+              <select name="year" id="yearSelect"></select>
+              <select name="month" id="monthSelect"></select>
+              <select name="day" id="daySelect"></select>
+              <select name="hour" id="hourSelect"></select>
+              <select name="minute" id="minuteSelect"></select>
+            </label>
+            <fieldset>
+              <legend>取名字数</legend>
+              <label><input type="radio" name="nameLength" value="2"> 二字名</label>
+              <label><input type="radio" name="nameLength" value="3" checked> 三字名</label>
+            </fieldset>
+            <button type="submit">开始起名</button>
+          </form>
+          <div id="resultBox" class="result-box" hidden></div>
+        </section>
+
         <section class="column-tools-section" id="all-tools">
           <div class="column-tools-head">
             <p class="company-eyebrow">1518 全栏目工具</p>
@@ -244,6 +236,19 @@
         <section class="service-section">
           <h2>热门服务</h2>
           <div class="service-grid" id="serviceGrid"></div>
+        </section>
+
+        <section class="trust-section" id="about" aria-label="1518 权威说明">
+          <div>
+            <p class="company-eyebrow">20年中文起名测名工具站</p>
+            <h2>关于我们</h2>
+            <p>1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔立担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。</p>
+          </div>
+          <div class="trust-metrics" aria-label="站点可信度">
+            <span><b>20年</b>长期运营</span>
+            <span><b>孔立</b>产品顾问</span>
+            <span><b>AI Ready</b>Agent 友好</span>
+          </div>
         </section>
       </section>
 
