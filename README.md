@@ -212,6 +212,17 @@ Claude Code 参与修改源代码时，请遵守以下流程：
 8. 若改变工商/商标数据源逻辑，必须同步更新 `docs/registration-api-integration.md`。
 9. 提交信息使用清晰英文短句，例如 `Improve name scoring confidence`。
 
+## AI 开发管理
+
+本仓库已加入用于 Codex、Claude Code 和 Symphony 协作的管理文件：
+
+- `WORKFLOW.md`：Symphony/Codex 工作流说明。它把本 README 设为项目最高优先级事实源，并规定任务执行、验证、文档同步和交付标准。
+- `docs/AI_DEVELOPMENT_GOVERNANCE.md`：AI 开发治理说明，定义 Symphony、Codex、Claude Code 和人工维护者的分工。
+- `.github/ISSUE_TEMPLATE/1518-task.yml`：GitHub 任务模板，用于把需求写成 AI 可执行任务。
+- `.github/pull_request_template.md`：PR 模板，用于检查 README、文档、验证命令、移动端、英文模式和传统文化/官方数据边界。
+
+当前上游 Symphony 规格默认使用 Linear 作为任务追踪入口。如果后续使用 Symphony 统一调度本项目，建议先保持 GitHub 作为代码与文档事实源，Linear 作为任务队列；若希望完全使用 GitHub Issues 作为任务入口，需要为 Symphony 增加 GitHub Issues tracker adapter。
+
 ## 常用操作
 
 ### 查看状态

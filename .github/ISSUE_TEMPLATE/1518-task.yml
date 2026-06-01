@@ -1,0 +1,83 @@
+name: 1518 Website Task
+description: Create a scoped task for Codex, Claude Code, or Symphony-managed development.
+title: "[1518] "
+labels:
+  - 1518
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before starting, agents must read `README.md`. The README is the source of truth for product positioning, file responsibilities, coding rules, validation, and documentation updates.
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What should change, and why?
+      placeholder: Improve the company-name test report so it separates company full name, trade name, industry term, region, and organization suffix more clearly.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Homepage / navigation
+        - Name test
+        - Company name test
+        - Brand tools
+        - Extended columns
+        - Visual / mobile
+        - Chinese-English i18n
+        - SEO / agent-readable files
+        - Algorithm / data source
+        - Documentation / README
+        - Deployment
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: List concrete conditions that must be true when the task is done.
+      placeholder: |
+        - The changed flow works on the Chinese homepage.
+        - English mode still has no navigation overlap.
+        - README.md is updated if functionality or validation rules changed.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Required Validation
+      description: Commands, browser checks, sample inputs, or screenshots required for this task.
+      placeholder: |
+        - git diff --check
+        - node --check assets/company-name-test.js
+        - Manual check: http://127.0.0.1:8158/#company-test
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: Documentation Impact
+      description: Which docs must be updated if the task changes behavior, algorithms, data sources, deployment, or project structure?
+      placeholder: |
+        - README.md
+        - docs/algorithm-qa-report-20260602.md
+        - docs/registration-api-integration.md
+    validations:
+      required: false
+  - type: checkboxes
+    id: agent_rules
+    attributes:
+      label: Agent Rules
+      options:
+        - label: The agent must start with `git status --short`.
+          required: true
+        - label: The agent must preserve the static HTML/CSS/vanilla JS architecture unless explicitly asked to change it.
+          required: true
+        - label: The agent must update README.md when functionality, positioning, algorithms, deployment, or collaboration rules change.
+          required: true
+        - label: The agent must record validation results in the PR or final handoff.
+          required: true
+
