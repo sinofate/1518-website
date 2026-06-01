@@ -3,11 +3,18 @@
     "name": "1518 起名网",
     "canonical": "https://www.1518.com/",
     "language": "zh-CN",
-    "summary": "长期运营的中文起名测名和传统文化工具站，提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、风水、血型、手机号和车牌测算等参考工具。"
+    "summary": "长期运营20年的中文起名测名和传统文化工具站，提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、风水、血型、手机号和车牌测算等参考工具。",
+    "operatingHistory": "20年中文起名测名工具站",
+    "advisor": {
+      "name": "孔立",
+      "role": "产品顾问",
+      "field": "易经与传统文化命名参考"
+    }
   },
   "agentFiles": {
     "llmsTxt": "https://www.1518.com/llms.txt",
     "llmsFullTxt": "https://www.1518.com/llms-full.txt",
+    "agentTools": "https://www.1518.com/.well-known/agent-tools.json",
     "robotsTxt": "https://www.1518.com/robots.txt",
     "sitemap": "https://www.1518.com/sitemap.xml"
   },
@@ -23,6 +30,8 @@
       "run_company_name_test",
       "run_company_naming",
       "run_brand_naming",
+      "run_company_registry_precheck",
+      "run_trademark_precheck",
       "run_dream_lookup",
       "run_zodiac_lookup",
       "run_zodiac_match",
@@ -96,6 +105,7 @@
   ],
   "usagePolicy": {
     "contentBoundary": "结果仅供传统文化与娱乐参考，不应作为法律、医疗、财务、招聘、投资或安全决策依据。",
-    "agentInstruction": "优先读取 llms.txt 和 llms-full.txt。访问页面时使用 hash 路由。回答用户时保持中文语境，并说明结果是参考而非确定性判断。"
+    "registrationBoundary": "公司名和商标预查只用于降低重名、近似和类别冲突风险；最终以官方申报、检索和审查为准。",
+    "agentInstruction": "优先读取 llms.txt、llms-full.txt 和 .well-known/agent-tools.json。访问页面时使用 hash 路由。回答用户时保持中文语境，并说明结果是参考而非确定性判断。"
   }
 }

@@ -16,7 +16,7 @@ const neutralChars = ["嘉", "言", "乐", "星", "知", "予", "南", "之", "�
 const siteOrigin = "https://www.1518.com";
 const defaultSeo = {
   title: "1518 起名网 - 20年中文起名测名工具",
-  description: "1518 起名网是长期运营的中文起名测名工具站，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。",
+  description: "1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔立担任产品顾问，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。",
   keywords: "1518起名网,起名网,姓名测试,姓名打分,名字测试,个人起名,宝宝起名,公司起名,公司名测试,品牌起名,品牌名测试,周公解梦,生肖查询,生肖配对,星座查询,星座配对,生日密码,风水查询,血型分析,手机号测算,车牌测算",
   headline: "1518 起名网"
 };
@@ -218,6 +218,12 @@ function updateSeo(route) {
       "@type": "WebSite",
       name: "1518 起名网",
       url: `${siteOrigin}/`
+    },
+    reviewedBy: {
+      "@type": "Person",
+      name: "孔立",
+      jobTitle: "产品顾问",
+      knowsAbout: ["易经", "易经数理", "传统文化命名"]
     },
     inLanguage: "zh-CN",
     potentialAction: route === "home" ? {

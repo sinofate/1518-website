@@ -1,0 +1,65 @@
+{
+  "site": "1518 起名网",
+  "canonical": "https://www.1518.com/",
+  "language": "zh-CN",
+  "versionDate": "2026-06-02",
+  "advisor": {
+    "name": "孔立",
+    "role": "产品顾问",
+    "field": "易经与传统文化命名参考"
+  },
+  "tools": [
+    {
+      "id": "name-test",
+      "route": "https://www.1518.com/#name-test",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fullName", "reportGender", "birthDate", "birthHour"],
+        "properties": {
+          "fullName": { "type": "string", "description": "2-8 个中文姓名" },
+          "reportGender": { "type": "string", "enum": ["男", "女"] },
+          "birthDate": { "type": "string", "format": "date" },
+          "birthHour": { "type": "string", "description": "子时至亥时" },
+          "birthPlace": { "type": "string" }
+        }
+      },
+      "output": ["综合评分", "五格数理", "三才配置", "八字喜用", "音义用字", "生肖参考"]
+    },
+    {
+      "id": "company-naming",
+      "route": "https://www.1518.com/#company",
+      "inputSchema": {
+        "type": "object",
+        "required": ["region", "industry", "keyword", "suffix"],
+        "properties": {
+          "region": { "type": "string" },
+          "industry": { "type": "string" },
+          "keyword": { "type": "string" },
+          "suffix": { "type": "string" }
+        }
+      },
+      "output": ["候选公司名", "商号数理", "行业适配", "工商预查风险", "官方核验入口"]
+    },
+    {
+      "id": "brand-naming",
+      "route": "https://www.1518.com/#brand",
+      "inputSchema": {
+        "type": "object",
+        "required": ["category", "audience", "tone", "keyword", "trademarkClass"],
+        "properties": {
+          "category": { "type": "string" },
+          "audience": { "type": "string" },
+          "tone": { "type": "string" },
+          "keyword": { "type": "string" },
+          "trademarkClass": { "type": "string" }
+        }
+      },
+      "output": ["候选品牌名", "传播力", "品类联想", "商标预查风险", "官方核验入口"]
+    }
+  ],
+  "boundaries": [
+    "结果仅供传统文化、命名灵感和初步风险排查参考。",
+    "公司名是否可注册、商标是否可注册，最终以官方受理、检索和审查结论为准。",
+    "Agent 应优先读取 llms.txt、llms-full.txt、ai-readiness.json 和本文件。"
+  ]
+}

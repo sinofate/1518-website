@@ -1,11 +1,14 @@
 :root {
-  --red: #d81717;
-  --deep-red: #b90000;
-  --ink: #333;
-  --muted: #777;
-  --line: #dedede;
+  --red: #c9151b;
+  --deep-red: #9f1016;
+  --ink: #241f1f;
+  --muted: #6f6b66;
+  --line: #e7dfd6;
   --paper: #fff;
   --soft: #fff8f1;
+  --gold: #b9842f;
+  --jade: #176b5f;
+  --shadow: 0 18px 44px rgba(54, 35, 24, .08);
 }
 
 * {
@@ -14,7 +17,8 @@
 
 body {
   margin: 0;
-  background: #f5f5f5;
+  background:
+    linear-gradient(180deg, #fffaf4 0, #f6f2ec 270px, #f4f4f3 100%);
   color: var(--ink);
   font-family: Arial, "Microsoft YaHei", sans-serif;
   font-size: 14px;
@@ -26,7 +30,12 @@ a {
 }
 
 .site-header {
-  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 1px 0 rgba(70, 45, 25, .08);
+  backdrop-filter: blur(10px);
 }
 
 .topbar {
@@ -78,10 +87,11 @@ a {
   height: 48px;
   place-items: center;
   border-radius: 6px;
-  background: var(--red);
+  background: linear-gradient(135deg, var(--deep-red), var(--red));
   color: #fff;
   font-size: 26px;
   font-weight: 700;
+  box-shadow: 0 10px 24px rgba(201, 21, 27, .22);
 }
 
 .brand-name {
@@ -95,7 +105,7 @@ a {
 }
 
 .main-nav {
-  background: var(--red);
+  background: linear-gradient(90deg, #981018, var(--red), #b9842f);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -118,7 +128,7 @@ a {
   gap: 18px;
   flex-wrap: wrap;
   padding: 10px 0;
-  color: #7a3f86;
+  color: #5f4430;
   border-bottom: 1px solid var(--line);
 }
 
@@ -140,7 +150,8 @@ a {
 .quick-card {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
 }
 
 .tool-panel {
@@ -247,7 +258,57 @@ button {
   padding: 16px;
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.trust-section {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, .9fr);
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 22px;
+  background: linear-gradient(135deg, #fff 0%, #fff8ef 54%, #f5fff9 100%);
+  border: 1px solid #eadbc9;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.trust-section h2 {
+  margin: 4px 0 8px;
+  color: var(--deep-red);
+  font-size: 26px;
+}
+
+.trust-section p {
+  margin: 0;
+  color: #5f554c;
+  line-height: 1.8;
+}
+
+.trust-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.trust-metrics span {
+  min-height: 74px;
+  padding: 12px 10px;
+  background: #fff;
+  border: 1px solid #eadbc9;
+  border-radius: 8px;
+  color: #6a5541;
+  text-align: center;
+}
+
+.trust-metrics b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--red);
+  font-size: 20px;
 }
 
 .page-tail-module {
@@ -974,10 +1035,10 @@ body.column-report-active .sidebar {
 
 .registry-check-panel {
   margin-top: 16px;
-  padding: 14px;
-  background: #fff;
+  padding: 16px;
+  background: linear-gradient(180deg, #fff, #fffaf5);
   border: 1px solid #ead9c2;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .registry-check-head {
@@ -1018,6 +1079,7 @@ body.column-report-active .sidebar {
   padding: 10px;
   background: #fafafa;
   border: 1px solid #ece7df;
+  border-radius: 6px;
 }
 
 .registry-check-row strong {
@@ -1065,9 +1127,31 @@ body.column-report-active .sidebar {
   margin-top: 12px;
 }
 
+.registry-checklist {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f7fbf9;
+  border: 1px solid #dcebe5;
+  border-radius: 6px;
+  color: #36554e;
+}
+
+.registry-checklist span {
+  color: var(--jade);
+  font-weight: 700;
+}
+
+.registry-checklist b {
+  color: #4f625d;
+  font-weight: 500;
+}
+
 .registry-check-actions a {
   padding: 8px 10px;
-  background: var(--red);
+  background: linear-gradient(135deg, var(--red), var(--deep-red));
+  border-radius: 6px;
   color: #fff;
   text-decoration: none;
   font-weight: 700;
@@ -1894,6 +1978,21 @@ h2 {
   .company-metric-grid,
   .company-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .trust-section,
+  .trust-metrics,
+  .registry-check-row {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-section {
+    padding: 16px;
+  }
+
+  .trust-metrics span {
+    min-height: auto;
+    text-align: left;
   }
 
   .name-hero {

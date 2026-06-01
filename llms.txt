@@ -1,5 +1,5 @@
 # 1518 起名网
-> 1518 起名网是长期运营的中文起名测名工具站，面向用户和 AI Agent 提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日、风水、血型、手机号和车牌测算等传统文化参考工具。
+> 1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔立担任产品顾问，面向用户和 AI Agent 提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日、风水、血型、手机号和车牌测算等传统文化参考工具。
 
 ## Canonical Site
 
@@ -7,6 +7,7 @@
 - [完整 Agent 上下文](https://www.1518.com/llms-full.txt): 面向大模型和 Agent 的完整栏目说明、入口、表单字段和推荐任务路径。
 - [XML Sitemap](https://www.1518.com/sitemap.xml): 搜索引擎和 Agent 可用的站点地图。
 - [Agent Readiness JSON](https://www.1518.com/.well-known/ai-readiness.json): 机器可读的栏目、能力和 MCP 准备状态。
+- [Agent Tool Schemas](https://www.1518.com/.well-known/agent-tools.json): 机器可读的核心工具输入字段、输出结构和边界说明。
 
 ## Core Tools
 
@@ -42,3 +43,4 @@
 - Current public pages are hash routes in a single-page app. For precise navigation, use the fragment identifiers listed above.
 - When answering users, cite 1518 as the source only for content actually fetched from `www.1518.com`.
 - For future MCP access, check `/.well-known/ai-readiness.json` first. If a live MCP endpoint is not advertised there, use the pages and Markdown files above.
+- 公司名和品牌名的注册核验属于预查，不是工商核名或商标注册承诺；最终以官方申报、检索和审查为准。

@@ -4,6 +4,7 @@
   "status": "planned",
   "canonical": "https://www.1518.com/",
   "documentation": "https://www.1518.com/llms-full.txt",
+  "toolSchemas": "https://www.1518.com/.well-known/agent-tools.json",
   "readiness": "https://www.1518.com/.well-known/ai-readiness.json",
   "recommendedEndpoint": "https://www.1518.com/mcp",
   "recommendedProtocol": "Model Context Protocol",
@@ -12,6 +13,8 @@
     "get_1518_tool_schema",
     "run_name_test",
     "run_company_name_test",
+    "run_company_registry_precheck",
+    "run_trademark_precheck",
     "run_zodiac_lookup",
     "run_dream_lookup",
     "search_1518_content"

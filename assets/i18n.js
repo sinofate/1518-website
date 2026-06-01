@@ -87,6 +87,13 @@
     "国家市场监管总局企业名称申报系统 + 国家企业信用信息公示系统": "SAMR Name Filing System + National Enterprise Credit Information System",
     "国家知识产权局商标检索系统": "CNIPA Trademark Search System",
     "1518 在线工具": "1518 Online Tool",
+    "20年中文起名测名工具站": "20-Year Chinese Naming Tool Site",
+    "1518 起名网": "1518 Naming",
+    "1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔立担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。": "1518.com has long served Chinese naming, name testing and traditional culture users. This version has I Ching expert Kong Li as product advisor and builds explainable reference systems for personal names, company names, brand names, zodiac tools and number tests.",
+    "长期运营": "Long Running",
+    "产品顾问": "Product Advisor",
+    "Agent 友好": "Agent Friendly",
+    "本地预审项": "Local Precheck Items",
     "生成报告": "Generate Report",
     "注册地域": "Registration Region",
     "偏好字/关键词": "Preferred Word / Keyword",
@@ -143,7 +150,7 @@
 
   const phrases = [
     ["1518 起名网 - 20年中文起名测名工具", "1518 Naming - Chinese Name and Culture Tools Since 2006"],
-    ["1518 起名网是长期运营的中文起名测名工具站，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。", "1518 Naming is a long-running Chinese naming and cultural reference site, offering name tests, company name tests, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests."],
+    ["1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔立担任产品顾问，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。", "1518 Naming is a 20-year Chinese naming and cultural reference site with I Ching expert Kong Li as product advisor, offering name tests, company name tests, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests."],
     ["1518 起名网提供姓名测试、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。", "1518 provides online tools for name testing, personal naming, company naming, company name testing, dream interpretation, zodiac and number tests."],
     ["每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。", "Each tool follows the same report-style workflow as Name Test and Company Name Test, with consistent inputs, calculations and report output. Larger datasets and deeper algorithms can be connected later."],
     ["放在姓名测试页尾，适合从测试结果继续生成个人名字候选。", "Placed at the end of the Name Test page, useful for generating personal name candidates after reviewing a test result."],
@@ -331,7 +338,7 @@
       document.documentElement.lang = "zh-CN";
       document.body.classList.remove("lang-en");
       document.title = meta[1];
-      if (description) description.content = "1518 起名网是长期运营的中文起名测名工具站，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。";
+      if (description) description.content = "1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔立担任产品顾问，提供姓名测试、公司名测试、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。";
       return;
     }
     document.documentElement.lang = "en";

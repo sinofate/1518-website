@@ -8,6 +8,16 @@
 
 由于工商名称核准和商标注册审查都有官方流程，前端不能承诺“确保注册成功”。当前页面使用“预查”措辞，最终结果应以官方申报、官方检索和审查结论为准。
 
+## 静态站本地预审规则
+
+当前静态站会先做本地预审，不产生后端请求，也不会在控制台报错。预审覆盖：
+
+- 公司名：行政区划、组织形式、禁限词、敏感行业词、候选名近似度、商号长度。
+- 品牌名/商标名：显著性、通用宣传词、尾字弱显著性、商标类别、候选名近似度。
+- 输出字段：`status`、`label`、`score`、`note`、`conflicts`、`sourceUrl`、`checkedAt`。
+
+本地预审的目标是降低低级风险，不能替代官方数据库检索。
+
 ## 权威核验入口
 
 - 企业名称申报系统：`https://wsdj.samr.gov.cn/saicmcdjweb/`
@@ -50,7 +60,12 @@ Response:
       "note": "检索到近似主体，请进入官方系统继续核验。",
       "conflicts": ["上海星辰信息科技有限公司"],
       "sourceUrl": "https://www.gsxt.gov.cn/",
-      "checkedAt": "2026-06-02T03:45:00+08:00"
+      "checkedAt": "2026-06-02T03:45:00+08:00",
+      "evidence": {
+        "source": "authorized_company_registry",
+        "queryType": "exact_and_similar_name",
+        "confidence": 0.86
+      }
     }
   ]
 }
@@ -90,7 +105,12 @@ Response:
       "note": "同类别存在近似商标，建议更换名称或调整类别。",
       "conflicts": ["星禾智造", "星禾科技"],
       "sourceUrl": "https://so.cnipa.cn/",
-      "checkedAt": "2026-06-02T03:45:00+08:00"
+      "checkedAt": "2026-06-02T03:45:00+08:00",
+      "evidence": {
+        "source": "authorized_trademark_search",
+        "queryType": "same_class_similar_mark",
+        "confidence": 0.82
+      }
     }
   ]
 }

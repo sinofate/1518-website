@@ -70,6 +70,14 @@
     国风雅致: ["云", "禾", "予", "山", "清", "知"],
     科技未来: ["星", "元", "启", "智", "云", "光"]
   };
+  const REGISTRY_RULES = {
+    companyRestricted: /(中国|中华|国家|全国|中央|人民|国际|集团|控股|银行|证券|保险|基金|信托|交易所|大学|学院|医院|协会|商会|研究院|中心)/u,
+    companySensitiveIndustry: /(金融|证券|保险|医疗|医药|教育|基金|支付|征信|拍卖|典当|劳务派遣)/u,
+    companySuffix: /(有限公司|有限责任公司|股份有限公司|集团有限公司)$/u,
+    trademarkGeneric: /(优选|精选|天下|中国|国际|官方|第一|旗舰|中心|集团|控股|正品|认证|专供)/u,
+    trademarkWeak: /(好|优|美|新|大|小|云|智|家|帮)$/u,
+    latinOrDigitOnly: /^[a-z0-9\s-]+$/i
+  };
   const DEFAULT_REGISTRY_API = {
     enabled: false,
     companyEndpoint: "/api/registry/company-name-check",
@@ -385,6 +393,20 @@
     return { name, score, n, toneFit, categoryFit, lengthScore, pronounceScore, genericPenalty };
   }
 
+  function similarity(a, b) {
+    const left = new Set(chineseChars(a));
+    const right = new Set(chineseChars(b));
+    if (!left.size || !right.size) return 0;
+    const overlap = [...left].filter((char) => right.has(char)).length;
+    return overlap / Math.max(left.size, right.size);
+  }
+
+  function officialSearchUrl(kind, name) {
+    const links = officialRegistryLinks();
+    if (kind === "company") return `${links.companyCreditSearch}?keyword=${encodeURIComponent(name)}`;
+    return `${links.trademarkSearch}?keyword=${encodeURIComponent(name)}`;
+  }
+
   function fieldHtml(field) {
     const [name, label, type, value, options] = field;
     if (type === "select") {
@@ -453,6 +475,10 @@
           <span>最终以官方受理和审查为准</span>
         </div>
         <div class="registry-check-list">${rows}</div>
+        <div class="registry-checklist">
+          <span>本地预审项</span>
+          <b>${kind === "company" ? "行政区划 / 组织形式 / 禁限词 / 行业许可 / 近似主体" : "显著性 / 通用词 / 类别冲突 / 近似商标 / 负面含义"}</b>
+        </div>
         <div class="registry-check-actions">
           <a href="${primaryLink}" target="_blank" rel="noopener">打开官方申报/检索</a>
           <a href="${secondaryLink}" target="_blank" rel="noopener">复核已注册主体</a>
@@ -530,14 +556,66 @@
     ]);
   }
 
-  function localRegistryRisk(name, kind) {
-    const length = Array.from(name).filter((char) => /[\u3400-\u9fff]/u.test(char)).length;
-    const genericWords = /(中国|中华|国家|全国|国际|集团|银行|证券|保险|大学|医院|协会|中心)/u;
-    const genericBrand = /(优选|精选|天下|中国|国际|官方|第一|旗舰)/u;
-    if (kind === "company" && genericWords.test(name)) return { status: "review", label: "需人工复核", note: "名称包含可能受限制或需证明材料的表述，建议先走官方名称申报系统。", conflicts: [] };
-    if (kind === "trademark" && genericBrand.test(name)) return { status: "review", label: "近似风险", note: "品牌词较通用或宣传性较强，需要按商标类别做近似检索。", conflicts: [] };
-    if (length < 2) return { status: "review", label: "识别度偏低", note: "名称过短，重名和近似概率较高。", conflicts: [] };
-    return { status: "unknown", label: "待官方核验", note: "本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", conflicts: [] };
+  function localRegistryRisk(name, kind, context = {}, allItems = []) {
+    const length = chineseChars(name).length;
+    const reasons = [];
+    const conflicts = allItems.filter((item) => item !== name && similarity(item, name) >= 0.72).slice(0, 3);
+    let risk = 18;
+    if (length < 2) {
+      risk += 35;
+      reasons.push("名称过短，显著性不足");
+    }
+    if (conflicts.length) {
+      risk += 18;
+      reasons.push("候选列表内存在较高近似名称");
+    }
+    if (kind === "company") {
+      if (!REGISTRY_RULES.companySuffix.test(name)) {
+        risk += 10;
+        reasons.push("组织形式不完整或不常见");
+      }
+      if (REGISTRY_RULES.companyRestricted.test(name)) {
+        risk += 28;
+        reasons.push("含可能需要资质或前置审批的限制性表述");
+      }
+      if (REGISTRY_RULES.companySensitiveIndustry.test(name)) {
+        risk += 16;
+        reasons.push("涉及敏感行业词，需确认许可和经营范围");
+      }
+      if (context.region && !name.startsWith(context.region)) {
+        risk += 8;
+        reasons.push("行政区划与输入地域不完全一致");
+      }
+    } else {
+      if (REGISTRY_RULES.trademarkGeneric.test(name)) {
+        risk += 28;
+        reasons.push("含通用、宣传性或来源暗示词，商标显著性偏弱");
+      }
+      if (REGISTRY_RULES.trademarkWeak.test(name)) {
+        risk += 10;
+        reasons.push("尾字偏通用，近似概率较高");
+      }
+      if (REGISTRY_RULES.latinOrDigitOnly.test(name)) {
+        risk += 14;
+        reasons.push("纯英文/数字标识需重点查近似读音和图形组合");
+      }
+      if (!context.trademarkClass) {
+        risk += 8;
+        reasons.push("未指定商标类别，无法判断同类冲突");
+      }
+    }
+    const score = clamp(100 - risk, 5, 95);
+    const status = risk >= 62 ? "conflict" : risk >= 36 ? "review" : "unknown";
+    const label = risk >= 62 ? "高风险" : risk >= 36 ? "需人工复核" : "待官方核验";
+    return {
+      status,
+      label,
+      score,
+      note: reasons.length ? reasons.join("；") : "本地规则未发现明显禁限词或结构问题，仍需进入官方系统做重名/近似检索。",
+      conflicts,
+      sourceUrl: officialSearchUrl(kind, name),
+      checkedAt: new Date().toISOString()
+    };
   }
 
   async function fetchRegistry(endpoint, payload, timeoutMs) {
@@ -575,10 +653,12 @@
       unknown: ["待官方核验", "pending"]
     };
     const [label, className] = statusMap[row.status] || [row.label || "待官方核验", "pending"];
-    const conflicts = Array.isArray(row.conflicts) && row.conflicts.length ? `疑似冲突：${row.conflicts.map(escapeHtml).join("、")}` : row.note || "请以官方查询和最终审查为准。";
+    const score = Number.isFinite(row.score) ? `本地预审 ${row.score}分。` : "";
+    const conflicts = Array.isArray(row.conflicts) && row.conflicts.length ? `疑似近似：${row.conflicts.map(escapeHtml).join("、")}。${row.note || ""}` : row.note || "请以官方查询和最终审查为准。";
     data.status.className = `registry-status ${className}`;
     data.status.textContent = row.label || label;
-    data.text.textContent = conflicts;
+    data.text.textContent = `${score}${conflicts}`;
+    if (row.sourceUrl) data.row.dataset.sourceUrl = row.sourceUrl;
   }
 
   async function runRegistrationChecks(scope = document) {
@@ -595,7 +675,7 @@
       }));
       const endpoint = kind === "company" ? api.companyEndpoint : api.trademarkEndpoint;
       if (!api.enabled) {
-        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind), note: "当前静态站版本未启用后端注册数据接口，已提供官方核验入口。" }, item));
+        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind, payload.context || {}, payload.items || []) }, item));
         return;
       }
       try {
@@ -605,7 +685,7 @@
           if (target) renderRegistryStatus(result, target);
         });
       } catch (error) {
-        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind), note: "当前未连接后端注册数据接口，已提供官方核验入口。" }, item));
+        rows.forEach((item) => renderRegistryStatus({ name: item.name, ...localRegistryRisk(item.name, kind, payload.context || {}, payload.items || []), note: "后端注册数据接口暂未返回结果，已使用本地预审并提供官方核验入口。" }, item));
       }
     }));
   }
