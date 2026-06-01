@@ -81,7 +81,7 @@ a {
 }
 
 .brand-logo {
-  --brand-logo-width: 212.6px;
+  --brand-logo-width: 218px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -100,17 +100,15 @@ a {
 }
 
 .brand-domain strong {
-  font-family: "Arial Black", Impact, Arial, "Microsoft YaHei", sans-serif;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", SimHei, Arial, sans-serif;
   font-size: 54px;
   font-weight: 900;
-  letter-spacing: 1.2px;
-  -webkit-text-stroke: .8px var(--red);
+  letter-spacing: 3px;
+  -webkit-text-stroke: .35px var(--red);
   paint-order: stroke fill;
   text-shadow:
-    .45px 0 0 var(--red),
-    0 .45px 0 var(--red),
-    -.45px 0 0 var(--red),
-    0 -.45px 0 var(--red);
+    .25px 0 0 var(--red),
+    0 .25px 0 var(--red);
 }
 
 .brand-domain span {
@@ -1738,20 +1736,18 @@ h2 {
   }
 
   .brand-logo {
-    --brand-logo-width: 148.2px;
+    --brand-logo-width: 154px;
     min-height: 54px;
   }
 
   .brand-domain strong {
     font-size: 38px;
     font-weight: 900;
-    letter-spacing: .7px;
-    -webkit-text-stroke-width: .65px;
+    letter-spacing: 2px;
+    -webkit-text-stroke-width: .25px;
     text-shadow:
-      .35px 0 0 var(--red),
-      0 .35px 0 var(--red),
-      -.35px 0 0 var(--red),
-      0 -.35px 0 var(--red);
+      .2px 0 0 var(--red),
+      0 .2px 0 var(--red);
   }
 
   .brand-domain span {
