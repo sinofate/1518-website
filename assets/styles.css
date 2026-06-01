@@ -85,35 +85,42 @@ a {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  min-width: 148px;
-  min-height: 52px;
+  min-width: 190px;
+  min-height: 64px;
   color: var(--red);
 }
 
 .brand-domain {
   display: flex;
   align-items: baseline;
+  width: 190px;
   line-height: .95;
   letter-spacing: 0;
 }
 
 .brand-domain strong {
-  font-size: 36px;
-  font-weight: 800;
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
 .brand-domain span {
-  margin-left: 2px;
-  font-size: 21px;
-  font-weight: 700;
+  margin-left: 3px;
+  font-size: 25px;
+  font-weight: 800;
   color: var(--red);
 }
 
 .brand-tagline {
-  margin-top: 5px;
+  display: block;
+  width: 190px;
+  margin-top: 6px;
   font-size: 13px;
   font-weight: 700;
+  letter-spacing: 2.4px;
   line-height: 1.1;
+  text-align: justify;
+  text-align-last: justify;
   color: var(--ink);
 }
 
@@ -1712,22 +1719,31 @@ h2 {
   }
 
   .brand-logo {
-    min-width: 112px;
-    min-height: 42px;
+    min-width: 142px;
+    min-height: 50px;
+  }
+
+  .brand-domain {
+    width: 142px;
   }
 
   .brand-domain strong {
-    font-size: 25px;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: .5px;
   }
 
   .brand-domain span {
-    margin-left: 1px;
-    font-size: 14px;
+    margin-left: 2px;
+    font-size: 17px;
+    font-weight: 800;
   }
 
   .brand-tagline {
-    margin-top: 3px;
+    width: 142px;
+    margin-top: 4px;
     font-size: 10px;
+    letter-spacing: 1.3px;
   }
 
   .mobile-link {
