@@ -87,6 +87,8 @@
     "国家市场监管总局企业名称申报系统 + 国家企业信用信息公示系统": "SAMR Name Filing System + National Enterprise Credit Information System",
     "国家知识产权局商标检索系统": "CNIPA Trademark Search System",
     "1518 在线工具": "1518 Online Tool",
+    "专注精准姓名测算": "Focused on Accurate Chinese Name Analysis",
+    "深耕在线测评20年，千万用户验证的权威姓名测试网站": "20 years in online assessment, trusted by millions of users for authoritative name testing",
     "20年中文起名测名工具站": "20-Year Chinese Naming Tool Site",
     "1518 起名网": "1518 Naming",
     "1518.com 长期服务中文起名、测名和传统文化查询用户。本版本由《易经》专家孔立担任产品顾问，围绕姓名、公司名、品牌名、生肖星座和号码测算建立可解释的参考体系。": "1518.com has long served Chinese naming, name testing and traditional culture users. This version has I Ching expert Kong Li as product advisor and builds explainable reference systems for personal names, company names, brand names, zodiac tools and number tests.",
