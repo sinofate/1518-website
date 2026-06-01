@@ -29,6 +29,7 @@
     "血型配对": "Blood Match",
     "五运六气": "Five Movements & Six Qi",
     "手机号测算": "Phone Number Test",
+    "测手机号": "Phone Test",
     "车牌测算": "Plate Number Test",
     "姓名": "Name",
     "性别": "Gender",
@@ -197,6 +198,7 @@
     ["生肖查询报告", "Chinese Zodiac Report"],
     ["星座查询报告", "Western Zodiac Report"],
     ["手机号测算报告", "Phone Number Report"],
+    ["测手机号", "Phone Test"],
     ["车牌测算报告", "Plate Number Report"]
   ];
 
@@ -218,6 +220,7 @@
     ["血型配对", "Blood Match"],
     ["五运六气", "Five Movements & Six Qi"],
     ["手机号测算", "Phone Number Test"],
+    ["测手机号", "Phone Test"],
     ["车牌测算", "Plate Number Test"]
   ].forEach((item) => phrases.push(item));
 
@@ -239,7 +242,7 @@
     blood: ["Blood Type Personality - 1518 Naming", "血型分析_ABO血型性格_血型测试 - 1518 起名网"],
     "blood-match": ["Blood Type Compatibility - 1518 Naming", "血型配对_ABO血型配对_血型爱情配对 - 1518 起名网"],
     wuyun: ["Five Movements and Six Qi Lookup - 1518 Naming", "五运六气查询_岁运节气_中医五运六气 - 1518 起名网"],
-    phone: ["Phone Number Test - 1518 Naming", "手机号测算_手机号码吉凶_号码测试 - 1518 起名网"],
+    phone: ["Phone Number Test - 1518 Naming", "测手机号_手机号码吉凶_号码测试 - 1518 起名网"],
     plate: ["License Plate Number Test - 1518 Naming", "车牌测算_车牌号码吉凶_车牌号测试 - 1518 起名网"],
     "all-tools": ["1518 Tools - Naming, Dream, Zodiac and Number Tests", "1518 全栏目工具_起名测名解梦生肖星座号码测算"]
   };

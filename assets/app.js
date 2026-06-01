@@ -4,7 +4,7 @@ const services = [
   ["品牌起名", "面向产品、店铺与商标场景，生成易记、易传播的品牌名。", "brand"],
   ["周公解梦", "按梦境关键词给出传统文化解释和心理参考。", "dream"],
   ["车牌测算", "根据车牌数字组合生成数理参考分与说明。", "plate"],
-  ["手机号测算", "分析手机号数字组合的寓意和参考评分。", "phone"],
+  ["测手机号", "分析手机号数字组合的寓意和参考评分。", "phone"],
   ["公司测名", "对公司全称进行结构、音韵、行业匹配度分析。", "company-test"],
   ["星座配对", "展示星座之间的性格互补、沟通和情感指数。", "astro-match"]
 ];
@@ -122,7 +122,7 @@ const routeSeo = {
     title: "手机号测算_手机号码吉凶_号码测试 - 1518 起名网",
     description: "1518 手机号测算按号码尾数、数字五行、易经数理和重复结构生成号码报告，提供手机号码吉凶和数字能量参考。",
     keywords: "手机号测算,手机号码吉凶,号码测试,手机号码测试,数字能量,手机号打分,1518手机号测算",
-    headline: "手机号测算"
+    headline: "测手机号"
   },
   plate: {
     title: "车牌测算_车牌号码吉凶_车牌号测试 - 1518 起名网",
@@ -696,7 +696,7 @@ function bindForms() {
           return;
         }
       }
-      if (tool === "手机号测算" && window.ColumnTools?.submit("phone", { number: value })) {
+      if ((tool === "测手机号" || tool === "手机号测算") && window.ColumnTools?.submit("phone", { number: value })) {
         resultBox.hidden = true;
         return;
       }
