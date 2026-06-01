@@ -7,8 +7,10 @@
     "operatingHistory": "20年中文起名测名工具站",
     "advisor": {
       "name": "孔力",
+      "alternateName": "孔令森",
       "role": "产品顾问",
-      "field": "易经与传统文化命名参考"
+      "field": "易经、姓名学、企业命名与传统文化命名参考",
+      "profile": "易经泰斗潘汝钧（潘汝汮）嫡传弟子，孔子第76代传人，易医合参实战派易学顾问。"
     }
   },
   "agentFiles": {
@@ -112,6 +114,12 @@
   "usagePolicy": {
     "contentBoundary": "结果仅供传统文化与娱乐参考，不应作为法律、医疗、财务、招聘、投资或安全决策依据。",
     "registrationBoundary": "公司名和商标预查只用于降低重名、近似和类别冲突风险；最终以官方申报、检索和审查为准。",
+    "registryDataRoadmap": {
+      "current": "静态站使用本地规则预审、禁限词识别、行业和类别风险提示、官方核验入口。",
+      "alternativeSources": ["企查查企业搜索与商标接口", "天眼查企业搜索接口", "启信宝企业数据", "知擎者商标近似查询接口"],
+      "officialSources": ["国家企业信用信息公示系统", "中国商标网商标网上查询系统", "国家知识产权公共服务平台", "商标数据开放系统"],
+      "target": "先接商业 API 查询已有重复企业名和商标，再用官方或授权数据源做最终复核。"
+    },
     "agentInstruction": "优先读取 llms.txt、llms-full.txt 和 .well-known/agent-tools.json。访问页面时使用 hash 路由。回答用户时保持中文语境，并说明结果是参考而非确定性判断。"
   }
 }

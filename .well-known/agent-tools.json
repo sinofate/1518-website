@@ -5,8 +5,24 @@
   "versionDate": "2026-06-02",
   "advisor": {
     "name": "孔力",
+    "alternateName": "孔令森",
     "role": "产品顾问",
-    "field": "易经与传统文化命名参考"
+    "field": "易经、姓名学、企业命名与传统文化命名参考"
+  },
+  "registryDataPlan": {
+    "currentStaticMode": "本地规则预审，包含行政区划、组织形式、禁限词、敏感行业、商标显著性、通用词和候选近似度。",
+    "alternativeSources": [
+      "企查查企业搜索与全国商标查询 API",
+      "天眼查企业搜索 API",
+      "启信宝企业数据接口",
+      "知擎者商标近似查询 API"
+    ],
+    "officialVerification": [
+      "国家企业信用信息公示系统",
+      "中国商标网商标网上查询系统",
+      "国家知识产权公共服务平台",
+      "商标数据开放系统"
+    ]
   },
   "tools": [
     {

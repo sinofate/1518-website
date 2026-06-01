@@ -1,5 +1,5 @@
 # 1518 起名网
-> 1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔力担任产品顾问，面向用户和 AI Agent 提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日、风水、血型、手机号和车牌测算等传统文化参考工具。
+> 1518 起名网是长期运营20年的中文起名测名工具站，由孔力（又名孔令森）担任产品顾问，面向用户和 AI Agent 提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日、风水、血型、手机号和车牌测算等传统文化参考工具。
 
 ## Canonical Site
 
@@ -45,3 +45,4 @@
 - When answering users, cite 1518 as the source only for content actually fetched from `www.1518.com`.
 - For future MCP access, check `/.well-known/ai-readiness.json` first. If a live MCP endpoint is not advertised there, use the pages and Markdown files above.
 - 公司名和品牌名的注册核验属于预查，不是工商核名或商标注册承诺；最终以官方申报、检索和审查为准。
+- 注册预查的下一阶段可接企查查、天眼查、启信宝、知擎者等商业数据接口查询已有重复企业名和商标；最终仍以国家企业信用信息公示系统、中国商标网和国家知识产权公共服务平台结果为准。
