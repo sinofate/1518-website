@@ -497,6 +497,15 @@
       if (href.endsWith("#company") || href === "#company") node.textContent = "Company";
     });
 
+    root.querySelectorAll?.(".mini-form button").forEach((node) => {
+      if (currentLang === "zh") return;
+      const tool = node.closest(".mini-form")?.dataset.tool || "";
+      if (tool === "姓名测试") node.textContent = "Name";
+      if (tool === "车牌测算") node.textContent = "Plate";
+      if (tool === "测手机号" || tool === "手机号测算") node.textContent = "Phone";
+      if (tool === "公司测名") node.textContent = "Company";
+    });
+
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
