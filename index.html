@@ -127,31 +127,16 @@
         </section>
 
         <section class="company-test-section" id="company-test">
-          <div class="company-test-head">
-            <div>
-              <p class="company-eyebrow">易经数理 · 商业命名诊断</p>
-              <h2>公司名测试</h2>
-              <p>按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。</p>
-            </div>
-            <div class="company-rules" aria-label="测算规则">
-              <span><b>总格</b>营业执照全称笔画和</span>
-              <span><b>商号格</b>日常传播简称笔画和</span>
-              <span><b>行业格</b>数理气质与赛道匹配</span>
-            </div>
-          </div>
-
+          <h2>公司名测试</h2>
           <form id="tester" class="company-form">
             <label>
-              <span>公司全称</span>
-              <input id="companyName" type="text" value="上海星辰达智能科技有限公司" autocomplete="off">
-            </label>
-            <label>
-              <span>商号简称</span>
-              <input id="shortName" type="text" value="星辰达" autocomplete="off">
+              <span>公司名称</span>
+              <input id="companyName" type="text" placeholder="请输入公司名" autocomplete="off">
             </label>
             <label>
               <span>所属行业</span>
               <select id="industry">
+                <option value="" selected>请选择行业</option>
                 <option value="ai">AI / 科技互联网</option>
                 <option value="finance">金融投资 / 财税资管</option>
                 <option value="realestate">地产建筑 / 工程实业</option>
@@ -164,15 +149,34 @@
                 <option value="legacy">家族企业 / 传承老店</option>
               </select>
             </label>
+            <label>
+              <span>商号简称</span>
+              <input id="shortName" type="text" placeholder="请输入商号简称（可选）" autocomplete="off">
+            </label>
             <button type="submit">立即生成诊断</button>
           </form>
 
-          <div class="company-correction">
-            <div>
-              <p class="company-eyebrow">笔画校正</p>
-              <h3>逐字复核后，报告更像专业交付</h3>
+          <div class="company-test-detail page-tail-module">
+            <div class="company-test-head">
+              <div>
+                <p class="company-eyebrow">易经数理 · 商业命名诊断</p>
+                <h3>公司名测试说明</h3>
+                <p>按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。</p>
+              </div>
+              <div class="company-rules" aria-label="测算规则">
+                <span><b>总格</b>营业执照全称笔画和</span>
+                <span><b>商号格</b>日常传播简称笔画和</span>
+                <span><b>行业格</b>数理气质与赛道匹配</span>
+              </div>
             </div>
-            <div id="strokeEditor" class="stroke-editor"></div>
+
+            <div class="company-correction">
+              <div>
+                <p class="company-eyebrow">笔画校正</p>
+                <h3>逐字复核后，报告更像专业交付</h3>
+              </div>
+              <div id="strokeEditor" class="stroke-editor"></div>
+            </div>
           </div>
 
           <section id="report" class="company-report" aria-live="polite"></section>
@@ -280,7 +284,7 @@
     </footer>
 
     <script src="./assets/vendor/lunar.js?v=20260602"></script>
-    <script src="./assets/company-name-test.js?v=algorithm-depth-20260602"></script>
+    <script src="./assets/company-name-test.js?v=company-empty-20260602"></script>
     <script src="./assets/name-engine.js?v=20260602b"></script>
     <script src="./assets/columns-tools.js?v=authority-registry-agent-20260602"></script>
     <script src="./assets/app.js?v=authority-registry-agent-20260602"></script>

@@ -49,8 +49,10 @@
     "三字名": "3 Characters",
     "开始起名": "Start Naming",
     "公司全称": "Full Company Name",
+    "公司名称": "Company Name",
     "商号简称": "Trade Name",
     "所属行业": "Industry",
+    "请选择行业": "Select industry",
     "立即生成诊断": "Generate Diagnosis",
     "笔画校正": "Stroke Check",
     "逐字复核后，报告更像专业交付": "Review each character stroke count for a more professional report.",
@@ -153,6 +155,8 @@
     "请输入车牌号": "Enter a plate number",
     "请输入手机号码": "Enter a phone number",
     "请输入公司名全称": "Enter the full company name",
+    "请输入公司名": "Enter a company name",
+    "请输入商号简称（可选）": "Enter trade name (optional)",
     "输入姓氏": "Enter surname"
   };
 
@@ -163,6 +167,7 @@
     ["每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。", "Each tool follows the same report-style workflow as Name Test and Company Name Test, with consistent inputs, calculations and report output. Larger datasets and deeper algorithms can be connected later."],
     ["适合从姓名测试结果继续生成个人名字候选。", "Useful for generating personal name candidates after reviewing a name test result."],
     ["易经数理 · 商业命名诊断", "I Ching Numerology · Business Naming Diagnosis"],
+    ["公司名测试说明", "Company Name Test Notes"],
     ["按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。", "Generate a business naming diagnosis from the full company name, trade name, industry and I Ching numerology, focusing on brand communication, industry fit, expansion, cash-flow stability and operating risk."],
     ["预查用于降低重名、近似和类别冲突风险，不构成工商核名、商标注册或法律可注册承诺。", "The precheck helps reduce duplicate, similar-name and class-conflict risk. It is not a legal promise of company name approval or trademark registration."],
     ["当前未连接后端注册数据接口，已提供官方核验入口。", "The backend registry data API is not connected yet. Official verification links are provided."],

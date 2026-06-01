@@ -266,6 +266,10 @@ function structureFit(companyName, shortName, industry) {
 function diagnose() {
   const industry = INDUSTRIES[$("industry").value];
   const companyName = $("companyName").value.trim();
+  if (!companyName || !industry) {
+    $("report").innerHTML = "";
+    return;
+  }
   const shortName = $("shortName").value.trim() || companyName;
   const fullChars = cleanName($("companyName").value);
   const shortChars = cleanName($("shortName").value || $("companyName").value);
@@ -392,6 +396,11 @@ function boot() {
   diagnose();
   $("tester").addEventListener("submit", (event) => {
     event.preventDefault();
+    if (!$("companyName").value.trim() || !INDUSTRIES[$("industry").value]) {
+      $("report").innerHTML = `<div class="report-error">请输入公司名，并选择所属行业。</div>`;
+      $("report").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     document.body.classList.add("company-report-active");
     renderStrokeEditor();
     diagnose();
