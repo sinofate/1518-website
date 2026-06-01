@@ -282,7 +282,7 @@ function diagnose() {
       </section>
 
       <section class="report-section report-pdf-page company-pdf-page">
-        <h3>81 数理诊断 <span>${full.number}数 · ${fullRow[0]} · ${fullLevel.label}</span></h3>
+        <h3>易经数理诊断 <span>${full.number}数 · ${fullRow[0]} · ${fullLevel.label}</span></h3>
         <div class="name-hero company-number-hero">
           <div class="name-large">${full.number}<span>数</span></div>
           <div class="pinyin">${fullRow[0]} · ${fullLevel.label}</div>

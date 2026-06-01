@@ -73,7 +73,7 @@
     const row = shared().NUMEROLOGY?.[normalize81(number)];
     const levels = shared().LEVELS || {};
     if (!row) {
-      return { number: normalize81(number), title: "数理待补", level: "平吉", score: 60, text: "该数理解释待补充。", advice: "建议补充 81 数理库。", className: "mid" };
+      return { number: normalize81(number), title: "数理待补", level: "平吉", score: 60, text: "该数理解释待补充。", advice: "建议补充易经数理库。", className: "mid" };
     }
     const level = levels[row[1]] || { label: row[1], score: 60, className: "mid" };
     return { number: normalize81(number), title: row[0], level: level.label, score: level.score, text: row[2], advice: row[3], className: level.className };

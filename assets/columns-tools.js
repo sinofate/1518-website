@@ -77,7 +77,7 @@
       id: "company",
       nav: "公司起名",
       title: "公司起名",
-      intro: "按行业、地域、主体偏好和 81 数理，生成公司商号候选与注册全称结构。",
+      intro: "按行业、地域、主体偏好和易经数理，生成公司商号候选与注册全称结构。",
       fields: [
         ["region", "注册地域", "text", "上海"],
         ["industry", "所属行业", "select", "科技互联网", ["科技互联网", "金融投资", "餐饮消费", "教育康养", "外贸出海", "咨询服务", "地产建筑"]],
@@ -223,7 +223,7 @@
       id: "phone",
       nav: "手机号测算",
       title: "手机号测算",
-      intro: "按号码尾数、数字五行、81 数理和重复结构生成号码报告。",
+      intro: "按号码尾数、数字五行、易经数理和重复结构生成号码报告。",
       fields: [
         ["number", "手机号码", "tel", "13800138000"]
       ],
@@ -233,7 +233,7 @@
       id: "plate",
       nav: "车牌测算",
       title: "车牌测算",
-      intro: "按车牌数字、字母、尾号和 81 数理生成车牌参考报告。",
+      intro: "按车牌数字、字母、尾号和易经数理生成车牌参考报告。",
       fields: [
         ["plate", "车牌号码", "text", "沪A8X518"]
       ],
@@ -273,7 +273,7 @@
     const data = window.NameSharedData;
     const normalized = normalize81(number);
     const row = data?.NUMEROLOGY?.[normalized];
-    if (!row) return { number: normalized, title: "数理参考", level: "平吉", score: 68, text: "该数理暂以基础规则解释。", advice: "建议接入完整 81 数理库。" };
+    if (!row) return { number: normalized, title: "数理参考", level: "平吉", score: 68, text: "该数理暂以基础规则解释。", advice: "建议接入完整易经数理库。" };
     const level = data.LEVELS?.[row[1]] || { label: row[1], score: 68 };
     return { number: normalized, title: row[0], level: level.label, score: level.score, text: row[2], advice: row[3] };
   }
@@ -388,7 +388,7 @@
     const pages = [
       cover("个人起名方案报告", `${surname}氏个人起名`, scores, `${data.gender} · ${data.birthDate} · ${data.birthHour}`),
       page("候选名字与数理", `<div class="column-name-list">${names.map((item) => `<div><strong>${item.name}</strong><span>${item.score}分 · ${item.n.number}画 ${item.n.title}</span><p>${item.n.text}</p></div>`).join("")}</div>`, "1518 个人起名 · 2/3"),
-      page("取名建议", `<p>建议优先选择读音清楚、书写成本低、寓意正向且与八字喜用方向不冲突的名字。</p>${table([["五格", "取候选名总笔画换算 81 数理，避开大凶数"], ["音义", "避免生僻字、拗口连读和负面谐音"], ["生肖", "先看中性安全，再结合八字五行补益"], ["后续升级", "接入全量康熙笔画、拼音多音字、诗词库后可做深度筛选"]])}`, "1518 个人起名 · 3/3")
+      page("取名建议", `<p>建议优先选择读音清楚、书写成本低、寓意正向且与八字喜用方向不冲突的名字。</p>${table([["五格", "取候选名总笔画换算易经数理，避开大凶数"], ["音义", "避免生僻字、拗口连读和负面谐音"], ["生肖", "先看中性安全，再结合八字五行补益"], ["后续升级", "接入全量康熙笔画、拼音多音字、诗词库后可做深度筛选"]])}`, "1518 个人起名 · 3/3")
     ];
     return resultShell(tool, data, pages);
   }
@@ -662,7 +662,7 @@
     const score = Math.min(99, Math.round(r.n.score * 0.72 + hashScore(data.number, 10, 25)));
     return resultShell(tool, data, [
       cover("手机号测算报告", data.number, [["综合数理", score], ["尾号气质", hashScore(r.tail, 74, 94)], ["数字均衡", r.repeats.length ? 72 : 88], ["使用稳定", hashScore(data.number, 70, 92)]], `${r.tail} · ${r.n.number}数`),
-      page("号码结构", `<p>号码数字和为 ${r.sum}，尾四位为 ${r.tail}，换算 81 数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", r.n.advice], ["边界", "号码测算为传统数理参考，不能决定真实财运、信用或事业结果"]])}`, "1518 手机号测算 · 2/2")
+      page("号码结构", `<p>号码数字和为 ${r.sum}，尾四位为 ${r.tail}，换算易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", r.n.advice], ["边界", "号码测算为传统数理参考，不能决定真实财运、信用或事业结果"]])}`, "1518 手机号测算 · 2/2")
     ]);
   }
 
@@ -672,7 +672,7 @@
     const score = Math.min(99, Math.round(r.n.score * 0.7 + hashScore(data.plate, 12, 24)));
     return resultShell(tool, data, [
       cover("车牌测算报告", data.plate, [["综合数理", score], ["尾号气场", hashScore(r.tail, 74, 95)], ["字母结构", hashScore(letters, 70, 90)], ["出行稳定", r.repeats.length ? 74 : 86]], `${r.tail} · ${r.n.number}数`),
-      page("车牌结构", `<p>车牌数字和为 ${r.sum}，字母段为 ${escapeHtml(letters || "无")}，81 数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["尾号", r.tail], ["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", "车牌重点仍是合法合规、清晰易记和行车安全"], ["边界", "测算不代表交通风险预测"]])}`, "1518 车牌测算 · 2/2")
+      page("车牌结构", `<p>车牌数字和为 ${r.sum}，字母段为 ${escapeHtml(letters || "无")}，易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["尾号", r.tail], ["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", "车牌重点仍是合法合规、清晰易记和行车安全"], ["边界", "测算不代表交通风险预测"]])}`, "1518 车牌测算 · 2/2")
     ]);
   }
 

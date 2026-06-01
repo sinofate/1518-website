@@ -150,7 +150,7 @@
     ["每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。", "Each tool follows the same report-style workflow as Name Test and Company Name Test, with consistent inputs, calculations and report output. Larger datasets and deeper algorithms can be connected later."],
     ["放在姓名测试页尾，适合从测试结果继续生成个人名字候选。", "Placed at the end of the Name Test page, useful for generating personal name candidates after reviewing a test result."],
     ["易经数理 · 商业命名诊断", "I Ching Numerology · Business Naming Diagnosis"],
-    ["按公司全称、商号简称、所属行业和 81 数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。", "Generate a business naming diagnosis from the full company name, trade name, industry and 81 numerology, focusing on brand communication, industry fit, expansion, cash-flow stability and operating risk."],
+    ["按公司全称、商号简称、所属行业和易经数理，生成商业命名诊断。重点看品牌传播力、行业适配、融资扩张、现金流稳定与经营风险。", "Generate a business naming diagnosis from the full company name, trade name, industry and I Ching numerology, focusing on brand communication, industry fit, expansion, cash-flow stability and operating risk."],
     ["预查用于降低重名、近似和类别冲突风险，不构成工商核名、商标注册或法律可注册承诺。", "The precheck helps reduce duplicate, similar-name and class-conflict risk. It is not a legal promise of company name approval or trademark registration."],
     ["当前未连接后端注册数据接口，已提供官方核验入口。", "The backend registry data API is not connected yet. Official verification links are provided."],
     ["本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", "Local rules found no obvious restricted wording, but official or licensed data is still required for duplicate and similarity checks."],
