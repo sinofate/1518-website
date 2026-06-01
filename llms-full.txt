@@ -3,7 +3,7 @@
 
 ## Site Identity
 
-1518 起名网是长期运营20年的中文起名测名和传统文化工具站。本版本由《易经》专家孔立担任产品顾问。站点面向普通用户提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日密码、风水、血型、手机号、车牌号等在线工具。站点内容适合用作民俗文化、命名参考、娱乐测算和初步命名灵感，不应被解释为确定性结论。
+1518 起名网是长期运营20年的中文起名测名和传统文化工具站。本版本由《易经》专家孔力担任产品顾问。站点面向普通用户提供姓名测试、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、生日密码、风水、血型、手机号、车牌号等在线工具。站点内容适合用作民俗文化、命名参考、娱乐测算和初步命名灵感，不应被解释为确定性结论。
 
 Canonical domain: `https://www.1518.com/`
 
@@ -11,13 +11,14 @@ Language: `zh-CN`
 
 Brand name: `1518 起名网`
 
-Advisor: 孔立，产品顾问，方向为易经与传统文化命名参考。
+Advisor: 孔力，产品顾问，方向为易经与传统文化命名参考。
 
 Primary user intent: 起名、测名、解梦、生肖属相、星座、号码测算、传统文化参考。
 
 ## Agent Entry Points
 
 - Home: `https://www.1518.com/`
+- About: `https://www.1518.com/about.html`
 - Name test: `https://www.1518.com/#name-test`
 - Personal naming: `https://www.1518.com/#baby`
 - Company name test: `https://www.1518.com/#company-test`
