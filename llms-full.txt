@@ -34,7 +34,6 @@ Primary user intent: 起名、测名、解梦、生肖属相、星座、号码�
 - Five movements and six qi: `https://www.1518.com/#wuyun`
 - Phone number test: `https://www.1518.com/#phone`
 - License plate test: `https://www.1518.com/#plate`
-- Orders: `https://www.1518.com/#orders`
 - All tools: `https://www.1518.com/#all-tools`
 
 ## Tool Map
@@ -290,19 +289,6 @@ Inputs:
 - plate: 车牌号码
 
 Output: 车牌数字、字母、尾号和易经数理参考。
-
-### 订单查询
-
-Route: `#orders`
-
-Keywords: 订单查询, 1518订单查询, 起名报告查询, 姓名报告, 公司起名订单, 报告下载
-
-Inputs:
-
-- query: 订单号或手机号
-- name: 联系人姓名
-
-Output: 订单状态、报告状态和后续接口提示。当前为前端占位，正式订单状态需要后端 API。
 
 ## Agent Rules
 

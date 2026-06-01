@@ -238,17 +238,6 @@
         ["plate", "车牌号码", "text", "沪A8X518"]
       ],
       build: buildPlateReport
-    },
-    {
-      id: "orders",
-      nav: "订单查询",
-      title: "订单查询",
-      intro: "查询姓名报告、起名订单和企业命名订单的状态。当前为前端占位，后续接订单 API。",
-      fields: [
-        ["query", "订单号/手机号", "text", "1518-20260602"],
-        ["name", "联系人姓名", "text", "王先生"]
-      ],
-      build: buildOrderReport
     }
   ];
 
@@ -673,13 +662,6 @@
     return resultShell(tool, data, [
       cover("车牌测算报告", data.plate, [["综合数理", score], ["尾号气场", hashScore(r.tail, 74, 95)], ["字母结构", hashScore(letters, 70, 90)], ["出行稳定", r.repeats.length ? 74 : 86]], `${r.tail} · ${r.n.number}数`),
       page("车牌结构", `<p>车牌数字和为 ${r.sum}，字母段为 ${escapeHtml(letters || "无")}，易经数理为 ${r.n.number}「${r.n.title}」。${r.n.text}</p>${table([["尾号", r.tail], ["重复数字", r.repeats.length ? r.repeats.join("、") : "无明显三连重复"], ["建议", "车牌重点仍是合法合规、清晰易记和行车安全"], ["边界", "测算不代表交通风险预测"]])}`, "1518 车牌测算 · 2/2")
-    ]);
-  }
-
-  function buildOrderReport(tool, data) {
-    return resultShell(tool, data, [
-      cover("订单查询结果", data.query, [["资料完整", 80], ["支付状态", 60], ["报告状态", 60], ["客服处理", 78]], `${data.name} · 待接入订单系统`),
-      page("订单状态", `${table([["查询号码", escapeHtml(data.query)], ["联系人", escapeHtml(data.name)], ["当前状态", "前端已收到查询，后端订单 API 待接入"], ["后续接口", "/api/orders/:id"], ["提示", "接入支付和订单数据库后可显示报告下载、补填资料和客服状态"]])}`, "1518 订单查询 · 2/2")
     ]);
   }
 

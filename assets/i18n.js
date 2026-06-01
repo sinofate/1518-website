@@ -28,7 +28,6 @@
     "五运六气": "Five Movements & Six Qi",
     "手机号测算": "Phone Number Test",
     "车牌测算": "Plate Number Test",
-    "订单查询": "Order Lookup",
     "姓名": "Name",
     "性别": "Gender",
     "出生日期": "Birth Date",
@@ -116,7 +115,6 @@
     "查询日期": "Query Date",
     "手机号码": "Phone Number",
     "车牌号码": "Plate Number",
-    "订单号/手机号": "Order No. / Phone",
     "联系人姓名": "Contact Name",
     "子时": "Zi Hour",
     "丑时": "Chou Hour",
@@ -156,7 +154,6 @@
     ["本地规则未发现明显禁用词，仍需连接官方或授权数据源做重名/近似检索。", "Local rules found no obvious restricted wording, but official or licensed data is still required for duplicate and similarity checks."],
     ["公司名称建议先确认行政区划、行业表述、组织形式，再围绕主体字号做商标、同名企业和负面舆情排查。", "For company names, confirm the region, industry wording and entity suffix first, then check the core trade name against trademarks, existing entities and negative associations."],
     ["正式使用前需做商标近似和同品类检索。", "Before official use, run similar trademark and same-category searches."],
-    ["前端已收到查询，后端订单 API 待接入", "The frontend has received the query; the backend order API is not connected yet."],
     ["综合评分", "Overall Score"],
     ["报告生成日期", "Report Date"],
     ["姓名综合分析报告", "Comprehensive Name Analysis Report"],
@@ -172,8 +169,7 @@
     ["生肖查询报告", "Chinese Zodiac Report"],
     ["星座查询报告", "Western Zodiac Report"],
     ["手机号测算报告", "Phone Number Report"],
-    ["车牌测算报告", "Plate Number Report"],
-    ["订单查询结果", "Order Lookup Result"]
+    ["车牌测算报告", "Plate Number Report"]
   ];
 
   [
@@ -194,8 +190,7 @@
     ["血型配对", "Blood Match"],
     ["五运六气", "Five Movements & Six Qi"],
     ["手机号测算", "Phone Number Test"],
-    ["车牌测算", "Plate Number Test"],
-    ["订单查询", "Order Lookup"]
+    ["车牌测算", "Plate Number Test"]
   ].forEach((item) => phrases.push(item));
 
   const routeMeta = {
@@ -218,7 +213,6 @@
     wuyun: ["Five Movements and Six Qi Lookup - 1518 Naming", "五运六气查询_岁运节气_中医五运六气 - 1518 起名网"],
     phone: ["Phone Number Test - 1518 Naming", "手机号测算_手机号码吉凶_号码测试 - 1518 起名网"],
     plate: ["License Plate Number Test - 1518 Naming", "车牌测算_车牌号码吉凶_车牌号测试 - 1518 起名网"],
-    orders: ["Order Lookup - 1518 Naming", "订单查询_起名报告查询_1518订单状态 - 1518 起名网"],
     "all-tools": ["1518 Tools - Naming, Dream, Zodiac and Number Tests", "1518 全栏目工具_起名测名解梦生肖星座号码测算"]
   };
 
