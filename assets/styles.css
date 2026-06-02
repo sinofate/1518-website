@@ -2136,6 +2136,14 @@ h2 {
     padding: 0 10px;
   }
 
+  .sub-nav [data-en-only="true"] {
+    display: none;
+  }
+
+  body.lang-en .sub-nav [data-en-only="true"] {
+    display: inline-flex;
+  }
+
   .page-shell {
     width: 100%;
     margin: 0;
