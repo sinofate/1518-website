@@ -1,0 +1,24 @@
+{
+  "name": "1518-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "1518 起名网 MCP server — exposes the real 五格/八字/数理 naming engines as agent-callable tools.",
+  "bin": {
+    "1518-mcp": "src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "start:http": "node src/http.js",
+    "extract-data": "node scripts/extract-data.mjs",
+    "build-kangxi": "node scripts/build-kangxi.mjs",
+    "test": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "lunar-javascript": "^1.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
