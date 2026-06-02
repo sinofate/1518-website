@@ -1,4 +1,5 @@
 :root {
+  --anchor-offset: 178px;
   --red: #c90f1b;
   --deep-red: #970b13;
   --brand-red: #b70d17;
@@ -17,6 +18,10 @@
   --soft-shadow: 0 12px 30px rgba(28, 22, 17, .07);
   --button-shadow: 0 12px 24px rgba(185, 13, 23, .22);
   --focus-ring: 0 0 0 3px rgba(201, 15, 27, .14);
+}
+
+html {
+  scroll-padding-top: var(--anchor-offset);
 }
 
 * {
@@ -477,6 +482,7 @@ body.home-lite .page-tail-module {
 }
 
 .name-report {
+  scroll-margin-top: var(--anchor-offset);
   margin-top: 18px;
   padding: 22px 0;
   background: #f3f4f6;
@@ -1074,7 +1080,7 @@ body.column-report-active .sidebar {
 }
 
 .column-tool-card {
-  scroll-margin-top: 12px;
+  scroll-margin-top: var(--anchor-offset);
   margin-top: 14px;
   padding: 18px 20px;
 }
@@ -1109,6 +1115,7 @@ body.column-report-active .sidebar {
 }
 
 .column-tool-output {
+  scroll-margin-top: var(--anchor-offset);
   margin-top: 18px;
   padding: 22px 0;
   background: #f3f4f6;
@@ -1502,6 +1509,7 @@ body.column-report-active .sidebar {
 }
 
 .company-report {
+  scroll-margin-top: var(--anchor-offset);
   margin-top: 14px;
   padding: 22px 0;
   background: #f3f4f6;
@@ -2031,6 +2039,10 @@ h2 {
 }
 
 @media (max-width: 780px) {
+  :root {
+    --anchor-offset: 148px;
+  }
+
   body {
     background: #f7f7f7;
     font-size: 15px;
@@ -2234,7 +2246,7 @@ h2 {
   .content > section,
   .page-tail-module,
   .column-tool-card {
-    scroll-margin-top: 148px;
+    scroll-margin-top: var(--anchor-offset);
   }
 
   body.home-lite .content {
