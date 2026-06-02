@@ -3,7 +3,7 @@
     "name": "1518 起名网",
     "canonical": "https://www.1518.com/",
     "language": "zh-CN",
-    "summary": "长期运营20年的中文起名测名和传统文化工具站，提供姓名测试、每日宜忌、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、风水、血型、手机号和车牌测算等参考工具。",
+    "summary": "长期运营20年的中文起名测名和传统文化工具站，提供姓名测试、每日宜忌、黄道吉日、个人起名、公司名测试、公司起名、品牌起名、周公解梦、生肖星座、风水、血型、手机号和车牌测算等参考工具。",
     "operatingHistory": "20年中文起名测名工具站",
     "advisor": {
       "name": "孔力",
@@ -30,6 +30,8 @@
       "run_name_test",
       "run_personal_naming",
       "run_company_name_test",
+      "run_daily_almanac",
+      "run_auspicious_date",
       "run_company_naming",
       "run_brand_naming",
       "run_company_registry_precheck",
@@ -73,6 +75,12 @@
       "url": "https://www.1518.com/#daily",
       "title": "每日宜忌",
       "intent": "每日宜忌、今日黄历、黄历宜忌、八字择日、吉时和方位参考。"
+    },
+    {
+      "id": "auspicious",
+      "url": "https://www.1518.com/#auspicious",
+      "title": "黄道吉日",
+      "intent": "黄道吉日、结婚吉日、开业吉日、签约吉日、搬家吉日、八字择日和吉时参考。"
     },
     {
       "id": "company-test",

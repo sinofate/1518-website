@@ -57,6 +57,22 @@
       "output": ["黄历宜忌", "农历干支", "冲煞", "吉神凶煞", "财神喜神方位", "八字补益", "吉时建议"]
     },
     {
+      "id": "auspicious-date",
+      "route": "https://www.1518.com/#auspicious",
+      "inputSchema": {
+        "type": "object",
+        "required": ["eventType", "startDate", "rangeDays", "birthDate", "birthHour"],
+        "properties": {
+          "eventType": { "type": "string", "enum": ["结婚嫁娶", "开业开市", "签约交易", "搬家入宅", "出行赴任", "起名改名"] },
+          "startDate": { "type": "string", "format": "date", "description": "候选日期范围的开始日期" },
+          "rangeDays": { "type": "string", "enum": ["7天", "15天", "30天", "60天"] },
+          "birthDate": { "type": "string", "format": "date", "description": "用户出生日期，用于八字喜用参考" },
+          "birthHour": { "type": "string", "description": "子时至亥时" }
+        }
+      },
+      "output": ["候选吉日排序", "黄历宜忌命中", "八字补益", "冲煞提醒", "吉神凶煞", "推荐吉时", "事项执行建议"]
+    },
+    {
       "id": "company-naming",
       "route": "https://www.1518.com/#company",
       "inputSchema": {

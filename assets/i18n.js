@@ -15,6 +15,7 @@
     "公司起名": "Company Naming",
     "品牌起名": "Brand Naming",
     "每日宜忌": "Daily Almanac",
+    "黄道吉日": "Auspicious Dates",
     "姓名测试": "Name Test",
     "公司测名": "Company Name Test",
     "品牌测试": "Brand Test",
@@ -35,6 +36,9 @@
     "车牌测算": "Plate Number Test",
     "查询日期": "Date",
     "关注事项": "Focus",
+    "事件类型": "Event Type",
+    "开始日期": "Start Date",
+    "查询范围": "Date Range",
     "姓名": "Name",
     "性别": "Gender",
     "出生日期": "Birth Date",
@@ -82,9 +86,13 @@
     "本站内容基于传统文化与民俗资料整理，仅供娱乐参考。": "Content is based on traditional culture and folklore materials, for entertainment and reference only.",
     "公司起名方案报告": "Company Naming Report",
     "每日宜忌报告": "Daily Almanac Report",
+    "黄道吉日筛选报告": "Auspicious Date Report",
     "今日黄历总览": "Daily Almanac Overview",
     "八字个性化判断": "Bazi Personalization",
     "吉时与行动建议": "Auspicious Hours and Actions",
+    "候选吉日排序": "Ranked Auspicious Dates",
+    "八字择日逻辑": "Bazi Date Selection Logic",
+    "事项与执行建议": "Event Guidance",
     "今日所宜": "Recommended Today",
     "今日所忌": "Avoid Today",
     "起名改名": "Naming / Rename",
@@ -93,6 +101,11 @@
     "婚嫁订盟": "Marriage / Engagement",
     "学习考试": "Study / Exams",
     "求财合作": "Finance / Cooperation",
+    "结婚嫁娶": "Wedding",
+    "开业开市": "Business Opening",
+    "签约交易": "Contract Signing",
+    "搬家入宅": "Moving In",
+    "出行赴任": "Travel / Appointment",
     "品牌起名方案报告": "Brand Naming Report",
     "品牌名测试报告": "Brand Name Test Report",
     "个人起名方案报告": "Personal Naming Report",
@@ -219,8 +232,8 @@
 
   const phrases = [
     ["1518 起名网 - 20年中文起名测名工具", "1518 Naming - Chinese Name and Culture Tools Since 2006"],
-    ["1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔力担任产品顾问，提供姓名测试、公司名测试、每日宜忌、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。", "1518 Naming is a 20-year Chinese naming and cultural reference site with I Ching expert Kong Li as product advisor, offering name tests, company name tests, daily almanac guidance, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests."],
-    ["1518 起名网提供姓名测试、每日宜忌、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。", "1518 provides online tools for name testing, daily almanac guidance, personal naming, company naming, company name testing, dream interpretation, zodiac and number tests."],
+    ["1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔力担任产品顾问，提供姓名测试、公司名测试、每日宜忌、黄道吉日、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。", "1518 Naming is a 20-year Chinese naming and cultural reference site with I Ching expert Kong Li as product advisor, offering name tests, company name tests, daily almanac guidance, auspicious dates, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests."],
+    ["1518 起名网提供姓名测试、每日宜忌、黄道吉日、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。", "1518 provides online tools for name testing, daily almanac guidance, auspicious dates, personal naming, company naming, company name testing, dream interpretation, zodiac and number tests."],
     ["1518 起名网提供姓名测试、个人起名、公司起名、公司名测试、周公解梦、生肖星座和号码测算等在线工具。", "1518 provides online tools for name testing, personal naming, company naming, company name testing, dream interpretation, zodiac and number tests."],
     ["每个栏目都采用与“姓名测试”“公司名测试”一致的报告页风格，保持统一的输入、测算和报告体验，后续再逐栏接入更大的数据库和更细算法。", "Each tool follows the same report-style workflow as Name Test and Company Name Test, with consistent inputs, calculations and report output. Larger datasets and deeper algorithms can be connected later."],
     ["适合从姓名测试结果继续生成个人名字候选。", "Useful for generating personal name candidates after reviewing a name test result."],
@@ -320,6 +333,7 @@
     ["公司起名", "Company Naming"],
     ["品牌起名", "Brand Naming"],
     ["每日宜忌", "Daily Almanac"],
+    ["黄道吉日", "Auspicious Dates"],
     ["姓名测试", "Name Test"],
     ["公司名测试", "Company Name Test"],
     ["品牌名测试", "Brand Name Test"],
@@ -344,6 +358,7 @@
     "name-test": ["Name Test and Chinese Name Score - 1518 Naming", "姓名测试_姓名打分_名字测试打分 - 1518 起名网"],
     baby: ["Personal Naming and Baby Names - 1518 Naming", "个人起名_宝宝起名_生辰八字起名 - 1518 起名网"],
     daily: ["Daily Almanac and Bazi Day Guide - 1518 Naming", "每日宜忌_黄历宜忌_八字择日参考 - 1518 起名网"],
+    auspicious: ["Auspicious Dates and Bazi Date Selection - 1518 Naming", "黄道吉日_结婚开业签约择日_八字择日 - 1518 起名网"],
     "company-test": ["Company Name Test and Business Name Score - 1518 Naming", "公司名测试_公司测名打分_企业名称测算 - 1518 起名网"],
     company: ["Company Naming and Business Name Ideas - 1518 Naming", "公司起名_企业起名_公司取名大全 - 1518 起名网"],
     brand: ["Brand Naming and Trademark Name Ideas - 1518 Naming", "品牌起名_商标起名_店铺品牌取名 - 1518 起名网"],
@@ -387,6 +402,15 @@
     "婚嫁订盟": "Marriage / Engagement",
     "学习考试": "Study / Exams",
     "求财合作": "Finance / Cooperation",
+    "结婚嫁娶": "Wedding",
+    "开业开市": "Business Opening",
+    "签约交易": "Contract Signing",
+    "搬家入宅": "Moving In",
+    "出行赴任": "Travel / Appointment",
+    "7天": "7 Days",
+    "15天": "15 Days",
+    "30天": "30 Days",
+    "60天": "60 Days",
     "专业可信": "Professional",
     "年轻活泼": "Young & Lively",
     "高端克制": "Premium",
@@ -563,13 +587,13 @@
       document.documentElement.lang = "zh-CN";
       document.body.classList.remove("lang-en");
       document.title = meta[1];
-      if (description) description.content = "1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔力担任产品顾问，提供姓名测试、公司名测试、每日宜忌、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。";
+      if (description) description.content = "1518 起名网是长期运营20年的中文起名测名工具站，由《易经》专家孔力担任产品顾问，提供姓名测试、公司名测试、每日宜忌、黄道吉日、个人起名、公司起名、品牌起名、周公解梦、生肖星座、号码测算等传统文化参考服务。";
       return;
     }
     document.documentElement.lang = "en";
     document.body.classList.add("lang-en");
     document.title = meta[0];
-    if (description) description.content = "1518 Naming provides Chinese name tests, company name checks, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests.";
+    if (description) description.content = "1518 Naming provides Chinese name tests, company name checks, daily almanac guidance, auspicious dates, personal naming, company naming, brand naming, dream interpretation, zodiac tools and number tests.";
   }
 
   function updateButtons() {

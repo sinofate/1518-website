@@ -13,6 +13,8 @@
     "get_1518_tool_schema",
     "run_name_test",
     "run_company_name_test",
+    "run_daily_almanac",
+    "run_auspicious_date",
     "run_company_registry_precheck",
     "run_trademark_precheck",
     "run_zodiac_lookup",

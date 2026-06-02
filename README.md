@@ -1,6 +1,6 @@
 # 1518.com 网站开发项目
 
-1518.com 是一个面向中文用户的起名、测名和传统文化测算工具站。当前版本为静态前端实现，重点完成首页核心测算入口、姓名测试、公司名测试、每日宜忌、品牌测试、个人起名、公司起名、移动端访问、SEO、Agent 可读文件和 GitHub 部署基础。
+1518.com 是一个面向中文用户的起名、测名和传统文化测算工具站。当前版本为静态前端实现，重点完成首页核心测算入口、姓名测试、公司名测试、每日宜忌、黄道吉日、品牌测试、个人起名、公司起名、移动端访问、SEO、Agent 可读文件和 GitHub 部署基础。
 
 本文档是本项目的开发说明和协作规范。后续使用 Claude Code、Codex 或人工方式修改源代码时，都应优先阅读并同步维护本文档。
 
@@ -93,7 +93,7 @@ http://127.0.0.1:8158/?lang=en
 - `assets/name-engine.js`：姓名测试核心引擎，包含五格数理、康熙笔画、三才、八字、用字五行、用字风险和测算置信度。笔画查找顺序为「内联康熙表 → `window.KANGXI_DB` → 估算」。
 - `assets/company-name-test.js`：首页公司名测试，包含行业池、商号自动抽取、行业适配、风险扣分、报告生成。笔画查找同样接入 `window.KANGXI_DB`。
 - `assets/kangxi-strokes.js`：**生成文件**（由 `mcp-server/scripts/build-kangxi.mjs` 产出），定义 `window.KANGXI_DB` 约 2 万字康熙笔画共用表，覆盖 GBK 字集。`index.html` 在引擎脚本前加载它，缺失时引擎自动回退到估算，站点仍可独立运行。不要手改，改数据请重跑生成脚本。
-- `assets/columns-tools.js`：扩展栏目工具，包括每日宜忌、个人起名、公司起名、品牌起名、品牌测试、生肖、星座、号码、车牌等。
+- `assets/columns-tools.js`：扩展栏目工具，包括每日宜忌、黄道吉日、个人起名、公司起名、品牌起名、品牌测试、生肖、星座、号码、车牌等。
 - `assets/app.js`：页面初始化、SEO 路由、首页表单、姓名报告渲染、通用 UI 行为。
 - `assets/vendor/lunar.js`：第三方农历/八字库。不要直接修改，除非明确升级 vendor 版本并记录来源。
 
@@ -130,6 +130,7 @@ http://127.0.0.1:8158/?lang=en
 - 公司名测试：公司全称、商号简称、所属行业、组织形式、行业适配、传播识别和风险扣分。
 - 品牌名测试：传播力、品类联想、数理参考、受众匹配和商标预查提醒。
 - 每日宜忌：读取黄历宜忌、农历干支、冲煞、吉神凶煞、方位和时辰，并结合用户八字喜用生成行动建议。
+- 黄道吉日：面向结婚、开业、签约、搬家等重要事项，在候选日期中结合黄历宜忌、冲煞、吉神凶煞、八字喜用和吉时排序。
 - 个人起名：按姓氏、性别、出生时间、五行补益和用字风险生成候选名。
 - 公司起名：按行业、地域、关键词和组织后缀生成候选公司名。
 - 品牌起名：按品类、用户、气质和商标类别生成候选品牌名。
@@ -218,7 +219,7 @@ Claude Code 参与修改源代码时，请遵守以下流程：
    - 改视觉：优先看 `assets/styles.css`、`index.html`。
    - 改姓名测试：优先看 `assets/name-engine.js`、`assets/app.js`。
    - 改公司名测试：首页看 `assets/company-name-test.js`，栏目页看 `assets/columns-tools.js`。
-   - 改每日宜忌、品牌、生肖、星座、号码等栏目：看 `assets/columns-tools.js`。
+   - 改每日宜忌、黄道吉日、品牌、生肖、星座、号码等栏目：看 `assets/columns-tools.js`。
    - 改中英文：看 `assets/i18n.js`。
    - 改 SEO/Agent：看 `index.html`、`about.html`、`llms.txt`、`llms-full.txt`、`.well-known/ai-readiness.json`、`.well-known/mcp.json`、`.well-known/agent-tools.json`、`sitemap.xml`。
 3. 修改前先确认 `git status --short`，不要覆盖他人未提交改动。

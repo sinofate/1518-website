@@ -58,6 +58,15 @@
     求财合作: { keywords: ["交易", "纳财", "立券", "开市"], element: "金", advice: "适合看财位、合同、交易与合作边界；若与八字忌神相触，宜先守风控，再谈收益。" }
   };
   const DAILY_MATTER_NAMES = Object.keys(DAILY_MATTERS);
+  const AUSPICIOUS_EVENTS = {
+    结婚嫁娶: { matter: "婚嫁订盟", keywords: ["嫁娶", "订盟", "纳采", "会亲友"], element: "水", focus: "以和合、稳定、亲友顺承为先，避开冲克双方生肖和沟通容易起波澜的日课。" },
+    开业开市: { matter: "开业签约", keywords: ["开市", "交易", "纳财", "立券"], element: "火", focus: "以开张气势、客流启动、财位生发为先，适合选所宜命中且吉时清朗的日期。" },
+    签约交易: { matter: "求财合作", keywords: ["交易", "纳财", "立券", "开市"], element: "金", focus: "以边界清楚、权责明白、财务稳健为先，黄历之外还要复核合同条款与履约条件。" },
+    搬家入宅: { matter: "搬家出行", keywords: ["移徙", "入宅", "安床", "出行"], element: "土", focus: "以安定、入宅、动线顺畅为先，避开冲煞方向，先定人、物、路线与安床时段。" },
+    出行赴任: { matter: "搬家出行", keywords: ["出行", "赴任", "移徙", "会亲友"], element: "木", focus: "以启程顺利、行程清楚、人事衔接为先，适合选交通与时辰都稳的日期。" },
+    起名改名: { matter: "起名改名", keywords: ["祈福", "求嗣", "开光", "纳采"], element: "木", focus: "以启用新名、确定称呼、建立长期气象为先，先取其意，再合其数。" }
+  };
+  const AUSPICIOUS_EVENT_NAMES = Object.keys(AUSPICIOUS_EVENTS);
   const CHAR_ELEMENT = {
     木: ["若", "芷", "禾", "森", "林", "景", "嘉", "元", "启", "策", "荣", "栩"],
     火: ["晟", "晴", "知", "星", "辰", "明", "光", "昕", "曜", "煦", "达"],
@@ -128,6 +137,20 @@
         ["matter", "关注事项", "select", "", DAILY_MATTER_NAMES]
       ],
       build: buildDailyAlmanacReport
+    },
+    {
+      id: "auspicious",
+      nav: "黄道吉日",
+      title: "黄道吉日",
+      intro: "面向结婚、开业、签约、搬家等重要事项，在候选日期中结合黄历宜忌、冲煞、吉神凶煞、个人八字喜用和吉时排序。",
+      fields: [
+        ["eventType", "事件类型", "select", "", AUSPICIOUS_EVENT_NAMES],
+        ["startDate", "开始日期", "date", todayIso()],
+        ["rangeDays", "查询范围", "select", "", ["7天", "15天", "30天", "60天"]],
+        ["birthDate", "出生日期", "date", ""],
+        ["birthHour", "出生时辰", "select", "", BIRTH_HOURS]
+      ],
+      build: buildAuspiciousDateReport
     },
     {
       id: "company",
@@ -312,6 +335,28 @@
     const parts = String(value || "").split("-").map(Number);
     if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return null;
     return { year: parts[0], month: parts[1], day: parts[2] };
+  }
+
+  function isoToDate(value) {
+    const parsed = parseIsoDate(value);
+    if (!parsed) return null;
+    return new Date(parsed.year, parsed.month - 1, parsed.day);
+  }
+
+  function dateToIso(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  }
+
+  function addDaysIso(value, days) {
+    const date = isoToDate(value);
+    if (!date) return value;
+    date.setDate(date.getDate() + days);
+    return dateToIso(date);
+  }
+
+  function rangeDays(value) {
+    const match = String(value || "").match(/\d+/);
+    return match ? Number(match[0]) : 30;
   }
 
   function asList(value) {
@@ -981,6 +1026,79 @@
       const score = clamp(70 + (matterHit ? 10 : 0) + (usefulHit ? 8 : 0) - Math.min(16, ji.length * 2), 42, 96);
       return { hourName, timeGanZhi, element, yi, ji, score, label: score >= 86 ? "优先" : score >= 76 ? "可用" : "谨慎" };
     }).sort((a, b) => b.score - a.score);
+  }
+
+  function evaluateAuspiciousDate(queryDate, data, bazi) {
+    const ctx = getAlmanacContext(queryDate);
+    if (!ctx) return null;
+    const event = AUSPICIOUS_EVENTS[data.eventType] || AUSPICIOUS_EVENTS.签约交易;
+    const matter = matterKeywordScore(event.matter, ctx.yi, ctx.ji);
+    const fit = baziDayFit(bazi, ctx, { ...DAILY_MATTERS[event.matter], element: event.element });
+    const yiHit = event.keywords.filter((keyword) => ctx.yi.includes(keyword));
+    const jiHit = event.keywords.filter((keyword) => ctx.ji.includes(keyword));
+    const directScore = clamp(76 + yiHit.length * 10 - jiHit.length * 14, 38, 98);
+    const clashPenalty = bazi?.shengxiao && ctx.chongZodiac === bazi.shengxiao ? 14 : 0;
+    const deityScore = clamp(74 + Math.min(10, ctx.jiShen.length * 2) - Math.min(14, ctx.xiongSha.length), 45, 96);
+    const bestTimes = buildTimeSlots(queryDate, event.matter, bazi?.useful || []).slice(0, 3);
+    const timeScore = bestTimes[0]?.score || 70;
+    const total = clamp(directScore * 0.32 + fit.score * 0.30 + deityScore * 0.18 + timeScore * 0.14 + matter.score * 0.06 - clashPenalty, 30, 99);
+    const reason = [
+      yiHit.length ? `所宜命中${yiHit.join("、")}` : "未直接命中事项，可作为备选",
+      jiHit.length ? `所忌含${jiHit.join("、")}，需避重就轻` : "未见事项直接落入所忌",
+      clashPenalty ? `冲${ctx.chongZodiac}，与本人生肖相冲` : `冲煞为${ctx.chong || "待查"}，可按方位规避`,
+      fit.label
+    ].join("；");
+    return { date: queryDate, ctx, event, matter, fit, yiHit, jiHit, deityScore, directScore, timeScore, bestTimes, clashPenalty, total, reason };
+  }
+
+  function buildAuspiciousDateReport(tool, data) {
+    if (!window.Solar) return `<div class="report-error">当前黄历库未加载完成，请刷新后重试。</div>`;
+    const bazi = window.NameEngine?.calcBazi?.({ birthDate: data.birthDate, birthHour: data.birthHour });
+    const days = rangeDays(data.rangeDays);
+    const candidates = Array.from({ length: days }, (_, index) => evaluateAuspiciousDate(addDaysIso(data.startDate, index), data, bazi))
+      .filter(Boolean)
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 8);
+    const best = candidates[0];
+    if (!best) return `<div class="report-error">暂未生成候选日期，请检查开始日期。</div>`;
+    const scores = [
+      ["事项命中", best.directScore],
+      ["八字补益", best.fit.score],
+      ["吉神时辰", clamp((best.deityScore + best.timeScore) / 2, 30, 99)],
+      ["综合择日", best.total]
+    ];
+    const rows = candidates.slice(0, 6).map((item, index) => [
+      `第${index + 1}候选`,
+      `${item.date} · ${item.ctx.dayGanZhi}日`,
+      `${item.total}分 · ${grade(item.total)}`,
+      item.reason
+    ]);
+    const bestTimeRows = best.bestTimes.map((slot) => [
+      `${slot.hourName} ${slot.timeGanZhi}`,
+      `${slot.score}分 · ${slot.label}`,
+      `${slot.element}行${(bazi?.useful || []).includes(slot.element) ? "，补喜用" : ""}`,
+      `宜：${slot.yi.slice(0, 5).join("、") || "平常事"}`
+    ]);
+    return resultShell(tool, data, [
+      cover("黄道吉日筛选报告", data.eventType, scores, `${data.startDate} 起 · ${data.rangeDays} · 八字择日参考`),
+      page("候选吉日排序", `
+        <p>本次围绕「${escapeHtml(data.eventType)}」从 ${escapeHtml(data.startDate)} 起筛选 ${days} 天，优先看黄历所宜是否命中事项，再看个人八字喜用、冲煞、吉神凶煞和可用吉时。</p>
+        ${table(rows)}
+        <p class="muted-line">排序越高，表示传统黄历与个人八字条件更顺；若现实条件不允许，可优先选择前 3 个候选日，并避开冲煞方位和不利时段。</p>
+      `, "1518 黄道吉日 · 2/4"),
+      page("八字择日逻辑", `
+        <p>${escapeHtml(best.fit.text)}</p>
+        ${bazi ? table([["四柱", bazi.pillars.map((pillar) => `${pillar.label}${pillar.value}`).join(" · ")], ["生肖", bazi.shengxiao], ["日主", `${bazi.dayGan}${bazi.dayElement}（${bazi.strength}）`], ["喜用倾向", bazi.useful.join("、")], ["需节制", bazi.avoid.join("、")]]) : table([["八字", "未能排出四柱"], ["建议", "补齐出生日期和出生时辰后再测"]])}
+        ${table([["最佳候选", `${best.date} · ${best.ctx.dayGanZhi}日`], ["黄历所宜", best.ctx.yi.slice(0, 10).join("、") || "待查"], ["黄历所忌", best.ctx.ji.slice(0, 10).join("、") || "待查"], ["冲煞", `${best.ctx.chong || "待查"}，煞${best.ctx.sha || "方位待查"}`]])}
+      `, "1518 黄道吉日 · 3/4"),
+      page("事项与执行建议", `
+        <p>${escapeHtml(best.event.focus)}</p>
+        <p><b>建议日期：</b>${escapeHtml(best.date)}。<b>建议时辰：</b>${best.bestTimes.map((slot) => escapeHtml(slot.hourName)).join("、") || "待查"}。</p>
+        <div class="daily-time-grid">${best.bestTimes.map((slot) => `<div><strong>${escapeHtml(slot.hourName)}</strong><span>${escapeHtml(slot.timeGanZhi)} · ${slot.element}行</span><em>${slot.score}分 · ${slot.label}</em></div>`).join("")}</div>
+        ${table(bestTimeRows)}
+        <p class="muted-line">黄道吉日用于传统文化择日参考，不替代婚姻登记、合同审查、工商办理、天气交通、场地档期、医疗安全和法律意见。大事定日，宜“天时、人和、现实条件”三者同看。</p>
+      `, "1518 黄道吉日 · 4/4")
+    ]);
   }
 
   function buildDailyAlmanacReport(tool, data) {
