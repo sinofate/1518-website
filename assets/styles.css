@@ -2007,6 +2007,10 @@ h2 {
     display: none;
   }
 
+  body.lang-en .sub-nav .nav-duplicate-desktop {
+    display: inline-flex;
+  }
+
   .main-nav a,
   .sub-nav a {
     transition: background-color .15s ease, color .15s ease, transform .15s ease;
