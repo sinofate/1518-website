@@ -432,7 +432,7 @@
     if (!value || currentLang === "zh") return value;
     const trimmed = value.trim();
     if (!trimmed) return value;
-    if (trimmed === "专注精准测名") return value.replace(trimmed, "Focused Name Testing");
+    if (trimmed === "权威测名网站") return value.replace(trimmed, "Authoritative Name Testing");
     if (/^\d{4}年$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("年", ""));
     if (/^\d+月$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("月", ""));
     if (/^\d+日$/.test(trimmed)) return value.replace(trimmed, trimmed.replace("日", ""));
@@ -482,7 +482,7 @@
   function translateNode(root) {
     root.querySelectorAll?.(".brand-tagline").forEach((node) => {
       if (currentLang === "zh") {
-        node.innerHTML = ["专", "注", "精", "准", "测", "名"].map((char) => `<span>${char}</span>`).join("");
+        node.innerHTML = ["权", "威", "测", "名", "网", "站"].map((char) => `<span>${char}</span>`).join("");
         return;
       }
       node.textContent = "I Ching · Decide Your Path";
