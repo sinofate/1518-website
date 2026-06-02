@@ -45,6 +45,7 @@ http://127.0.0.1:8158/?lang=en
 │   ├── columns-tools.js
 │   ├── company-name-test.js
 │   ├── i18n.js
+│   ├── kangxi-strokes.js        # 生成文件：约2万字康熙笔画共用表（window.KANGXI_DB）
 │   ├── name-engine.js
 │   ├── styles.css
 │   └── vendor
@@ -57,6 +58,11 @@ http://127.0.0.1:8158/?lang=en
 │   ├── competitor-column-plan.md
 │   ├── registration-api-integration.md
 │   └── references
+├── mcp-server                   # 独立 Node 子项目：把测算引擎暴露为 Agent 可调用的 MCP 工具
+│   ├── scripts                  # build-kangxi.mjs（生成字库）、extract-data.mjs（从站点 assets 同步数据）
+│   ├── src                      # server.js/http.js 入口、engine/* 引擎、tools.js 工具注册
+│   ├── data                     # kangxi-report.json 生成报告
+│   └── test                     # smoke.mjs 端到端测试
 ├── .well-known
 │   ├── agent-tools.json
 │   ├── ai-readiness.json
@@ -67,6 +73,8 @@ http://127.0.0.1:8158/?lang=en
 ├── sitemap.xml
 └── README.md
 ```
+
+> 静态站只依赖 `assets/**`（含 `kangxi-strokes.js`），可独立运行；`mcp-server/` 为可选的 Agent 调用层，不参与站点静态托管。
 
 ## 文件职责
 
@@ -82,11 +90,19 @@ http://127.0.0.1:8158/?lang=en
 
 ### 测算算法
 
-- `assets/name-engine.js`：姓名测试核心引擎，包含五格数理、康熙笔画、三才、八字、用字五行、用字风险和测算置信度。
-- `assets/company-name-test.js`：首页公司名测试，包含行业池、商号自动抽取、行业适配、风险扣分、报告生成。
+- `assets/name-engine.js`：姓名测试核心引擎，包含五格数理、康熙笔画、三才、八字、用字五行、用字风险和测算置信度。笔画查找顺序为「内联康熙表 → `window.KANGXI_DB` → 估算」。
+- `assets/company-name-test.js`：首页公司名测试，包含行业池、商号自动抽取、行业适配、风险扣分、报告生成。笔画查找同样接入 `window.KANGXI_DB`。
+- `assets/kangxi-strokes.js`：**生成文件**（由 `mcp-server/scripts/build-kangxi.mjs` 产出），定义 `window.KANGXI_DB` 约 2 万字康熙笔画共用表，覆盖 GBK 字集。`index.html` 在引擎脚本前加载它，缺失时引擎自动回退到估算，站点仍可独立运行。不要手改，改数据请重跑生成脚本。
 - `assets/columns-tools.js`：扩展栏目工具，包括个人起名、公司起名、品牌起名、品牌测试、生肖、星座、号码、车牌等。
 - `assets/app.js`：页面初始化、SEO 路由、首页表单、姓名报告渲染、通用 UI 行为。
 - `assets/vendor/lunar.js`：第三方农历/八字库。不要直接修改，除非明确升级 vendor 版本并记录来源。
+
+### MCP Server（可选 Agent 调用层）
+
+- `mcp-server/`：独立 Node 子项目，把姓名/公司/生肖/工商商标预查等暴露为 Agent 可调用的 MCP 工具（`/.well-known/mcp.json` 里"planned"工具的可运行实现）。**不属于静态站运行时**，站点不依赖它。
+- 数据一致性：姓名引擎在 Node 沙箱中**直接执行站点 `assets/name-engine.js`**（`extract-data.mjs` 同步的副本），评分与站点逐项一致、不会漂移；公司引擎按同一公式移植并经样本回归核对。
+- 字库共用：`build-kangxi.mjs` 生成 `assets/kangxi-strokes.js` 与 `mcp-server/src/engine/kangxi-db.js` 同一张表，站点与 MCP 共用。
+- 详细使用/部署见 `mcp-server/README.md`。
 
 ### SEO、Agent 和部署文件
 

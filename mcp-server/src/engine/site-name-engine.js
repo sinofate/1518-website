@@ -1,3 +1,4 @@
+// AUTO-GENERATED copy of ../../assets/name-engine.js — do not edit by hand. Regenerate with extract-data.
 (function () {
   const DOUBLE_SURNAMES = ["欧阳", "司马", "上官", "诸葛", "东方", "尉迟", "公孙", "慕容", "司徒", "南宫", "夏侯", "皇甫", "申屠", "公羊", "公冶", "梁丘", "闻人", "长孙", "宇文", "司空", "端木"];
   const WUXING_BY_TAIL = { 1: "木", 2: "木", 3: "火", 4: "火", 5: "土", 6: "土", 7: "金", 8: "金", 9: "水", 0: "水" };
