@@ -402,7 +402,7 @@ function renderNameReport(data) {
     row.number,
     row.element,
     row.numerology.level,
-    `${row.meaning} ${row.numerology.title}：${row.numerology.text}`
+    `${row.meaning} ${row.numerology.title}：${row.numerology.text} 调和建议：${row.numerology.advice}`
   ]) : [
     ["天格", report.sky, getElementByChar(String(report.sky)), getGrade(report.scores.fiveGrid), "祖辈基业与先天环境。"],
     ["人格", report.person, getElementByChar(String(report.person)), getGrade(report.scores.bazi), "性格核心与中年运势。"],
@@ -456,7 +456,7 @@ function renderNameReport(data) {
           ${strokeRows.map(([label, number, element, grade]) => `<div><span>${label}</span><strong>${number}</strong><em>${element} · ${grade}</em></div>`).join("")}
         </div>
         <table class="report-table">
-          <thead><tr><th>格</th><th>数</th><th>五行</th><th>吉凶</th><th>含义</th></tr></thead>
+          <thead><tr><th>格</th><th>数</th><th>五行</th><th>吉凶</th><th>含义与调和建议</th></tr></thead>
           <tbody>${strokeRows.map(([label, number, element, grade, meaning]) => `<tr><td>${label}</td><td>${number}</td><td>${element}</td><td>${grade}</td><td>${meaning}</td></tr>`).join("")}</tbody>
         </table>
         <div class="report-subblock"><h4>人格${report.person}画 — 性格与运势</h4><p><b>性格特征：</b>人格为姓名主格，代表性格核心与中年运势。${report.gridRows ? report.gridRows[1].numerology.text : "此名整体偏向稳重、讲原则。"}</p><p><b>事业运：</b>人格与外格共同观察中年事业、人际支撑和合作阻力。外格 ${report.outer} 画显示外部关系为「${strokeRows[3][3]}」。</p><p><b>建议：</b>${report.gridRows ? report.gridRows[1].numerology.advice : "宜保持清晰目标，长期积累。"}</p></div>

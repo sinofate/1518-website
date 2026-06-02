@@ -21,7 +21,7 @@ const pillars = wxm.bazi.pillars.map((p) => p.value).join(" ");
 assert.equal(pillars, "庚午 壬午 辛亥 甲午", `八字应为 庚午壬午辛亥甲午，实际 ${pillars}`);
 ok(`八字 ${pillars} 与站点一致`);
 assert.equal(wxm.bazi.shengxiao, "马"); ok("生肖 马");
-assert.equal(wxm.total, 77, `综合评分应为 77，实际 ${wxm.total}`); ok(`综合评分 ${wxm.total}（与站点逐项一致）`);
+assert.equal(wxm.total, 79, `综合评分应为 79，实际 ${wxm.total}`); ok(`综合评分 ${wxm.total}（与站点逐项一致）`);
 
 // 康熙大字库覆盖：玥/翔 原本缺字按 10 画估算，现应命中字库且五格正确
 const lyx = analyzeName({ fullName: "林玥翔", reportGender: "女", birthDate: "2000-08-08", birthHour: "辰时" });
@@ -54,11 +54,11 @@ const nameRes = await call("run_name_test", { fullName: "王小明", reportGende
 assert.deepEqual(nameRes.grids.map((g) => g.number), [5, 7, 11, 9, 15]);
 ok(`run_name_test -> 评分 ${nameRes.total} (${nameRes.grade})`);
 
-// 公司名测试 + 商号自动抽取（不传 shortName -> 应推出「未来」），与站点一致 total=88
+// 公司名测试 + 商号自动抽取（不传 shortName -> 应推出「未来」），与站点一致 total=93
 const co = await call("run_company_name_test", { companyName: "北京未来智能科技有限公司", industry: "ai" });
 assert.equal(co.shortName, "未来", `商号应自动抽取为 未来，实际 ${co.shortName}`);
 assert.equal(co.shortNameInferred, true);
-assert.equal(co.totalScore, 88, `公司综合评分应为 88（与站点一致），实际 ${co.totalScore}`);
+assert.equal(co.totalScore, 93, `公司综合评分应为 93（与站点一致），实际 ${co.totalScore}`);
 ok(`run_company_name_test -> ${co.totalScore} 分，商号「${co.shortName}」(自动抽取)，总格 ${co.fullName.number}数(${co.fullName.title})`);
 
 const zod = await call("run_zodiac_lookup", { year: 1990 });

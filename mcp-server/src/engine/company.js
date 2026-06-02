@@ -23,7 +23,7 @@ function levelOf(number) {
 
 function industryFit(number, industry) {
   if (industry.best.includes(number)) return { label: "高度契合", tone: "good", text: `该数理正好位于 ${industry.name} 的优先吉数池，容易把行业优势转化为品牌势能。` };
-  if (industry.avoid.includes(number)) return { label: "明显冲突", tone: "bad", text: `该数理属于 ${industry.name} 的重点避坑数，长期使用会放大赛道短板。` };
+  if (industry.avoid.includes(number)) return { label: "需要调和", tone: "bad", text: `该数理属于 ${industry.name} 的需谨慎数，长期使用可能放大赛道短板；可通过商号用字、品牌简称和经营定位来补强。` };
   const level = levelOf(number);
   if (level.className === "good") return { label: "基本可用", tone: "mid", text: "数理本身偏吉，但不是本行业的最优解，可通过商号、子品牌或传播口径补强。" };
   return { label: "需要谨慎", tone: "bad", text: "数理与行业没有形成明显加分，若用于核心主体，建议再做候选名对比。" };
