@@ -1143,6 +1143,84 @@ body.column-report-active .sidebar {
   margin: 8px 0 0;
 }
 
+.daily-overview,
+.daily-time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.daily-overview div,
+.daily-time-grid div {
+  padding: 14px;
+  border: 1px solid #ead9c2;
+  border-radius: 6px;
+  background: #fffaf2;
+}
+
+.daily-overview span,
+.daily-time-grid span {
+  display: block;
+  color: #756d63;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.daily-overview strong,
+.daily-time-grid strong {
+  display: block;
+  margin: 4px 0 6px;
+  color: var(--deep-red);
+  font-size: 20px;
+}
+
+.daily-overview p {
+  margin: 0;
+  color: #5f5a54;
+  line-height: 1.55;
+}
+
+.daily-time-grid em {
+  display: inline-flex;
+  margin-top: 6px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #f7ead7;
+  color: #7a3a00;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.daily-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+}
+
+.daily-tag-list span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #fff8ed;
+  border: 1px solid #ead9c2;
+  color: #6c4a21;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.daily-tag-list.good span {
+  background: #f4fbf6;
+  border-color: #bddfc7;
+  color: #266b3d;
+}
+
+.daily-tag-list.danger span {
+  background: #fff4f3;
+  border-color: #efc5bf;
+  color: #9e2b20;
+}
+
 .registry-check-panel {
   margin-top: 16px;
   padding: 16px;
@@ -2377,6 +2455,8 @@ h2 {
   .company-report-head,
   .company-metric-grid,
   .company-detail-grid,
+  .daily-overview,
+  .daily-time-grid,
   .authority-grid,
   .authority-lead,
   .source-grid,

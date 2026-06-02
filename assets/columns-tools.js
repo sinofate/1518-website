@@ -47,6 +47,17 @@
     girl: ["若", "芷", "清", "诗", "晴", "瑶", "宁", "悦", "汐", "安", "嘉", "予", "书", "禾", "知", "言"],
     brand: ["星", "辰", "云", "禾", "元", "启", "森", "瑞", "达", "知", "澄", "一", "光", "合", "问", "策"]
   };
+  const BIRTH_HOURS = ["子时", "丑时", "寅时", "卯时", "辰时", "巳时", "午时", "未时", "申时", "酉时", "戌时", "亥时"];
+  const HOUR_TO_NUMBER = { 子时: 0, 丑时: 2, 寅时: 4, 卯时: 6, 辰时: 8, 巳时: 10, 午时: 12, 未时: 14, 申时: 16, 酉时: 18, 戌时: 20, 亥时: 22 };
+  const DAILY_MATTERS = {
+    起名改名: { keywords: ["祈福", "求嗣", "开光", "纳采"], element: "木", advice: "适合整理姓名方案、筛选用字和确定长期称呼；若当日忌项较重，可先做方案，不急于正式启用。" },
+    开业签约: { keywords: ["开市", "交易", "纳财", "立券"], element: "火", advice: "适合看开局气势、签约节奏和对外发布；若日课不稳，宜先确认合同、预算和关键责任。" },
+    搬家出行: { keywords: ["出行", "移徙", "入宅", "安床"], element: "土", advice: "适合看动线、方位和安定感；若冲煞明显，宜避开冲方，先做整理和准备。" },
+    婚嫁订盟: { keywords: ["嫁娶", "订盟", "纳采", "会亲友"], element: "水", advice: "适合看关系和合、沟通节奏与双方家庭配合；若忌项较多，宜先沟通安排，择更和顺之日定大事。" },
+    学习考试: { keywords: ["入学", "赴任", "求嗣", "祈福"], element: "木", advice: "适合定学习计划、报名考试、整理资料；若当日偏耗神，宜做复盘和轻量推进。" },
+    求财合作: { keywords: ["交易", "纳财", "立券", "开市"], element: "金", advice: "适合看财位、合同、交易与合作边界；若与八字忌神相触，宜先守风控，再谈收益。" }
+  };
+  const DAILY_MATTER_NAMES = Object.keys(DAILY_MATTERS);
   const CHAR_ELEMENT = {
     木: ["若", "芷", "禾", "森", "林", "景", "嘉", "元", "启", "策", "荣", "栩"],
     火: ["晟", "晴", "知", "星", "辰", "明", "光", "昕", "曜", "煦", "达"],
@@ -104,6 +115,19 @@
         ["length", "名字字数", "select", "", ["二字名", "三字名"]]
       ],
       build: buildNamingReport
+    },
+    {
+      id: "daily",
+      nav: "每日宜忌",
+      title: "每日宜忌",
+      intro: "按查询日期读取黄历宜忌、干支、冲煞、吉神凶煞、方位和时辰，再结合用户八字喜用给出当日行动建议。",
+      fields: [
+        ["queryDate", "查询日期", "date", todayIso()],
+        ["birthDate", "出生日期", "date", ""],
+        ["birthHour", "出生时辰", "select", "", BIRTH_HOURS],
+        ["matter", "关注事项", "select", "", DAILY_MATTER_NAMES]
+      ],
+      build: buildDailyAlmanacReport
     },
     {
       id: "company",
@@ -277,6 +301,28 @@
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
     }[char]));
+  }
+
+  function todayIso() {
+    const date = new Date();
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  }
+
+  function parseIsoDate(value) {
+    const parts = String(value || "").split("-").map(Number);
+    if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return null;
+    return { year: parts[0], month: parts[1], day: parts[2] };
+  }
+
+  function asList(value) {
+    if (Array.isArray(value)) return value.filter(Boolean);
+    if (typeof value === "string") return value.split(/[、,\s]+/).filter(Boolean);
+    return [];
+  }
+
+  function listItems(items, className = "") {
+    const safe = asList(items).slice(0, 12);
+    return `<div class="daily-tag-list ${className}">${safe.map((item) => `<span>${escapeHtml(item)}</span>`).join("") || "<span>今日资料待补</span>"}</div>`;
   }
 
   function hashScore(text, min = 72, max = 96) {
@@ -843,6 +889,147 @@
     return resultShell(tool, data, [
       cover("五运六气报告", `${year}年`, [["岁运参考", hashScore(yun, 76, 94)], ["节气适应", hashScore(qi, 70, 92)], ["作息建议", 86], ["风险提醒", 82]], `${yun} · ${qi}`),
       page("运气结构", `<p>${year} 年为 ${gz.label} 年，按天干五运规则显示为 ${yun}，查询月份对应气候倾向为 ${qi}。正式版还应接入完整司天、在泉、主客气和节气交接推算表。</p>${table([["查询日期", data.date], ["年份干支", gz.label], ["岁运", yun], ["阶段气", qi], ["养生提示", "顺应季节，关注睡眠、饮食、运动和情绪稳定"], ["边界", "五运六气不能替代医学诊断和治疗"]])}`, "1518 五运六气 · 2/2")
+    ]);
+  }
+
+  function getAlmanacContext(queryDate) {
+    const date = parseIsoDate(queryDate);
+    if (!date || !window.Solar) return null;
+    const solar = window.Solar.fromYmdHms(date.year, date.month, date.day, 12, 0, 0);
+    const lunar = solar.getLunar();
+    const dayGan = lunar.getDayGan?.() || "";
+    const dayZhi = lunar.getDayZhi?.() || "";
+    const monthGanZhi = lunar.getMonthInGanZhi?.() || "";
+    const dayGanZhi = lunar.getDayInGanZhi?.() || `${dayGan}${dayZhi}`;
+    return {
+      date,
+      lunar,
+      lunarText: `${lunar.getMonthInChinese?.() || ""}月${lunar.getDayInChinese?.() || ""}`,
+      yearGanZhi: lunar.getYearInGanZhi?.() || "",
+      monthGanZhi,
+      dayGanZhi,
+      dayGan,
+      dayZhi,
+      dayElement: GAN_ELEMENT[dayGan] || ZHI_ELEMENT[dayZhi] || "土",
+      dayZhiElement: ZHI_ELEMENT[dayZhi] || "土",
+      yi: asList(lunar.getDayYi?.(2) || lunar.getDayYi?.()),
+      ji: asList(lunar.getDayJi?.(2) || lunar.getDayJi?.()),
+      jiShen: asList(lunar.getDayJiShen?.()),
+      xiongSha: asList(lunar.getDayXiongSha?.()),
+      chong: lunar.getChongDesc?.() || "",
+      chongZodiac: lunar.getChongShengXiao?.() || "",
+      sha: lunar.getSha?.() || "",
+      pengzu: [lunar.getPengZuGan?.(), lunar.getPengZuZhi?.()].filter(Boolean).join("；"),
+      positions: {
+        喜神: lunar.getDayPositionXiDesc?.() || lunar.getPositionXiDesc?.() || "",
+        财神: lunar.getDayPositionCaiDesc?.() || lunar.getPositionCaiDesc?.() || "",
+        福神: lunar.getDayPositionFuDesc?.() || lunar.getPositionFuDesc?.() || ""
+      }
+    };
+  }
+
+  function matterKeywordScore(matter, yi, ji) {
+    const profile = DAILY_MATTERS[matter] || DAILY_MATTERS.起名改名;
+    const yiHit = profile.keywords.filter((keyword) => yi.includes(keyword));
+    const jiHit = profile.keywords.filter((keyword) => ji.includes(keyword));
+    return {
+      profile,
+      yiHit,
+      jiHit,
+      score: clamp(76 + yiHit.length * 8 - jiHit.length * 12, 42, 96)
+    };
+  }
+
+  function baziDayFit(bazi, ctx, matterProfile) {
+    if (!bazi) {
+      return {
+        score: 68,
+        label: "待补充",
+        text: "出生日期和时辰用于计算八字喜用。本次若无法排出四柱，只保留通用黄历判断。",
+        advice: "补齐出生时间后，可进一步看当日五行是否补益日主。"
+      };
+    }
+    const usefulHit = bazi.useful.includes(ctx.dayElement) || bazi.useful.includes(ctx.dayZhiElement);
+    const avoidHit = bazi.avoid.includes(ctx.dayElement) || bazi.avoid.includes(ctx.dayZhiElement);
+    const matterHit = bazi.useful.includes(matterProfile.element);
+    const score = clamp(76 + (usefulHit ? 10 : 0) + (matterHit ? 6 : 0) - (avoidHit ? 10 : 0), 50, 96);
+    const label = usefulHit ? "补益明显" : avoidHit ? "需要节制" : "平稳可用";
+    const text = `你的日主为${bazi.dayGan}${bazi.dayElement}，八字喜用倾向为${bazi.useful.join("、")}；查询日为${ctx.dayGanZhi}日，日课五行以${ctx.dayElement}/${ctx.dayZhiElement}为主，判为${label}。`;
+    const advice = usefulHit
+      ? "今日可把重要事项放在清晰、主动、可执行的步骤上，顺势推进。"
+      : avoidHit
+        ? "今日适合稳中求进，重要决定先复核条件、预算和人事边界。"
+        : "今日可做常规推进，若是大事，建议再结合事项、时辰和现实条件复核。";
+    return { score, label, text, advice };
+  }
+
+  function buildTimeSlots(queryDate, matter, usefulElements = []) {
+    const date = parseIsoDate(queryDate);
+    if (!date || !window.Solar) return [];
+    const profile = DAILY_MATTERS[matter] || DAILY_MATTERS.起名改名;
+    return BIRTH_HOURS.map((hourName) => {
+      const solar = window.Solar.fromYmdHms(date.year, date.month, date.day, HOUR_TO_NUMBER[hourName], 0, 0);
+      const lunar = solar.getLunar();
+      const timeGanZhi = lunar.getTimeInGanZhi?.() || "";
+      const gan = timeGanZhi.slice(0, 1);
+      const zhi = timeGanZhi.slice(1, 2);
+      const element = GAN_ELEMENT[gan] || ZHI_ELEMENT[zhi] || "土";
+      const yi = asList(lunar.getTimeYi?.());
+      const ji = asList(lunar.getTimeJi?.());
+      const matterHit = profile.keywords.some((keyword) => yi.includes(keyword));
+      const usefulHit = usefulElements.includes(element);
+      const score = clamp(70 + (matterHit ? 10 : 0) + (usefulHit ? 8 : 0) - Math.min(16, ji.length * 2), 42, 96);
+      return { hourName, timeGanZhi, element, yi, ji, score, label: score >= 86 ? "优先" : score >= 76 ? "可用" : "谨慎" };
+    }).sort((a, b) => b.score - a.score);
+  }
+
+  function buildDailyAlmanacReport(tool, data) {
+    const ctx = getAlmanacContext(data.queryDate);
+    if (!ctx) return `<div class="report-error">当前黄历库未加载完成，请刷新后重试。</div>`;
+    const bazi = window.NameEngine?.calcBazi?.({ birthDate: data.birthDate, birthHour: data.birthHour });
+    const matter = matterKeywordScore(data.matter, ctx.yi, ctx.ji);
+    const fit = baziDayFit(bazi, ctx, matter.profile);
+    const timeSlots = buildTimeSlots(data.queryDate, data.matter, bazi?.useful || []);
+    const bestTimes = timeSlots.slice(0, 4);
+    const dayScore = clamp(74 + Math.min(12, ctx.yi.length) - Math.min(12, ctx.ji.length) + (ctx.jiShen.length ? 4 : 0), 45, 95);
+    const clashText = bazi?.shengxiao && ctx.chongZodiac === bazi.shengxiao
+      ? `今日冲${ctx.chongZodiac}，与你的生肖相冲，宜把重要事项放慢一拍，先复核再行动。`
+      : `今日冲煞为${ctx.chong || "待查"}，煞${ctx.sha || "方位待查"}，按事项避开对应方向即可。`;
+    const scores = [
+      ["黄历日课", dayScore],
+      ["八字补益", fit.score],
+      ["事项适配", matter.score],
+      ["吉时选择", bestTimes[0]?.score || 72]
+    ];
+    const timeRows = bestTimes.map((slot) => [
+      `${slot.hourName} ${slot.timeGanZhi}`,
+      `${slot.score}分 · ${slot.label}`,
+      `${slot.element}行${(bazi?.useful || []).includes(slot.element) ? "，补喜用" : ""}`,
+      `宜：${slot.yi.slice(0, 5).join("、") || "平常事"}；忌：${slot.ji.slice(0, 4).join("、") || "少见明显忌项"}`
+    ]);
+    return resultShell(tool, data, [
+      cover("每日宜忌报告", data.queryDate, scores, `${ctx.lunarText} · ${ctx.dayGanZhi}日 · ${escapeHtml(data.matter)}`),
+      page("今日黄历总览", `
+        <div class="daily-overview">
+          <div><span>公历</span><strong>${escapeHtml(data.queryDate)}</strong><p>${ctx.lunarText} · ${ctx.yearGanZhi}年 ${ctx.monthGanZhi}月 ${ctx.dayGanZhi}日</p></div>
+          <div><span>冲煞</span><strong>${escapeHtml(ctx.chong || "待查")}</strong><p>煞${escapeHtml(ctx.sha || "方位待查")}。${escapeHtml(clashText)}</p></div>
+          <div><span>方位</span><strong>财 ${escapeHtml(ctx.positions.财神 || "待查")}</strong><p>喜神${escapeHtml(ctx.positions.喜神 || "待查")}，福神${escapeHtml(ctx.positions.福神 || "待查")}。</p></div>
+        </div>
+        <h4 class="report-subtitle">今日所宜</h4>${listItems(ctx.yi, "good")}
+        <h4 class="report-subtitle">今日所忌</h4>${listItems(ctx.ji, "danger")}
+        <p class="muted-line">彭祖百忌：${escapeHtml(ctx.pengzu || "待补")}。宜忌为传统黄历参考，真实安排仍需结合天气、交通、合同和个人状态。</p>
+      `, "1518 每日宜忌 · 2/4"),
+      page("八字个性化判断", `
+        <p>${escapeHtml(fit.text)}</p>
+        <p><b>调和建议：</b>${escapeHtml(fit.advice)}</p>
+        ${bazi ? table([["四柱", bazi.pillars.map((pillar) => `${pillar.label}${pillar.value}`).join(" · ")], ["日主", `${bazi.dayGan}${bazi.dayElement}（${bazi.strength}）`], ["喜用倾向", bazi.useful.join("、")], ["需节制", bazi.avoid.join("、")], ["关注事项", `${escapeHtml(data.matter)}偏${matter.profile.element}行：${escapeHtml(matter.profile.advice)}`]]) : table([["八字", "未能排出四柱"], ["建议", "补齐出生日期和出生时辰后再测"]])}
+      `, "1518 每日宜忌 · 3/4"),
+      page("吉时与行动建议", `
+        <div class="daily-time-grid">${bestTimes.map((slot) => `<div><strong>${escapeHtml(slot.hourName)}</strong><span>${escapeHtml(slot.timeGanZhi)} · ${slot.element}行</span><em>${slot.score}分 · ${slot.label}</em></div>`).join("")}</div>
+        ${table(timeRows)}
+        <h4 class="report-subtitle">吉神凶煞参考</h4>
+        ${table([["吉神", ctx.jiShen.slice(0, 8).join("、") || "待查"], ["凶煞", ctx.xiongSha.slice(0, 8).join("、") || "待查"], ["事项命中", matter.yiHit.length ? `黄历所宜含 ${matter.yiHit.join("、")}` : "关注事项未明显命中今日所宜，可先做准备或轻量推进"], ["风险提醒", matter.jiHit.length ? `今日所忌含 ${matter.jiHit.join("、")}，大事宜缓` : "未见关注事项直接落入所忌，但仍需现实条件配合"]])}
+      `, "1518 每日宜忌 · 4/4")
     ]);
   }
 
